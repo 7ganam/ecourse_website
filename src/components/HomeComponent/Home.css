@@ -1,0 +1,68 @@
+#cairo3 {
+    margin: 0;
+    position: absolute;
+    left: 0px;
+    top: 350px;
+    width: 100%;
+    height: auto;
+    z-index: -1;
+}
+
+#address_and_pupples {
+    margin: 0;
+    position: absolute;
+    left: 10%;
+    top: 100px;
+    z-index: -1;
+    width: 40%;
+    height: auto;
+
+}
+
+#top_right {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: -1;
+    width:40%;
+    height: auto;
+
+}
+
+#logo {
+    margin: 0;
+    position: absolute;
+    right: 70px;
+    top: 100px;
+    z-index: -1;
+    width:20%;
+    height: auto;
+
+}
+
+/* extra large */
+@media only screen and (min-width: 1200px){
+
+
+  }
+
+  /* large */
+  @media only screen and (min--width:  992px){
+
+  }
+
+  /* medium */
+  @media only screen and (min-width: 768px){
+  
+  }
+
+  /* small */
+  @media only screen and (min-width: 576px){
+  
+  }
+
+/* extra small */
+@media only screen and (max-width: 576px){
+
+ }
