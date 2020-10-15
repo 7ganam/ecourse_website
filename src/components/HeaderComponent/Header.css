@@ -14,7 +14,7 @@
 
 .nav-link{
     font-family: 'Nova Round', cursive;
-    font-size: 15px;
+    font-size: 20px;
     margin-right: 20px;
 
 
@@ -25,3 +25,9 @@
 .contnet_centered{
     justify-content: center;
 }
+
+.navbar{
+    background-color:whitesmoke;
+
+}
+

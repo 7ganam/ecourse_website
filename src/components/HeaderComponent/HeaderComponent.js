@@ -33,20 +33,15 @@ class Header extends Component {
             });
         }
     }
-    container_styles = {
-        // justifyContent: 'center'
-    };
-    button_styles = {
-        width: '150px'
-    }
+
 
     render() {
         return (
             <div className={this.state.nav_class_name}>
-                <Navbar light className="light py-1 bg-transparent border-bottom" expand="xl">
+                <Navbar light className="light py-1  border-bottom fixed-top" expand="xl">
 
                     <NavbarBrand className="mr-auto" href="/">
-                        <img src='./small_logo.png' height="70" width="70" alt='Ristorante Con Fusion' />
+                        <img src='./small_logo.png' height="40" width="40" alt='Ristorante Con Fusion' />
                         <span className="brand_title">ecoures</span>
                     </NavbarBrand>
                     {/* <NavbarToggler onClick={this.toggleNav} /> */}
@@ -54,7 +49,7 @@ class Header extends Component {
 
                     <Collapse className="" isOpen={this.state.isNavOpen} navbar>
                         <Nav className="ml-xl-3">
-                            <NavItem className='pt-2'>
+                            <NavItem className=''>
                                 <form className="form-inline ">
                                     <div className="md-form my-0">
                                         <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
@@ -66,16 +61,16 @@ class Header extends Component {
 
                         <Nav className="ml-4 ml-xl-auto" navbar>
 
-                            <NavItem className='pt-2'>
+                            <NavItem className=''>
                                 <div className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> Home</div>
                             </NavItem>
-                            <NavItem className='pt-2'>
+                            <NavItem className=''>
                                 <div className="nav-link" to='/aboutus'><span className="fa fa-info fa-lg"></span> About Us</div>
                             </NavItem>
-                            <NavItem className='pt-2'>
+                            <NavItem className=''>
                                 <div className="nav-link" to='/menu'><span className="fa fa-list fa-lg"></span> Menu</div>
                             </NavItem>
-                            <NavItem className='pt-2'>
+                            <NavItem className=''>
                                 <div className="nav-link" to='/contactus'><span className="fa fa-address-card fa-lg"></span> Contact Us</div>
                             </NavItem>
 
