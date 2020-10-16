@@ -21,13 +21,11 @@ class Illustration extends Component {
 
                     <Row className='justify-content-center'>
                         <Col xs="10" md="4" xl="3">
-                            <img className="i" id="image1" src={student} alt="Kiwi standing on oval" />
+                            <img className="i" id="image1" src={instructor} alt="Kiwi standing on oval" />
                         </Col>
-
                         <Col xs="10" md="4" xl="3">
-                            <img className="i" id="image2" src={instructor} alt="Kiwi standing on oval" />
+                            <img className="i" id="image2" src={student} alt="Kiwi standing on oval" />
                         </Col>
-
                         <Col xs="10" md="4" xl="3">
                             <img className="i" id="image3" src={workspace} alt="Kiwi standing on oval" />
                         </Col>

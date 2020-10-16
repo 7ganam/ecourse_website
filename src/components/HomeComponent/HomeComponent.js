@@ -13,6 +13,7 @@ import big_logo from './logo1_70.png'
 import title from './Ecourse.svg'
 import promo from './promo.svg'
 import vline from './vline.svg'
+import CourseCard from '../CoursesComponent/CoursesComponent';
 
 
 import './Home.css'
@@ -37,7 +38,7 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <div id="all">
+                <div id="all4453">
                     <div id="hero_div">
                         <img src={hero_image} id="hero_image" alt="cairo" />
                     </div>
@@ -53,10 +54,12 @@ class Home extends Component {
                                 <Button color="success" id="sign_up_button" className=" my-1 my-md-0 "  ><span className="fa fa-sign-in fa-lg"></span> Sign Up</Button>
                             </Row>
                         </Container>
+
                     </div>
 
                 </div>
                 <Illustration />
+                <CourseCard />
 
             </div>
 
