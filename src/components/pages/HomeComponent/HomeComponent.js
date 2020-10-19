@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
-import Header from '../HeaderComponent/HeaderComponent';
-import Illustration from '../IllustrationComponent/IllustrationComponent';
+import Header from '../../HeaderComponent/HeaderComponent';
+import Illustration from '../../IllustrationComponent/IllustrationComponent';
 
 import hero_image from './hero_image.png'
 import top_righ from './top_right.png'
@@ -13,7 +13,7 @@ import big_logo from './logo1_70.png'
 import title from './Ecourse.svg'
 import promo from './promo.svg'
 import vline from './vline.svg'
-import CourseCard from '../CoursesComponent/CoursesComponent';
+import CourseCard from '../../CoursesComponent/CoursesComponent';
 
 
 import './Home.css'
