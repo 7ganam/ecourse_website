@@ -10,9 +10,6 @@ import './NewCourseComponent.css'
 
 import DatePicker from "react-datepicker";
 
-// import "../../../fontawesome-free-5.15.1-web/css/fontawesome.min.css";
-// import "../../../fontawesome-free-5.15.1-web/css/brands.css";
-// import "../../../fontawesome-free-5.15.1-web/css/solid.css";
 
 
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
@@ -215,18 +212,18 @@ class NewCourse extends Component {
             <Card >
                 <CardHeader style={this.card_head_style} className="session_card_head">
                     <Container fluid>
-                        <Row>
-                            <Col>
-                                <span>Session {index + 1} </span>
+                        <Row className="session_header_row">
+                            <Col xs="12" sm="12" md="3" lg="3" xl="3" className="px-0 session_title">
+                                <div>Session {index + 1} </div>
 
                             </Col>
-                            <Col>
+                            <Col xs="11" sm="11" md="7" lg="6" xl="8" className="pl-0 pr-2  ">
                                 <Input type="text" name={"Session_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
                                     value={this.state.Sessions[index].Session_title}
                                     onChange={this.handle_session_InputChange_factory(index)} />
                             </Col>
-                            <Col>
-                                <Button color="success" onClick={this.handle_session_card_toggle_factory(index)} style={{ marginBottom: '1rem' }}>
+                            <Col xs="1" sm="1" md="1" lg="1" xl="1" className="px-0 justify-content-leftC ">
+                                <Button color="success" onClick={this.handle_session_card_toggle_factory(index)} >
                                     <i class="fas fa-chevron-circle-down"></i>
                                 </Button>
                             </Col>
@@ -287,10 +284,18 @@ class NewCourse extends Component {
                 <Container fluid  >
                     <Row className=''>
 
-                        <Col className="t1 justify-content-center my-1" xs="8" sm="7" md="5" lg="1" >
-
+                        <Col className="t3 mx-1 my-1          image_image_image ml-lg-5" xs="12" sm="12" md="4" lg="4" xl="5">
+                            <div id="course_image_wrapper">
+                                <h1 id="image_header">
+                                    Creat A Course
+                                </h1>
+                                <div id="course_image">
+                                    <img src={new_course_image} id="new_course_image" alt="new_course_image" />
+                                </div>
+                            </div>
                         </Col>
-                        <Col className="t2 justify-content-center my-1" xs="8" sm="7" md="5" lg="7" >
+
+                        <Col className="t2 pt-lg-5 form_box justify-content-center my-1" xs="12" sm="12" md="7" lg="6" xl="5" >
                             <div id="new_course_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
@@ -359,17 +364,9 @@ class NewCourse extends Component {
                             </div>
                         </Col>
 
-                        <Col className="t3 mx-1 my-1" xs="8" sm="7" md="5" lg="3" >
-                            <div id="course_image_wrapper">
-                                <h1 id="image_header">
-                                    Creat A Course
-                                </h1>
-                                <div id="course_image">
-                                    <img src={new_course_image} id="new_course_image" alt="new_course_image" />
-                                </div>
-                            </div>
-                        </Col>
+
                     </Row>
+
                 </Container>
 
             </div>

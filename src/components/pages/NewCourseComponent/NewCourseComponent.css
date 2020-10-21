@@ -1,6 +1,23 @@
-#toast_id{
-    max-width: none;
+.session_title{
+    height: calc(1.5em + .75rem + 2px);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    font-family: 'Nova Round', cursive;
+    color: black;
+    font-size: 15px;
+    text-align: center;
 }
+.session_header_row{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.session_card_head{
+    
+}
+
 #new_course_all{
     position: relative;
     top: 100px;
