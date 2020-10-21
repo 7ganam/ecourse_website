@@ -10,8 +10,10 @@ import './NewCourseComponent.css'
 
 import DatePicker from "react-datepicker";
 
-// import "../NewWorkSpaceComponent/node_modules/react-datepicker/dist/react-datepicker.css";
-// import '../NewWorkSpaceComponent/node_modules/bootstrap/dist/css/bootstrap.min.css';
+// import "../../../fontawesome-free-5.15.1-web/css/fontawesome.min.css";
+// import "../../../fontawesome-free-5.15.1-web/css/brands.css";
+// import "../../../fontawesome-free-5.15.1-web/css/solid.css";
+
 
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 import {
@@ -128,10 +130,6 @@ class NewCourse extends Component {
         console.log(this.state.startDate)
         console.log(this.state.endDate)
     }
-
-
-
-
     session_date_change_handler_function_factory(in_session_index) {
         const session__index = in_session_index; // closure variable different for every instance of the returned functions
         return (
@@ -228,7 +226,9 @@ class NewCourse extends Component {
                                     onChange={this.handle_session_InputChange_factory(index)} />
                             </Col>
                             <Col>
-                                <Button color="primary" onClick={this.handle_session_card_toggle_factory(index)} style={{ marginBottom: '1rem' }}>Toggle</Button>
+                                <Button color="success" onClick={this.handle_session_card_toggle_factory(index)} style={{ marginBottom: '1rem' }}>
+                                    <i class="fas fa-chevron-circle-down"></i>
+                                </Button>
                             </Col>
                         </Row>
                     </Container>
