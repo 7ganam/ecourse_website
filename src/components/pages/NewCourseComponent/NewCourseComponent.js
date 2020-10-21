@@ -54,6 +54,7 @@ class NewCourse extends Component {
         this.handleStartChange = this.handleStartChange.bind(this);
         this.handleEndChange = this.handleEndChange.bind(this);
         this.handleEndChange = this.session_date_change_handler_function_factory.bind(this);
+        this.handle_session_InputChange_factory = this.handle_session_InputChange_factory.bind(this);
 
 
     }
@@ -109,9 +110,35 @@ class NewCourse extends Component {
         )
     }
 
-    // card_head_style = { backgroundColor: '#27C80B' }
+    handle_session_InputChange_factory(in_session_index) {
+        const session__index = in_session_index; // closure variable different for every instance of the returned functions
+        return (
+            (event) => {
 
-    // toggle = () => setIsOpen(!isOpen);
+                const target = event.target;
+                const value = target.type === 'checkbox' ? target.checked : target.value;
+                const name = target.name;
+
+                // this.setState({
+                //     [name]: value
+                // });
+
+                // 1. Make a shallow copy of the Sessions
+                let Sessions = [...this.state.Sessions];
+                // 2. Make a shallow copy of the Session you want to mutate
+                let Session = { ...Sessions[session__index] };
+                // 3. Replace the property you're intested in
+                Session[name] = value;
+                // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+                Sessions[session__index] = Session;
+                // 5. Set the state to our new copy
+                this.setState({ Sessions });
+
+            }
+        )
+
+
+    }
 
 
 
@@ -131,20 +158,20 @@ class NewCourse extends Component {
 
 
                             <FormGroup row>
-                                <Label for={"Session_" + index + "_title"} sm={3}><span className="Session_label">Session title:</span></Label>
+                                <Label for={"Session__title"} sm={3}><span className="Session_label">Session title:</span></Label>
                                 <Col sm={9} className="ml-auto">
-                                    <Input type="text" name={"Session_" + index + "_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
+                                    <Input type="text" name={"Session_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
                                         value={this.state.Sessions[index].Session_title}
-                                        onChange={this.handleInputChange} />
+                                        onChange={this.handle_session_InputChange_factory(index)} />
                                 </Col>
                             </FormGroup>
 
                             <FormGroup row>
-                                <Label for="Session_1_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
+                                <Label for="Session_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
                                 <Col sm={9}>
-                                    <Input id="Session_1_Description_text_area" type="textarea" name="Session_1_Description" placeholder="enter session description  here"
+                                    <Input id="Session_Description_text_area" type="textarea" name="Session_Description" placeholder="enter session description  here"
                                         value={this.state.Sessions[index].Session_Description}
-                                        onChange={this.handleInputChange} />
+                                        onChange={this.handle_session_InputChange_factory(index)} />
                                 </Col>
                             </FormGroup>
 
