@@ -7,7 +7,6 @@ import Home from '../pages/HomeComponent/HomeComponent';
 import NewCourse from '../pages/NewCourseComponent/NewCourseComponent';
 import NewWorkSpace from '../pages/NewWorkSpaceComponent/NewWorkSpaceComponent';
 
-import LocationPicker from '../pages/LocPickerComponent/LocPicker';
 
 
 import CourseCard from '../CoursesComponent/CoursesComponent';
@@ -19,9 +18,9 @@ class Main extends Component {
         return (
             <div>
                 <Header />
-                <NewCourse />
-                {/* <NewWorkSpace /> */}
-                {/* <LocationPicker /> */}
+                {/* <NewCourse /> */}
+                <NewWorkSpace />
+
 
             </div >
         );

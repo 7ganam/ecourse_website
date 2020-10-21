@@ -3,15 +3,14 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
 import { FormText } from 'reactstrap';
 
-import new_course_image from './new_course_image.png'
+import new_workspace_image from './new_workspace_image.png'
 
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import './NewWorkSpaceComponent.css'
 
 import DatePicker from "react-datepicker";
 
-import "react-datepicker/dist/react-datepicker.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 import {
@@ -19,42 +18,28 @@ import {
     CardTitle, CardText
 } from 'reactstrap';
 
+import LocationPicker from '../../LocPickerComponent/LocPicker';
 
-
-class NewWorkSpace extends Component {
+class Newworkspace extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            CourseName: '',
-            CourseDescription: '',
-            startDate: new Date(),
-            endDate: new Date(),
-            Session_1_title: '',
-            Session_1_Description: '',
-            number_of_sessions: '',
-            // Session_1_startDate: new Date(),
-            Sessions: [{
-
-
-            },
-            {}
-            ]
+            workspaceName: '',
+            workspaceDescription: '',
+            lng: '',
+            lat: '',
         };
-
-
-
-
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handle_location_submit = this.handle_location_submit.bind(this);
 
-        this.handleStartChange = this.handleStartChange.bind(this);
-        this.handleEndChange = this.handleEndChange.bind(this);
-        this.handleEndChange = this.session_date_change_handler_function_factory.bind(this);
 
 
     }
+
+
 
     handleInputChange(event) {
         const target = event.target;
@@ -66,6 +51,7 @@ class NewWorkSpace extends Component {
         });
     }
 
+
     handleSubmit(event) {
         console.log('Current State is: ' + JSON.stringify(this.state));
         alert('Current State is: ' + JSON.stringify(this.state));
@@ -75,175 +61,83 @@ class NewWorkSpace extends Component {
     }
 
 
-    handleStartChange(date) {
+
+    handle_location_submit(lat, lng) {
         this.setState({
-            startDate: date
-        })
+            lat: lat,
+            lng: lng,
+        });
+
     }
 
-    handleEndChange(date) {
-        this.setState({
-            endDate: date
-        })
-    }
 
-    session_date_change_handler_function_factory(session_id) {
-        return (
-            (date) => {
-                let state_object = {}
-                let session_state_key = `Session_${session_id}_startDate`
-                state_object[session_state_key] = date
-                this.setState(state_object)
-            }
-        )
-    }
 
-    // card_head_style = { backgroundColor: '#27C80B' }
 
 
     render() {
+
+
+
         return (
-            <div id="new_course_all">
+            <div id="new_workspace_all">
                 <Container fluid  >
                     <Row className=''>
 
-                        <Col className="t1 justify-content-center my-1" xs="8" sm="7" md="5" lg="1" >
-
+                        <Col className="t3 mx-1 my-1          image_image_image ml-lg-5" xs="12" sm="12" md="4" lg="4" xl="4">
+                            <div id="workspace_image_wrapper">
+                                <h1 id="image_header">
+                                    Creat A workspace
+                                </h1>
+                                <div id="workspace_image">
+                                    <img src={new_workspace_image} id="new_workspace_image" alt="new_workspace_image" />
+                                </div>
+                            </div>
                         </Col>
-                        <Col className="t2 justify-content-center my-1" xs="8" sm="7" md="5" lg="7" >
-                            <div id="new_course_form">
+
+                        <Col className="t2 pt-lg-5 form_box justify-content-center my-1" xs="12" sm="12" md="7" lg="7" xl="7" >
+                            <div id="new_workspace_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
                                         <Form onSubmit={this.handleSubmit}>
                                             <FormGroup row>
-                                                <Label for="CourseName" sm={3}><span className="new_course_label">Course Name:</span></Label>
+                                                <Label for="workspaceName" sm={3}><span className="new_workspace_label">workspace Name:</span></Label>
                                                 <Col sm={9} className="ml-auto">
-                                                    <Input type="text" name="CourseName" id="new_course_name" placeholder="enter your course title here"
-                                                        value={this.state.CourseName}
+                                                    <Input type="text" name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
+                                                        value={this.state.workspaceName}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
 
 
                                             <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_course_label">Course Description:</span></Label>
+                                                <Label for="exampleText" sm={3}> <span className="new_workspace_label">workspace Description:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="new_course_text_area" type="textarea" name="CourseDescription" placeholder="enter your course description  here" value={this.state.CourseDescription}
+                                                    <Input id="new_workspace_text_area" type="textarea" name="workspaceDescription" placeholder="enter your workspace description  here" value={this.state.workspaceDescription}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
+
+
+
                                             <FormGroup row>
-                                                <Label for="number_of_sessions" sm={3}> <span className="new_course_label">number of sessions:</span></Label>
+                                                <Label for="exampleText" sm={3}> <span className="new_workspace_label">Locatoin:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="number_of_sessions" type="number" min="1" max="30" name="number_of_sessions" value={this.state.number_of_sessions}
-                                                        onChange={this.handleInputChange} />
+                                                    <LocationPicker handle_submit={this.handle_location_submit} />
                                                 </Col>
                                             </FormGroup>
-
-                                            <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
-                                                <Col >
-                                                    <Card >
-                                                        <CardHeader style={this.card_head_style} className="session_card_head">
-                                                            Session 1
-                                                        </CardHeader>
-                                                        <CardBody>
-                                                            <FormGroup row>
-                                                                <Label for="Session_1_title" sm={3}><span className="Session_label">Session title:</span></Label>
-                                                                <Col sm={9} className="ml-auto">
-                                                                    <Input type="text" name="Session_1_title" id="Session_1_title" placeholder="enter session 1 title here"
-                                                                        value={this.state.Session_1_title}
-                                                                        onChange={this.handleInputChange} />
-                                                                </Col>
-                                                            </FormGroup>
-
-                                                            <FormGroup row>
-                                                                <Label for="Session_1_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
-                                                                <Col sm={9}>
-                                                                    <Input id="Session_1_Description_text_area" type="textarea" name="Session_1_Description" placeholder="enter session description  here" value={this.state.Session_1_Description}
-                                                                        onChange={this.handleInputChange} />
-                                                                </Col>
-                                                            </FormGroup>
-                                                            <FormGroup row>
-                                                                <Label for="session_date" sm={3}> <span className="Session_label">Session start time:</span></Label>
-                                                                <Col sm={9}>
-                                                                    <DatePicker
-                                                                        selected={this.state.Session_1_startDate}
-                                                                        onChange={this.session_date_change_handler_function_factory(1)}
-                                                                        showTimeSelect
-                                                                        timeFormat="HH:mm"
-                                                                        timeIntervals={20}
-                                                                        timeCaption="time"
-                                                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                                                    />
-                                                                </Col>
-                                                            </FormGroup>
-                                                        </CardBody>
-                                                    </Card>
-                                                </Col>
-
-
-
-                                            </FormGroup>
-
-
-
 
 
 
                                             <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_course_label"></span></Label>
-
-                                                <Col >
-                                                    <Card >
-                                                        <CardHeader style={this.card_head_style} className="session_card_head">
-                                                            Session 2
-                                                        </CardHeader>
-                                                        <CardBody>
-                                                            <FormGroup row>
-                                                                <Label for="Session_2_title" sm={3}><span className="Session_label">Session title:</span></Label>
-                                                                <Col sm={9} className="ml-auto">
-                                                                    <Input type="text" name="Session_2_title" id="Session_2_title" placeholder="enter session 2 title here"
-                                                                        value={this.state.Session_2_title}
-                                                                        onChange={this.handleInputChange} />
-                                                                </Col>
-                                                            </FormGroup>
-
-                                                            <FormGroup row>
-                                                                <Label for="Session_2_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
-                                                                <Col sm={9}>
-                                                                    <Input id="Session_2_Description_text_area" type="textarea" name="Session_2_Description" placeholder="enter session description  here" value={this.state.Session_2_Description}
-                                                                        onChange={this.handleInputChange} />
-                                                                </Col>
-                                                            </FormGroup>
-                                                            <FormGroup row>
-                                                                <Label for="session_date" sm={3}> <span className="Session_label">Session start time:</span></Label>
-                                                                <Col sm={9}>
-                                                                    <DatePicker
-                                                                        selected={this.state.Session_2_startDate}
-                                                                        onChange={this.session_date_change_handler_function_factory(2)}
-                                                                        showTimeSelect
-                                                                        timeFormat="HH:mm"
-                                                                        timeIntervals={20}
-                                                                        timeCaption="time"
-                                                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                                                    />
-                                                                </Col>
-                                                            </FormGroup>
-                                                        </CardBody>
-                                                    </Card>
+                                                <Label for="exampleFile" sm={3}><span className="new_workspace_label">upload image:</span></Label>
+                                                <Col sm={9}>
+                                                    <Input type="file" name="file" id="exampleFile" />
+                                                    <FormText color="muted">
+                                                        This is some placeholder block-level help text for the above input.
+                                                        It's a bit lighter and easily wraps to a new line.
+                                                 </FormText>
                                                 </Col>
-
                                             </FormGroup>
-
-
-
-
-
-
-
-
-
 
 
                                             <FormGroup row>
@@ -262,20 +156,12 @@ class NewWorkSpace extends Component {
                             </div>
                         </Col>
 
-                        <Col className="t3 mx-1 my-1" xs="8" sm="7" md="5" lg="3" >
-                            <div id="course_image_wrapper">
-                                <h1 id="image_header">
-                                    Creat A Course
-                                </h1>
-                                <div id="course_image">
-                                    <img src={new_course_image} id="new_course_image" alt="new_course_image" />
-                                </div>
-                            </div>
-                        </Col>
+
                     </Row>
+
                 </Container>
 
-            </div>
+            </div >
 
 
 
@@ -285,4 +171,4 @@ class NewWorkSpace extends Component {
 
 }
 
-export default NewWorkSpace;
+export default Newworkspace;
