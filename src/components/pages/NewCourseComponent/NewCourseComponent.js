@@ -35,11 +35,13 @@ class NewCourse extends Component {
                 Session_title: '',
                 Session_Description: '',
                 Session_startDate: '',
+                isOpen: false,
             },
             {
                 Session_title: '',
                 Session_Description: '',
                 Session_startDate: '',
+                isOpen: false,
             }
             ]
         };
@@ -141,64 +143,89 @@ class NewCourse extends Component {
     }
 
 
+    handle_session_card_toggle_factory(in_session_index) {
+        const session__index = in_session_index; // closure variable different for every instance of the returned functions
+        return (
+            () => {
+
+                // 1. Make a shallow copy of the Sessions
+                let Sessions = [...this.state.Sessions];
+                // 2. Make a shallow copy of the Session you want to mutate
+                let Session = { ...Sessions[session__index] };
+                // 3. Replace the property you're intested in
+                Session.isOpen = !Session.isOpen;
+                // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+                Sessions[session__index] = Session;
+                // 5. Set the state to our new copy
+                this.setState({ Sessions });
+
+            }
+        )
+
+
+    }
+
+
+
 
 
     render() {
 
         let Sessions_views = this.state.Sessions.map((session, index) => (
 
-            <FormGroup row>
-                <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
-                <Col >
-                    <Card >
-                        <CardHeader style={this.card_head_style} className="session_card_head">
-                            Session {index + 1}
-                        </CardHeader>
-                        <CardBody>
 
 
-                            <FormGroup row>
-                                <Label for={"Session__title"} sm={3}><span className="Session_label">Session title:</span></Label>
-                                <Col sm={9} className="ml-auto">
-                                    <Input type="text" name={"Session_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
-                                        value={this.state.Sessions[index].Session_title}
-                                        onChange={this.handle_session_InputChange_factory(index)} />
-                                </Col>
-                            </FormGroup>
-
-                            <FormGroup row>
-                                <Label for="Session_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
-                                <Col sm={9}>
-                                    <Input id="Session_Description_text_area" type="textarea" name="Session_Description" placeholder="enter session description  here"
-                                        value={this.state.Sessions[index].Session_Description}
-                                        onChange={this.handle_session_InputChange_factory(index)} />
-                                </Col>
-                            </FormGroup>
+            <Card >
+                <CardHeader style={this.card_head_style} className="session_card_head">
+                    <span>Session {index + 1} </span>
+                    <Button color="primary" onClick={this.handle_session_card_toggle_factory(index)} style={{ marginBottom: '1rem' }}>Toggle</Button>
+                </CardHeader>
+                <Collapse isOpen={this.state.Sessions[index].isOpen}>
+                    <CardBody>
 
 
-                            <FormGroup row>
-                                <Label for="session_date" sm={3}> <span className="Session_label">Session start time:</span></Label>
-                                <Col sm={9}>
-                                    <DatePicker
-                                        selected={this.state.Sessions[index].Session_startDate}
-                                        onChange={this.session_date_change_handler_function_factory(index)}
-                                        showTimeSelect
-                                        timeFormat="HH:mm"
-                                        timeIntervals={20}
-                                        timeCaption="time"
-                                        dateFormat="MMMM d, yyyy h:mm aa"
-                                    />
-                                </Col>
-                            </FormGroup>
+                        <FormGroup row>
+                            <Label for={"Session__title"} sm={3}><span className="Session_label">Session title:</span></Label>
+                            <Col sm={9} className="ml-auto">
+                                <Input type="text" name={"Session_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
+                                    value={this.state.Sessions[index].Session_title}
+                                    onChange={this.handle_session_InputChange_factory(index)} />
+                            </Col>
+                        </FormGroup>
+
+                        <FormGroup row>
+                            <Label for="Session_Description" sm={3}> <span className="Session_label">Session Description:</span></Label>
+                            <Col sm={9}>
+                                <Input id="Session_Description_text_area" type="textarea" name="Session_Description" placeholder="enter session description  here"
+                                    value={this.state.Sessions[index].Session_Description}
+                                    onChange={this.handle_session_InputChange_factory(index)} />
+                            </Col>
+                        </FormGroup>
 
 
-                        </CardBody>
-                    </Card>
-                </Col>
+                        <FormGroup row>
+                            <Label for="session_date" sm={3}> <span className="Session_label">Session start time:</span></Label>
+                            <Col sm={9}>
+                                <DatePicker
+                                    selected={this.state.Sessions[index].Session_startDate}
+                                    onChange={this.session_date_change_handler_function_factory(index)}
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={20}
+                                    timeCaption="time"
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                />
+                            </Col>
+                        </FormGroup>
+
+
+                    </CardBody>
+                </Collapse>
+            </Card>
 
 
 
-            </FormGroup>
+
         ))
 
 
@@ -252,16 +279,13 @@ class NewCourse extends Component {
 
 
 
+                                            <FormGroup row>
 
-
-
-
-                                            {Sessions_views}
-
-
-
-
-
+                                                <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
+                                                <Col sm={9}>
+                                                    {Sessions_views}
+                                                </Col>
+                                            </FormGroup>
 
 
 
