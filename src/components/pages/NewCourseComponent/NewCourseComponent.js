@@ -208,7 +208,6 @@ class NewCourse extends Component {
         let Sessions_views = this.state.Sessions.map((session, index) => (
 
 
-
             <Card >
                 <CardHeader style={this.card_head_style} className="session_card_head">
                     <Container fluid>
@@ -267,9 +266,6 @@ class NewCourse extends Component {
                     </CardBody>
                 </Collapse>
             </Card>
-
-
-
 
         ))
 

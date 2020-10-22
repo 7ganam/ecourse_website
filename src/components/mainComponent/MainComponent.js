@@ -6,6 +6,7 @@ import Header from '../HeaderComponent/HeaderComponent';
 import Home from '../pages/HomeComponent/HomeComponent';
 import NewCourse from '../pages/NewCourseComponent/NewCourseComponent';
 import NewWorkSpace from '../pages/NewWorkSpaceComponent/NewWorkSpaceComponent';
+import CourseView from '../pages/CourseViewComponent/CourseViewComponent';
 
 
 
@@ -19,8 +20,8 @@ class Main extends Component {
             <div>
                 <Header />
                 {/* <NewCourse /> */}
-                <NewWorkSpace />
-
+                {/* <NewWorkSpace /> */}
+                <CourseView />
 
             </div >
         );

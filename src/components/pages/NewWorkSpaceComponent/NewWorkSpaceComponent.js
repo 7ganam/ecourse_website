@@ -118,7 +118,6 @@ class Newworkspace extends Component {
                                             </FormGroup>
 
 
-
                                             <FormGroup row>
                                                 <Label for="exampleText" sm={3}> <span className="new_workspace_label">Locatoin:</span></Label>
                                                 <Col sm={9}>
@@ -127,7 +126,7 @@ class Newworkspace extends Component {
                                             </FormGroup>
 
 
-
+                                            {/* 
                                             <FormGroup row>
                                                 <Label for="exampleFile" sm={3}><span className="new_workspace_label">upload image:</span></Label>
                                                 <Col sm={9}>
@@ -137,7 +136,7 @@ class Newworkspace extends Component {
                                                         It's a bit lighter and easily wraps to a new line.
                                                  </FormText>
                                                 </Col>
-                                            </FormGroup>
+                                            </FormGroup> */}
 
 
                                             <FormGroup row>
