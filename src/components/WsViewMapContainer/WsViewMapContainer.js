@@ -1,8 +1,8 @@
 import React from 'react'
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import LoadScriptOnlyIfNeeded from './LoaderFixComponent'
-
-import { useEffect, useState } from "react";
+import { baseUrl } from '../../shared/baseURL'
+import { useState } from "react";
 
 
 
@@ -61,7 +61,8 @@ const MapContainer = (props) => {
                             <div>
                                 <img
                                     className="ws_image m-0"
-                                    src={require('./ws_logo.png')}
+                                    // src={require('./ws_logo.png')}
+                                    src={baseUrl + 'workspaces_images/ws_logo.png'} //TODO: make this a parameter passed by the ws view component
                                 />
                                 <p>{selected.name}</p>
                             </div>
