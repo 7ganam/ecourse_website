@@ -5,16 +5,10 @@ import { useState } from "react";
 import { baseUrl } from '../../shared/baseURL'
 
 
-// checkout test git learning test
-// after git add . commment 
-// trial two 
-// trial thre 
-// test
-
-
-
 const MapContainer = (props) => {
     const [selected, setSelected] = useState({});
+
+
 
     const onSelect = item => { setSelected(item); }
     const mapStyles = { height: "100%", width: "100%" };

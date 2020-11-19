@@ -86,8 +86,13 @@ class Header extends Component {
 
                             </NavItem>
                             <NavItem className=''>
-                                <Link to="/workspaceview">
-                                    <div className="nav-link" to='/workspaceview'><span className="fa fa-address-card fa-lg"></span> discover courses</div>
+                                <Link to="/courses">
+                                    <div className="nav-link" to='/courses'><span className="fa fa-address-card fa-lg"></span> discover courses</div>
+                                </Link>
+                            </NavItem>
+                            <NavItem className=''>
+                                <Link to="/workspaces">
+                                    <div className="nav-link" to='/workspaces'><span className="fa fa-address-card fa-lg"></span> discover workspaces</div>
                                 </Link>
                             </NavItem>
 

@@ -8,6 +8,8 @@ import NewWorkSpace from '../pages/NewWorkSpaceComponent/NewWorkSpaceComponent';
 import CourseView from '../pages/CourseViewComponent/CourseViewComponent';
 import WorkSpaceView from '../pages/WorkSpaceViewComponent/WorkSpaceViewComponent';
 import Footer from '../FooterComponent'
+import Coursespage from '../pages/CoursesPageComponent/CoursesPageComponent';
+import WorkspacesPage from '../pages/WorkspacesPageComponent/WorkspacesPageComponent';
 
 
 import CourseCard from '../CoursesComponent/CoursesComponent';
@@ -92,12 +94,23 @@ class Main extends Component {
                     <Route exact path="/">
                         <Home courses={this.state.courses} workspaces={this.state.workspaces} />
                     </Route>
+
+                    <Route exact path="/workspaces">
+                        <WorkspacesPage workspaces={this.state.workspaces} />
+                    </Route>
+
+                    <Route exact path="/courses">
+                        <Coursespage courses={this.state.courses} />
+                    </Route>
+
                     <Route path="/newcourse">
                         <NewCourse />
                     </Route>
+
                     <Route path="/newworkspace">
                         <NewWorkSpace />
                     </Route>
+
                     <Route path="/courseview">
                         <CourseView />
                     </Route>
