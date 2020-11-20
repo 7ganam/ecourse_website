@@ -57,7 +57,6 @@ class Main extends Component {
 
     render() {
 
-        console.log(this.state.courses)
 
 
 
@@ -104,7 +103,7 @@ class Main extends Component {
                     </Route>
 
                     <Route path="/newcourse">
-                        <NewCourse />
+                        <NewCourse workspaces={this.state.workspaces} />
                     </Route>
 
                     <Route path="/newworkspace">

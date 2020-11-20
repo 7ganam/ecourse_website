@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
 import { FormText } from 'reactstrap';
-
+import $ from 'jquery';
 import new_course_image from './new_course_image.png'
+import upload_image_filler from './upload_image_filler2.png'
+
 
 import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
 import './NewCourseComponent.css'
 
 import DatePicker from "react-datepicker";
 
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
+import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 import { Toast, ToastBody, ToastHeader } from 'reactstrap';
@@ -23,7 +31,9 @@ class NewCourse extends Component {
 
         this.state = {
             CourseName: '',
+            Workspace: 'No Selection',
             CourseDescription: '',
+            Course_Slogan: '',
             startDate: new Date(),
             endDate: new Date(),
             number_of_sessions: 1,
@@ -39,16 +49,11 @@ class NewCourse extends Component {
         };
 
 
-
-
-
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEndChange = this.session_date_change_handler_function_factory.bind(this);
         this.handle_session_InputChange_factory = this.handle_session_InputChange_factory.bind(this);
         this.handle_number_of_sessions_Change = this.handle_number_of_sessions_Change.bind(this);
-
-
 
     }
 
@@ -118,8 +123,6 @@ class NewCourse extends Component {
 
     }
 
-
-
     handleSubmit(event) {
         console.log('Current State is: ' + JSON.stringify(this.state));
         alert('Current State is: ' + JSON.stringify(this.state));
@@ -127,7 +130,6 @@ class NewCourse extends Component {
         console.log(this.state.startDate)
         console.log(this.state.endDate)
     }
-
 
     session_date_change_handler_function_factory(in_session_index) {
         const session__index = in_session_index; // closure variable different for every instance of the returned functions
@@ -201,7 +203,105 @@ class NewCourse extends Component {
 
     }
 
+    handle_session_image_change_factory(in_session_index) {
+        const session__index = in_session_index; // closure variable different for every instance of the returned functions
+        return (
 
+            (event) => {
+
+                const input = event.target;
+                if (input.files && input.files[0]) {
+                    // console.log(input.files[0])
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        $('#session_image_display_' + session__index).attr('src', e.target.result);
+                        var image = document.createElement('img');
+                        image.src = e.target.result
+                        image.addEventListener('load', function () {
+                            console.log(image.width + ' × ' + image.height);
+                            let image_width = image.width;
+                            let image_height = image.height;
+                            // let image_parent_height = $('#course_image_display').parent().height();
+                            // let image_parent_width = $('#course_image_display').parent().width();
+                            // console.log(image_parent_height, image_parent_width)
+
+                            if (image.height / image.width <= 1) {
+
+                                $('#session_image_display_' + session__index).each(function (_, img) {
+                                    var $this = $(this);
+                                    $this.css({
+                                        width: '100%',
+                                        height: 'auto',
+                                    });
+                                })
+                            }
+                            else {
+                                $('#session_image_display_' + session__index).each(function (_, img) {
+                                    var $this = $(this);
+                                    $this.css({
+                                        height: '100%',
+                                        width: 'auto'
+                                    });
+                                })
+
+                            }
+                        });
+
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+        )
+    }
+
+    handle_image_change(event) {
+
+        const input = event.target;
+        if (input.files && input.files[0]) {
+            // console.log(input.files[0])
+            var reader = new FileReader();
+            reader.onload = function (e) {
+
+                $('#course_image_display').attr('src', e.target.result);
+                var image = document.createElement('img');
+                image.src = e.target.result
+                image.addEventListener('load', function () {
+                    console.log(image.width + ' × ' + image.height);
+                    let image_width = image.width;
+                    let image_height = image.height;
+                    // let image_parent_height = $('#course_image_display').parent().height();
+                    // let image_parent_width = $('#course_image_display').parent().width();
+                    // console.log(image_parent_height, image_parent_width)
+
+                    if (image.height / image.width <= 1) {
+
+                        $('#course_image_display').each(function (_, img) {
+                            var $this = $(this);
+                            $this.css({
+                                width: '100%',
+                                height: 'auto',
+                            });
+                        })
+                    }
+                    else {
+                        $('#course_image_display').each(function (_, img) {
+                            var $this = $(this);
+                            $this.css({
+                                height: '100%',
+                                width: 'auto'
+                            });
+                        })
+
+                    }
+                });
+
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
 
 
@@ -210,7 +310,7 @@ class NewCourse extends Component {
         let Sessions_views = this.state.Sessions.map((session, index) => (
 
 
-            <Card >
+            <Card className="mt-1">
                 <CardHeader style={this.card_head_style} className="session_card_head">
                     <Container fluid>
                         <Row className="session_header_row">
@@ -225,7 +325,7 @@ class NewCourse extends Component {
                             </Col>
                             <Col xs="1" sm="1" md="1" lg="1" xl="1" className="ml-lg-3 px-0  ">
                                 <Button color="success" onClick={this.handle_session_card_toggle_factory(index)} >
-                                    <i class="fas fa-chevron-circle-down"></i>
+                                    <FontAwesomeIcon icon={faChevronCircleDown} />
                                 </Button>
                             </Col>
                         </Row>
@@ -264,6 +364,28 @@ class NewCourse extends Component {
                             </Col>
                         </FormGroup>
 
+                        <FormGroup row>
+                            <Label for="session_image" sm={3}><span className="Session_label">Upload session image:</span></Label>
+                            <Col sm={9} className="ml-auto">
+
+                                <Input type="file" name="session_image" id="session_image"
+                                    onChange={this.handle_session_image_change_factory(index)}
+                                />
+
+
+                                <div>
+                                    <FormText color="muted">
+                                        choose image that represents this session
+                                    </FormText>
+                                    <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                        <img id={"session_image_display_" + index} src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
+                                    </div>
+                                </div>
+
+                            </Col>
+
+                        </FormGroup>
+
 
                     </CardBody>
                 </Collapse>
@@ -292,16 +414,15 @@ class NewCourse extends Component {
                                 </div>
                             </div>
                         </Col>
-
                         <Col className="t2 pt-lg-5 form_box justify-content-center my-1" xs="12" sm="12" md="7" lg="7" xl="7" >
                             <div id="new_course_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
                                         <Form onSubmit={this.handleSubmit}>
                                             <FormGroup row>
-                                                <Label for="CourseName" sm={3}><span className="new_course_label">Course Name:</span></Label>
+                                                <Label for="new_course_name" sm={3}><span className="new_course_label">Course Name:</span></Label>
                                                 <Col sm={9} className="ml-auto">
-                                                    <Input type="text" name="CourseName" id="new_course_name" placeholder="enter your course title here"
+                                                    <Input type="text" name="new_course_name" id="new_course_name" placeholder="enter your course title here"
                                                         value={this.state.CourseName}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
@@ -309,14 +430,66 @@ class NewCourse extends Component {
 
 
                                             <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_course_label">Course Description:</span></Label>
+                                                <Label for="course_image" sm={3}><span className="new_course_label">Upload course image:</span></Label>
+                                                <Col sm={9} className="ml-auto">
+
+                                                    <Input type="file" name="course_image" id="course_image"
+                                                        // value={this.state.CourseName}
+                                                        onChange={this.handle_image_change}
+                                                    />
+
+                                                    <FormText color="muted">
+                                                        This image will be used the thumb nail of your course .. choose attractive image.
+                                                 </FormText>
+                                                    <div>
+                                                        <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                                            <img id="course_image_display" src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
+                                                        </div>
+                                                    </div>
+
+                                                </Col>
+
+                                            </FormGroup>
+
+
+                                            <FormGroup row>
+                                                <Label for="Workspace" sm={3}><span className="new_course_label">Workspace:</span></Label>
+                                                <Col sm={9} className="ml-auto">
+                                                    <Input type="select" name="Workspace" id="Workspace"
+                                                        value={this.state.Workspace}
+                                                        onChange={this.handleInputChange}
+                                                    >
+                                                        <option>No Selection</option>
+                                                        {this.props.workspaces.map((workspace, index) => (
+                                                            <option style={{ fontWeight: "bold" }}>
+                                                                {workspace.workspace_name}
+                                                            </option>
+                                                        ))}
+                                                        {/* <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option> */}
+                                                    </Input>
+                                                </Col>
+                                            </FormGroup>
+
+                                            <FormGroup row>
+                                                <Label for="course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="new_course_text_area" type="textarea" name="CourseDescription" placeholder="enter your course description  here" value={this.state.CourseDescription}
+                                                    <Input id="course_description" type="textarea" name="course_description" placeholder="enter your course description  here" value={this.state.CourseDescription}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
 
-
+                                            <FormGroup row>
+                                                <Label for="Course_Slogan" sm={3}> <span className="new_course_label">Course Slogan:</span></Label>
+                                                <Col sm={9}>
+                                                    <Input id="Course_Slogan" type="textarea" name="Course_Slogan" placeholder="Ex: learn python from zero to hero"
+                                                        value={this.state.Course_Slogan}
+                                                        onChange={this.handleInputChange} />
+                                                </Col>
+                                            </FormGroup>
 
                                             <FormGroup row>
                                                 <Label for="number_of_sessions" sm={3}> <span className="new_course_label">number of sessions:</span></Label>
@@ -333,7 +506,11 @@ class NewCourse extends Component {
                                             <FormGroup row>
 
                                                 <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
+
                                                 <Col sm={9}>
+                                                    <FormText color="muted">
+                                                        fill in the data of the sessions ...
+                                                     </FormText>
                                                     {Sessions_views}
                                                 </Col>
                                             </FormGroup>
@@ -367,7 +544,7 @@ class NewCourse extends Component {
 
                 </Container>
 
-            </div>
+            </div >
 
 
 

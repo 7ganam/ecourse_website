@@ -6,12 +6,14 @@ import { CardImg, CardSubtitle, } from 'reactstrap';
 import ReactStars from "react-rating-stars-component";
 import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
 import { Jumbotron } from 'reactstrap';
+
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { baseUrl } from "../../../shared/baseURL"
 import './CourseViewComponent.css'
 
