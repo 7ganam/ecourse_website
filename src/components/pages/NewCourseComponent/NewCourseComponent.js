@@ -53,13 +53,11 @@ class NewCourse extends Component {
 
 
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleEndChange = this.session_date_change_handler_function_factory.bind(this);
         this.handle_session_InputChange_factory = this.handle_session_InputChange_factory.bind(this);
         this.handle_number_of_sessions_Change = this.handle_number_of_sessions_Change.bind(this);
 
     }
-
 
 
 
@@ -123,14 +121,6 @@ class NewCourse extends Component {
 
 
 
-    }
-
-    handleSubmit(event) {
-        console.log('Current State is: ' + JSON.stringify(this.state));
-        alert('Current State is: ' + JSON.stringify(this.state));
-        event.preventDefault();
-        // console.log(this.state.startDate)
-        // console.log(this.state.endDate)
     }
 
     session_date_change_handler_function_factory(in_session_index) {
@@ -432,9 +422,6 @@ class NewCourse extends Component {
 
 
 
-
-
-
         return (
             <div id="new_course_all">
                 <Container fluid  >
@@ -487,10 +474,10 @@ class NewCourse extends Component {
                                             </FormGroup>
 
                                             <FormGroup row>
-                                                <Label for="Workspace" sm={3}><span className="new_course_label">Workspace:</span></Label>
+                                                <Label for="new_course_workspace_name" sm={3}><span className="new_course_label">Workspace:</span></Label>
                                                 <Col sm={9} className="ml-auto">
-                                                    <Input type="select" name="Workspace" id="Workspace"
-                                                        value={this.state.Workspace}
+                                                    <Input type="select" name="new_course_workspace_name" id="Workspace"
+                                                        value={this.state.new_course_workspace_name}
                                                         onChange={this.handleInputChange}
                                                     >
                                                         <option>No Selection</option>
