@@ -30,12 +30,16 @@ class NewCourse extends Component {
         super(props);
 
         this.state = {
-            new_course_name: '',
-            Workspace: 'No Selection',
-            course_description: '',
-            Course_Slogan: '',
-            startDate: new Date(),
-            endDate: new Date(),
+            new_course_img: "test_string",
+            new_course_title: '',
+            new_course_author: "abod eldackar",
+            new_course_startDate: new Date(),
+            new_course_endDate: new Date(),
+            new_course_workspace_name: 'No Selection',
+            new_course_workspace_id: "",
+            new_course_price: "",
+            new_course_description: '',
+            new_course_slogan: '',
             number_of_sessions: 1,
             // Session_1_startDate: new Date(),
             Sessions: [{
@@ -43,9 +47,8 @@ class NewCourse extends Component {
                 Session_Description: '',
                 Session_startDate: '',
                 isOpen: false,
-            },
-
-            ]
+            }],
+            what_will_learn: []
         };
 
 
@@ -60,7 +63,7 @@ class NewCourse extends Component {
 
 
 
-    handleInputChange(event) {
+    handleInputChange(event) { // this one handles nonsession form inputs -- whenever a field change it sets corresponding state field -- note the input name field must match the state field name
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -69,7 +72,6 @@ class NewCourse extends Component {
             [name]: value
         });
     }
-
 
     handle_number_of_sessions_Change(event) {
         //change the number
@@ -127,8 +129,8 @@ class NewCourse extends Component {
         console.log('Current State is: ' + JSON.stringify(this.state));
         alert('Current State is: ' + JSON.stringify(this.state));
         event.preventDefault();
-        console.log(this.state.startDate)
-        console.log(this.state.endDate)
+        // console.log(this.state.startDate)
+        // console.log(this.state.endDate)
     }
 
     session_date_change_handler_function_factory(in_session_index) {
@@ -179,7 +181,6 @@ class NewCourse extends Component {
 
 
     }
-
 
     handle_session_card_toggle_factory(in_session_index) {
         const session__index = in_session_index; // closure variable different for every instance of the returned functions
@@ -304,6 +305,42 @@ class NewCourse extends Component {
     }
 
 
+    new_course_submit_handler = async event => {
+        event.preventDefault();
+        try {
+            const response = await fetch('http://localhost:5000/courses', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+
+                    img: this.state.new_course_img,
+                    title: this.state.new_course_title,
+                    author: this.state.new_course_author,
+                    startDate: this.state.new_course_startDate,
+                    endDate: this.state.new_course_endDate,
+                    workspace_name: this.state.new_course_workspace_name,
+                    // workspace_id: this.state.new_course_workspace_id,
+                    price: this.state.new_course_price,
+                    description: this.state.new_course_description,
+                    slogan: this.state.new_course_slogan,
+                    Sessions: this.state.Sessions,
+                    what_will_learn: this.state.what_will_learn,
+
+                })
+            });
+
+            const responseData = await response.json();
+            console.log(responseData);
+        } catch (err) {
+            console.log(err);
+        }
+
+    };
+
+
+
 
     render() {
 
@@ -398,10 +435,6 @@ class NewCourse extends Component {
 
 
 
-
-
-
-
         return (
             <div id="new_course_all">
                 <Container fluid  >
@@ -421,23 +454,22 @@ class NewCourse extends Component {
                             <div id="new_course_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
-                                        <Form onSubmit={this.handleSubmit}>
+                                        <Form onSubmit={this.new_course_submit_handler}>
                                             <FormGroup row>
-                                                <Label for="new_course_name" sm={3}><span className="new_course_label">Course Name:</span></Label>
+                                                <Label for="new_course_title" sm={3}><span className="new_course_label">Course Title:</span></Label>
                                                 <Col sm={9} className="ml-auto">
-                                                    <Input type="text" name="new_course_name" id="new_course_name" placeholder="enter your course title here"
-                                                        value={this.state.new_course_name}
+                                                    <Input type="text" name="new_course_title" id="new_course_title" placeholder="enter your course title here"
+                                                        value={this.state.new_course_title}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
-
 
                                             <FormGroup row>
                                                 <Label for="course_image" sm={3}><span className="new_course_label">Upload course image:</span></Label>
                                                 <Col sm={9} className="ml-auto">
 
                                                     <Input type="file" name="course_image" id="course_image"
-                                                        // value={this.state.new_course_name}
+                                                        // value={this.state.new_course_title}
                                                         onChange={this.handle_image_change}
                                                     />
 
@@ -453,7 +485,6 @@ class NewCourse extends Component {
                                                 </Col>
 
                                             </FormGroup>
-
 
                                             <FormGroup row>
                                                 <Label for="Workspace" sm={3}><span className="new_course_label">Workspace:</span></Label>
@@ -478,18 +509,18 @@ class NewCourse extends Component {
                                             </FormGroup>
 
                                             <FormGroup row>
-                                                <Label for="course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
+                                                <Label for="new_course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="course_description" type="textarea" name="course_description" placeholder="enter your course description  here" value={this.state.course_description}
+                                                    <Input id="new_course_description" type="textarea" name="new_course_description" placeholder="enter your course description  here" value={this.state.new_course_description}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
 
                                             <FormGroup row>
-                                                <Label for="Course_Slogan" sm={3}> <span className="new_course_label">Course Slogan:</span></Label>
+                                                <Label for="new_course_slogan" sm={3}> <span className="new_course_label">Course Slogan:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="Course_Slogan" type="textarea" name="Course_Slogan" placeholder="Ex: learn python from zero to hero"
-                                                        value={this.state.Course_Slogan}
+                                                    <Input id="new_course_slogan" type="textarea" name="new_course_slogan" placeholder="Ex: learn python from zero to hero"
+                                                        value={this.state.new_course_slogan}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
@@ -501,10 +532,6 @@ class NewCourse extends Component {
                                                         onChange={this.handle_number_of_sessions_Change} />
                                                 </Col>
                                             </FormGroup>
-
-
-
-
 
                                             <FormGroup row>
 
@@ -518,14 +545,6 @@ class NewCourse extends Component {
                                                 </Col>
                                             </FormGroup>
 
-
-
-
-
-
-
-
-
                                             <FormGroup row>
                                                 <Col sm={{ size: 9, offset: 3 }}>
                                                     <Button type="submit" color="success">
@@ -533,7 +552,6 @@ class NewCourse extends Component {
                                                      </Button>
                                                 </Col>
                                             </FormGroup>
-
 
                                         </Form>
                                     </div>

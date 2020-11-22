@@ -5,6 +5,7 @@
         "title": "sdfaef course",
         "author":"abod eldackar",
         "start_date":"15/5/5",
+        "end_date":"15/5/5",
         "workspace_name":"wonderland",
         "workspace_id":"",
         "price":"999",
@@ -16,6 +17,8 @@
                     {"Session_title":"ccccccc","Session_Description":"dadfaefdddddddddddddddddddddddddddddddddddddddddddddddddddddddddde","Session_startDate":"2020-11-17T12:40:00.925Z","isOpen":false}
                    ],
         "what_will_learn":["basics of python syntax","concept2","concept3","concept4","concept5","concept6","concept7","concept8"]
+
+   
     },
     {
         "_id":"1341441",
