@@ -30,9 +30,9 @@ class NewCourse extends Component {
         super(props);
 
         this.state = {
-            CourseName: '',
+            new_course_name: '',
             Workspace: 'No Selection',
-            CourseDescription: '',
+            course_description: '',
             Course_Slogan: '',
             startDate: new Date(),
             endDate: new Date(),
@@ -399,6 +399,9 @@ class NewCourse extends Component {
 
 
 
+
+
+
         return (
             <div id="new_course_all">
                 <Container fluid  >
@@ -423,7 +426,7 @@ class NewCourse extends Component {
                                                 <Label for="new_course_name" sm={3}><span className="new_course_label">Course Name:</span></Label>
                                                 <Col sm={9} className="ml-auto">
                                                     <Input type="text" name="new_course_name" id="new_course_name" placeholder="enter your course title here"
-                                                        value={this.state.CourseName}
+                                                        value={this.state.new_course_name}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
@@ -434,7 +437,7 @@ class NewCourse extends Component {
                                                 <Col sm={9} className="ml-auto">
 
                                                     <Input type="file" name="course_image" id="course_image"
-                                                        // value={this.state.CourseName}
+                                                        // value={this.state.new_course_name}
                                                         onChange={this.handle_image_change}
                                                     />
 
@@ -477,7 +480,7 @@ class NewCourse extends Component {
                                             <FormGroup row>
                                                 <Label for="course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
                                                 <Col sm={9}>
-                                                    <Input id="course_description" type="textarea" name="course_description" placeholder="enter your course description  here" value={this.state.CourseDescription}
+                                                    <Input id="course_description" type="textarea" name="course_description" placeholder="enter your course description  here" value={this.state.course_description}
                                                         onChange={this.handleInputChange} />
                                                 </Col>
                                             </FormGroup>
