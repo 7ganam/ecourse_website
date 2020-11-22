@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 import "./CourseCard.css"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import { baseUrl } from "../../shared/baseURL"
 const CourseCard = (props) => {
 
     const firstExample = {
@@ -22,7 +22,7 @@ const CourseCard = (props) => {
         <div>
             <Card>
 
-                <CardImg top objectFit="cover" src={props.img} alt="Card image cap" />
+                <CardImg top objectFit="cover" src={baseUrl + "images/courses/" + props.img} alt="Card image cap" />
                 <CardBody>
                     <CardTitle ><h4 className="card_title">{props.title}</h4></CardTitle>
                     {/* <CardSubtitle>Author:</CardSubtitle> */}

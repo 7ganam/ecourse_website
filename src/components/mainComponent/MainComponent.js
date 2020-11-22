@@ -20,10 +20,12 @@ import MapContainer from "../WsViewMapContainer/WsViewMapContainer"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
+
+
 import * as COURSES_DATA from '../../shared/courses_data.json';
 import * as WORKSPACES_DATA from '../../shared/workspaces_data.json';
 
-
+import { baseUrl } from "../../shared/baseURL"
 
 
 
@@ -35,25 +37,30 @@ class Main extends Component {
         super(props);
 
         this.state = {
-            courses: COURSES_DATA.default,
-            workspaces: WORKSPACES_DATA.default
+            courses: "",
+            courses_are_loading: true,
+            workspaces: WORKSPACES_DATA.default,
+            workspaces_are_loadin: true,
         };
 
-        // this.course_with_id = this.course_with_id.bind(this);
+        this.fetchDishes = this.fetchDishes.bind(this);
     }
 
-    // course_with_id(props) {
-    //     return (<CourseView
-    //         course={this.state.courses.filter((course) => course._id === parseInt(props.match.params.course_id, 10))[0]}
-    // isLoading={this.props.dishes.isLoading}
-    // errMess={this.props.dishes.errMess}
-    // comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.course_id, 10))}
-    // commentsErrMess={this.props.comments.errMess}
-    // addComment={this.props.addComment}
-    // postComment={this.props.postComment}
-    //     />)
 
-    // }
+
+    componentDidMount() {
+        this.fetchDishes()
+    }
+    fetchDishes = () => {
+        return fetch(baseUrl + 'courses')
+            .then(response => response.json())
+            .then(recieved_courses => {
+                // console.log("coursesd", coursesd)
+                this.setState({ courses: recieved_courses })
+                this.setState({ courses_are_loading: false })
+            });
+    }
+
 
     render() {
 
@@ -63,8 +70,9 @@ class Main extends Component {
 
         const course_with_id = ({ match }) => {
             return (
-                <CourseView course={this.state.courses.filter((course) => course._id === match.params.course_id)[0]}
-                // isLoading={this.props.dishes.isLoading}
+                <CourseView
+                    course={this.state.courses.filter((course) => course._id === match.params.course_id)[0]}
+                // isLoading={this.state.courses_are_loading}
                 // errMess={this.props.dishes.errMess}
                 // comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.course_id, 10))}
                 // commentsErrMess={this.props.comments.errMess}
@@ -91,7 +99,7 @@ class Main extends Component {
                 <Router>
                     <Header />
                     <Route exact path="/">
-                        <Home courses={this.state.courses} workspaces={this.state.workspaces} />
+                        <Home courses={this.state.courses} isLoading={this.state.courses_are_loading} workspaces={this.state.workspaces} />
                     </Route>
 
                     <Route exact path="/workspaces">

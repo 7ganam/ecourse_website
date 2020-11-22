@@ -4,25 +4,37 @@ import { Container, Row, Col } from "reactstrap";
 import './CoursesComponent.css'
 
 class Courses extends Component {
+    constructor(props) {
+        super(props);
 
-    courses = this.props.courses.map((course) => (
-        <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3">
-            <div className="card2">
-                <CourseCard
-                    course_id={course._id}
-                    img={course.img}
-                    title={course.title}
-                    author={course.author}
-                    start_date={course.start_date}
-                    workspace_name={course.workspace_name}
-                    price={course.price}
-                    rating={course.rating}
-                />
-            </div>
-        </Col>
-    ))
+        this.state = {
+            courses: this.props.courses,
+        };
+
+    }
+
+    componentDidMount() {
+        // this.fetchDishes()
+    }
+
     render() {
-        console.log("props.courses", this.props.courses)
+        let courses_view = this.state.courses.map((course) => (
+            <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3">
+                <div className="card2">
+                    <CourseCard
+                        course_id={course._id}
+                        img={course.img}
+                        title={course.title}
+                        author={course.author}
+                        start_date={course.start_date}
+                        workspace_name={course.workspace_name}
+                        price={course.price}
+                        rating={course.rating}
+                    />
+                </div>
+            </Col>
+        ))
+        console.log("props.courses", this.state.courses)
         return (
             <div id="all2">
                 <Container id="title_container">
@@ -35,7 +47,7 @@ class Courses extends Component {
                 <Container >
 
                     <Row className='justify-content-center'>
-                        {this.courses}
+                        {courses_view}
                     </Row>
 
                 </Container>

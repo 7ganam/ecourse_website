@@ -30,7 +30,7 @@ class NewCourse extends Component {
         super(props);
 
         this.state = {
-            new_course_img: "test_string",
+            new_course_img: "python1.jpg",
             new_course_title: '',
             new_course_author: "abod eldackar",
             new_course_startDate: new Date(),
@@ -76,7 +76,6 @@ class NewCourse extends Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-
         this.setState({
             [name]: value
         });
@@ -294,7 +293,6 @@ class NewCourse extends Component {
         }
     }
 
-
     new_course_submit_handler = async event => {
         event.preventDefault();
         try {
@@ -311,6 +309,7 @@ class NewCourse extends Component {
                     startDate: this.state.new_course_startDate,
                     endDate: this.state.new_course_endDate,
                     workspace_name: this.state.new_course_workspace_name,
+                    rating: 0,
                     // workspace_id: this.state.new_course_workspace_id,
                     price: this.state.new_course_price,
                     description: this.state.new_course_description,
@@ -547,15 +546,9 @@ class NewCourse extends Component {
                             </div>
                         </Col>
 
-
                     </Row>
-
                 </Container>
-
             </div >
-
-
-
         );
 
     }

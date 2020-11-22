@@ -47,7 +47,7 @@ class Header extends Component {
                 <Navbar light className="light py-1  border-bottom fixed-top" expand="xl">
 
                     <NavbarBrand className="mr-auto" href="/">
-                        <img src={baseUrl + '/small_logo.png'} height="40" width="40" alt='' />
+                        <img src={baseUrl + 'small_logo.png'} height="40" width="40" alt='' />
                         <span className="brand_title">ecoures</span>
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggleNav} className="mr-2" />

@@ -22,6 +22,23 @@ import './Home.css'
 
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            courses: this.props.courses,
+            workspaces: this.props.workspaces,
+            isLoading: this.props.isLoading
+        };
+
+
+        this.render_courses = this.render_courses.bind(this);
+
+    }
+    componentDidUpdate(nextProps) {
+        console.log("next", nextProps)
+
+    }
     container_styles = {
         // justifyContent: 'center'
         position: 'relative',
@@ -36,8 +53,32 @@ class Home extends Component {
         backgroundColor: 'white'
     }
 
+    render_courses(isLoading) {
+        if (isLoading) {
+            return (
+                <h1>loading...</h1>
+            );
+        }
+        else if (this.props.courses != null) { // don't know why did I need this .. read it later ::TODO:
+            return (
+                <Courses courses={this.props.courses} />
+            );
+        }
+        else {
+            return (null)
+        }
+
+    }
+
+
 
     render() {
+        // render_courses
+
+
+
+
+
         return (
             <div>
                 <div id="all4453">
@@ -59,13 +100,10 @@ class Home extends Component {
                     </div>
                 </div>
                 <Illustration />
-                <Courses courses={this.props.courses} />
-                <Workspaces workspaces={this.props.workspaces} />
+                {this.render_courses(this.props.isLoading)}
 
-
+                <Workspaces workspaces={this.state.workspaces} />
             </div>
-
-
         );
 
     }
