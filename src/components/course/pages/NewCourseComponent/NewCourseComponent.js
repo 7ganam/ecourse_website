@@ -12,15 +12,15 @@ import './NewCourseComponent.css'
 
 import DatePicker from "react-datepicker";
 
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import "react-datepicker/dist/react-datepicker.css";
+
+
+
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
-import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
-import { faClock } from "@fortawesome/free-solid-svg-icons";
-import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
 import {
     Card, CardHeader, CardFooter, CardBody,
     CardTitle, CardText
@@ -49,7 +49,14 @@ class NewCourse extends Component {
                 isOpen: false,
             }],
             what_will_learn: [],
-            new_course_img_file: ""
+            new_course_img_file: "",
+
+            sending_course_data: false,
+            form_json_error: false, // if the first fetch which sends forms json data fails this sets to true
+            image_error: false,
+            error_message: "",
+            course_submitted_successfuly: false,
+
         };
 
 
@@ -65,6 +72,8 @@ class NewCourse extends Component {
 
     handleInputChange(event) { // this one handles nonsession form inputs -- whenever a field change it sets corresponding state field -- note the input name field must match the state field name
         const target = event.target;
+
+
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
 
@@ -300,7 +309,8 @@ class NewCourse extends Component {
     new_course_submit_handler = async event => {
         event.preventDefault();
         try {
-            const post_json_data = await fetch('http://localhost:5000/courses', {
+            this.setState({ sending_course_data: true })
+            const response = await fetch('http://localhost:5000/courses', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -325,31 +335,50 @@ class NewCourse extends Component {
             });
 
 
-            const responseData = await post_json_data.json();
-            console.log({ responseData });
+            const responseData = await response.json();
+            if (!response.ok) {
+                this.setState({ form_json_error: true })
+                throw new Error(responseData.message);
+
+            }
 
 
 
             //post image to the back end
             const formData = new FormData();
             formData.append('image', this.state.new_course_img_file);
-            formData.append('name', this.state.new_course_author);
 
-
-            const post_image = await fetch(`http://localhost:5000/courses/image/${responseData}`, {
+            const image_response = await fetch(`http://localhost:5000/courses/image/${responseData}`, {
                 method: 'post',
                 body: formData,
             })
 
-            const image_Data = await post_image.json()
-            console.log(image_Data);
+            const response_message = await image_response.json()
+            // console.log(image_Data);
+            if (!image_response.ok) {
+                this.setState({ image_error: true })
+
+                throw new Error(response_message.message);
+            }
+
+
+            this.setState({ sending_course_data: false })
+            if (response_message == "success") {
+                this.setState({ course_submitted_successfuly: true })
+            }
+
 
 
         } catch (err) {
+            this.setState({ sending_course_data: false })
+            this.setState({ error_message: err.message })
+
+
             console.log(err);
         }
 
     };
+
 
 
 
@@ -404,11 +433,12 @@ class NewCourse extends Component {
                                 <DatePicker
                                     selected={this.state.Sessions[index].Session_startDate}
                                     onChange={this.session_date_change_handler_function_factory(index)}
-                                    showTimeSelect
-                                    timeFormat="HH:mm"
-                                    timeIntervals={20}
-                                    timeCaption="time"
-                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    // showTimeSelect
+                                    // timeFormat="HH:mm"
+                                    // timeIntervals={15}
+                                    // timeCaption="time"
+                                    dateFormat="MMMM d, yyyy "
+                                    shouldCloseOnSelect={false}
                                 />
                             </Col>
                         </FormGroup>
@@ -416,10 +446,12 @@ class NewCourse extends Component {
                         <FormGroup row>
                             <Label for="session_image" sm={3}><span className="Session_label">Upload session image:</span></Label>
                             <Col sm={9} className="ml-auto">
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '250px', }}>
+                                    <Input type="file" name="session_image" id="session_image"
 
-                                <Input type="file" name="session_image" id="session_image"
-                                    onChange={this.handle_session_image_change_factory(index)}
-                                />
+                                        onChange={this.handle_session_image_change_factory(index)}
+                                    />
+                                </div>
 
 
                                 <div>
@@ -443,13 +475,125 @@ class NewCourse extends Component {
         ))
 
 
+        let form_view = () => {
+            return (
+                <Form onSubmit={this.new_course_submit_handler}>
+                    <FormGroup row>
+                        <Label for="new_course_title" sm={3}><span className="new_course_label">Course Title:</span></Label>
+                        <Col sm={9} className="ml-auto">
+                            <Input type="text" name="new_course_title" id="new_course_title" placeholder="enter your course title here"
+                                value={this.state.new_course_title}
+                                onChange={this.handleInputChange} />
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Label for="course_image" sm={3}><span className="new_course_label">Upload course image:</span></Label>
+                        <Col sm={9} className="ml-auto">
+                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '300px', }}>
+
+                                <Input type="file" name="course_image" id="course_image"
+                                    // value={this.state.new_course_title}
+                                    onChange={this.handle_image_change}
+                                />
+                            </div>
+                            <FormText color="muted">
+                                This image will be used the thumb nail of your course .. choose attractive image.
+                            </FormText>
+                            <div>
+                                <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                    <img id="course_image_display" src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
+                                </div>
+                            </div>
+
+                        </Col>
+
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Label for="new_course_workspace_name" sm={3}><span className="new_course_label">Workspace:</span></Label>
+                        <Col sm={9} className="ml-auto">
+                            <Input type="select" name="new_course_workspace_name" id="Workspace"
+                                value={this.state.new_course_workspace_name}
+                                onChange={this.handleInputChange}
+                            >
+                                <option>No Selection</option>
+                                {this.props.workspaces.map((workspace, index) => (
+                                    <option style={{ fontWeight: "bold" }}>
+                                        {workspace.workspace_name}
+                                    </option>
+                                ))}
+                                {/* <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option> */}
+                            </Input>
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Label for="new_course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
+                        <Col sm={9}>
+                            <Input id="new_course_description" type="textarea" name="new_course_description" placeholder="enter your course description  here" value={this.state.new_course_description}
+                                onChange={this.handleInputChange} />
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Label for="new_course_slogan" sm={3}> <span className="new_course_label">Course Slogan:</span></Label>
+                        <Col sm={9}>
+                            <Input id="new_course_slogan" type="textarea" name="new_course_slogan" placeholder="Ex: learn python from zero to hero"
+                                value={this.state.new_course_slogan}
+                                onChange={this.handleInputChange} />
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Label for="number_of_sessions" sm={3}> <span className="new_course_label">number of sessions:</span></Label>
+                        <Col sm={9}>
+                            <Input id="number_of_sessions" type="number" min="1" max="30" name="number_of_sessions" value={this.state.number_of_sessions}
+                                onChange={this.handle_number_of_sessions_Change} />
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+
+                        <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
+
+                        <Col sm={9}>
+                            <FormText color="muted">
+                                fill in the data of the sessions ...
+             </FormText>
+                            {Sessions_views}
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Col sm={{ size: 9, offset: 3 }}>
+                            <Button type="submit" color="success">
+                                Submit
+             </Button>
+                        </Col>
+                    </FormGroup>
+
+                </Form>)
+        }
+
+        let success_message = () => {
+            return (
+                <div>
+                    course submitted ... course will be reviewed and we will contact you withing 32 hours
+                </div>
+            )
+
+        }
 
         return (
-            <div id="new_course_all">
+            <div id="new_course_all" >
                 <Container fluid  >
                     <Row className=''>
-
-                        <Col className="t3 mx-1 my-1          image_image_image ml-lg-5" xs="12" sm="12" md="4" lg="4" xl="4">
+                        <Col className="t3 mx-1 my-1   push-xl-1       image_image_image ml-lg-5" xs="12" sm="12" md={{ size: 4, order: 12 }} lg="4" xl="4">
                             <div id="course_image_wrapper">
                                 <h1 id="image_header">
                                     Creat A Course
@@ -463,112 +607,13 @@ class NewCourse extends Component {
                             <div id="new_course_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
-                                        <Form onSubmit={this.new_course_submit_handler}>
-                                            <FormGroup row>
-                                                <Label for="new_course_title" sm={3}><span className="new_course_label">Course Title:</span></Label>
-                                                <Col sm={9} className="ml-auto">
-                                                    <Input type="text" name="new_course_title" id="new_course_title" placeholder="enter your course title here"
-                                                        value={this.state.new_course_title}
-                                                        onChange={this.handleInputChange} />
-                                                </Col>
-                                            </FormGroup>
 
-                                            <FormGroup row>
-                                                <Label for="course_image" sm={3}><span className="new_course_label">Upload course image:</span></Label>
-                                                <Col sm={9} className="ml-auto">
+                                        {this.state.course_submitted_successfuly ? success_message() : form_view()}
 
-                                                    <Input type="file" name="course_image" id="course_image"
-                                                        // value={this.state.new_course_title}
-                                                        onChange={this.handle_image_change}
-                                                    />
-
-                                                    <FormText color="muted">
-                                                        This image will be used the thumb nail of your course .. choose attractive image.
-                                                 </FormText>
-                                                    <div>
-                                                        <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                            <img id="course_image_display" src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
-                                                        </div>
-                                                    </div>
-
-                                                </Col>
-
-                                            </FormGroup>
-
-                                            <FormGroup row>
-                                                <Label for="new_course_workspace_name" sm={3}><span className="new_course_label">Workspace:</span></Label>
-                                                <Col sm={9} className="ml-auto">
-                                                    <Input type="select" name="new_course_workspace_name" id="Workspace"
-                                                        value={this.state.new_course_workspace_name}
-                                                        onChange={this.handleInputChange}
-                                                    >
-                                                        <option>No Selection</option>
-                                                        {this.props.workspaces.map((workspace, index) => (
-                                                            <option style={{ fontWeight: "bold" }}>
-                                                                {workspace.workspace_name}
-                                                            </option>
-                                                        ))}
-                                                        {/* <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option> */}
-                                                    </Input>
-                                                </Col>
-                                            </FormGroup>
-
-                                            <FormGroup row>
-                                                <Label for="new_course_description" sm={3}> <span className="new_course_label">Course Description:</span></Label>
-                                                <Col sm={9}>
-                                                    <Input id="new_course_description" type="textarea" name="new_course_description" placeholder="enter your course description  here" value={this.state.new_course_description}
-                                                        onChange={this.handleInputChange} />
-                                                </Col>
-                                            </FormGroup>
-
-                                            <FormGroup row>
-                                                <Label for="new_course_slogan" sm={3}> <span className="new_course_label">Course Slogan:</span></Label>
-                                                <Col sm={9}>
-                                                    <Input id="new_course_slogan" type="textarea" name="new_course_slogan" placeholder="Ex: learn python from zero to hero"
-                                                        value={this.state.new_course_slogan}
-                                                        onChange={this.handleInputChange} />
-                                                </Col>
-                                            </FormGroup>
-
-                                            <FormGroup row>
-                                                <Label for="number_of_sessions" sm={3}> <span className="new_course_label">number of sessions:</span></Label>
-                                                <Col sm={9}>
-                                                    <Input id="number_of_sessions" type="number" min="1" max="30" name="number_of_sessions" value={this.state.number_of_sessions}
-                                                        onChange={this.handle_number_of_sessions_Change} />
-                                                </Col>
-                                            </FormGroup>
-
-                                            <FormGroup row>
-
-                                                <Label for="exampleText" sm={3}> <span className="new_course_label">Sessions:</span></Label>
-
-                                                <Col sm={9}>
-                                                    <FormText color="muted">
-                                                        fill in the data of the sessions ...
-                                                     </FormText>
-                                                    {Sessions_views}
-                                                </Col>
-                                            </FormGroup>
-
-                                            <FormGroup row>
-                                                <Col sm={{ size: 9, offset: 3 }}>
-                                                    <Button type="submit" color="success">
-                                                        Submit
-                                                     </Button>
-                                                </Col>
-                                            </FormGroup>
-
-                                        </Form>
                                     </div>
                                 </div>
-
                             </div>
                         </Col>
-
                     </Row>
                 </Container>
             </div >
