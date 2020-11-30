@@ -24,6 +24,16 @@ class Newworkspace extends Component {
             lat: '',
 
             logo_image: "",
+            featured_images_files: [],
+
+            //fetch api state
+            fetch_error: false,
+            error_message: "",
+            workspace_submitted_successfuly: false,
+            sending_data: false,
+
+
+
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -124,6 +134,16 @@ class Newworkspace extends Component {
 
                 const input = event.target;
                 if (input.files && input.files[0]) {
+                    // TODO: validate images here first
+                    this.setState({ featured_images_files: input.files[0] })
+
+
+                    // 1. Make a shallow copy of the state then edit it then reset the state 
+                    let images_files_copy = [...this.state.featured_images_files];
+                    images_files_copy[index - 1] = input.files[0]
+                    this.setState({ featured_images_files: images_files_copy })
+
+
                     // console.log(input.files[0])
                     var reader = new FileReader();
                     reader.onload = function (e) {
@@ -161,6 +181,55 @@ class Newworkspace extends Component {
         )
     }
 
+    submit_handler = async event => {
+        event.preventDefault();
+        try {
+            this.setState({ sending_data: true })
+
+
+
+            //post data as formdata to the back end ... form data will set the content type automatically to multipart ... use multer & body-parser in back end to deal with it
+            const formData = new FormData();
+
+
+            formData.append('logo_image', this.state.logo_image);
+            formData.append('f_image_1', this.state.featured_images_files[0]);
+            formData.append('f_image_2', this.state.featured_images_files[1]);
+            formData.append('f_image_3', this.state.featured_images_files[2]);
+            formData.append('f_image_4', this.state.featured_images_files[3]);
+            formData.append('workspaceName', this.state.workspaceName);
+            formData.append('workspaceDescription', this.state.workspaceDescription);
+            formData.append('lng', this.state.lng);
+            formData.append('lat', this.state.lat);
+
+            const response = await fetch(`http://localhost:5000/workspaces`, {
+                method: 'post',
+                body: formData,
+            })
+
+            const response_json_content = await response.json()
+            // console.log(image_Data);
+            if (!response.ok) {
+                this.setState({ fetch_error: true })
+                throw new Error(response_json_content.message || "can't fetch data ... could be a connection error or unhandled back end error"); // if it's an error the back end should attach a message attribute
+            }
+
+
+            this.setState({ sending_course_data: false })
+            if (response_json_content == "success") {
+                this.setState({ workspace_submitted_successfuly: true })
+            }
+
+
+
+        } catch (err) {
+            this.setState({ sending_data: false })
+            this.setState({ error_message: err.message })
+            console.log(err);
+        }
+
+    };
+
 
 
 
@@ -188,7 +257,7 @@ class Newworkspace extends Component {
                             <div id="new_workspace_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
-                                        <Form onSubmit={this.handleSubmit}>
+                                        <Form onSubmit={this.submit_handler}>
                                             <FormGroup row>
                                                 <Label for="workspaceName" sm={3}><span className="new_workspace_label">workspace Name:</span></Label>
                                                 <Col sm={9} className="ml-auto">
@@ -214,7 +283,6 @@ class Newworkspace extends Component {
                                                     <LocationPicker handle_submit={this.handle_location_submit} />
                                                 </Col>
                                             </FormGroup>
-
 
 
                                             <FormGroup row>
