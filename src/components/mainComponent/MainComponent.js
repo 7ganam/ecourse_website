@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
-import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
-import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
-import Header from '../HeaderComponent/HeaderComponent';
-import Home from '../pages/HomeComponent/HomeComponent';
-import NewCourse from '../pages/NewCourseComponent/NewCourseComponent';
-import NewWorkSpace from '../pages/NewWorkSpaceComponent/NewWorkSpaceComponent';
-import CourseView from '../pages/CourseViewComponent/CourseViewComponent';
-import WorkSpaceView from '../pages/WorkSpaceViewComponent/WorkSpaceViewComponent';
-import Footer from '../FooterComponent'
-import Coursespage from '../pages/CoursesPageComponent/CoursesPageComponent';
-import WorkspacesPage from '../pages/WorkspacesPageComponent/WorkspacesPageComponent';
+
+import Header from '../shared/components/HeaderComponent/HeaderComponent';
+import Home from '../shared/pages/HomeComponent/HomeComponent';
+import NewCourse from '../course/pages/NewCourseComponent/NewCourseComponent';
+import NewWorkSpace from '../workspace/pages/NewWorkSpaceComponent/NewWorkSpaceComponent';
+import CourseView from '../course/pages/CourseViewComponent/CourseViewComponent';
+import WorkSpaceView from '../workspace/pages/WorkSpaceViewComponent/WorkSpaceViewComponent';
+import Footer from '../shared/components/FooterComponent'
+import Coursespage from '../course/pages/CoursesPageComponent/CoursesPageComponent';
+import WorkspacesPage from '../workspace/pages/WorkspacesPageComponent/WorkspacesPageComponent';
 
 
-import CourseCard from '../CoursesComponent/CoursesComponent';
-import WorkspaceCard from '../WorkspaceCardComponent/WorkspaceCardComponent';
 
-
-import MapContainer from "../WsViewMapContainer/WsViewMapContainer"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 
 
-
-import * as COURSES_DATA from '../../shared/courses_data.json';
+// FOR TESTING -------------------------------------------------------
+// import * as COURSES_DATA from '../../shared/courses_data.json';
 import * as WORKSPACES_DATA from '../../shared/workspaces_data.json';
 
 import { baseUrl } from "../../shared/baseURL"
@@ -43,15 +38,18 @@ class Main extends Component {
             workspaces_are_loadin: true,
         };
 
-        this.fetchDishes = this.fetchDishes.bind(this);
+        this.fetchCourses = this.fetchCourses.bind(this);
     }
 
 
 
     componentDidMount() {
-        this.fetchDishes()
+        this.fetchCourses()
     }
-    fetchDishes = () => {
+
+
+
+    fetchCourses = () => {
         return fetch(baseUrl + 'courses')
             .then(response => response.json())
             .then(recieved_courses => {
@@ -59,25 +57,19 @@ class Main extends Component {
                 this.setState({ courses: recieved_courses })
                 this.setState({ courses_are_loading: false })
             });
+        //TODO:: error handling 
     }
 
 
     render() {
 
-
-
-
-
         const course_with_id = ({ match }) => {
             return (
                 <CourseView
                     course={this.state.courses.filter((course) => course._id === match.params.course_id)[0]}
-                // isLoading={this.state.courses_are_loading}
+                    isLoading={this.state.courses_are_loading}  // every component that depends on data fetched should be notified if the data arrived or not so id dosen't render undefined data
+
                 // errMess={this.props.dishes.errMess}
-                // comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.course_id, 10))}
-                // commentsErrMess={this.props.comments.errMess}
-                // addComment={this.props.addComment}
-                // postComment={this.props.postComment}
                 />
             );
         };
@@ -107,7 +99,7 @@ class Main extends Component {
                     </Route>
 
                     <Route exact path="/courses">
-                        <Coursespage courses={this.state.courses} />
+                        <Coursespage courses={this.state.courses} isLoading={this.state.courses_are_loading} />
                     </Route>
 
                     <Route path="/newcourse">

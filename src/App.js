@@ -4,7 +4,6 @@ import './App.css';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
-import Header from './components/HeaderComponent/HeaderComponent.js';
 // import Main from './components/HomeComponent.js'
 import Main from './components/mainComponent/MainComponent';
 
