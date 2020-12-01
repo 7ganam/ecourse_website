@@ -8,6 +8,7 @@ import {
 import "./WorkspaceCard.css"
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { baseUrl } from "../../../../shared/baseURL"
 
 const WorkspaceCard = (props) => {
 
@@ -24,8 +25,7 @@ const WorkspaceCard = (props) => {
     return (
         <div>
             <Card>
-
-                <CardImg top src={props.img} alt="Card image cap" />
+                <CardImg top src={baseUrl + "uploads/images/workspaces/" + props.img} alt={baseUrl + "uploads/images/workspaces/" + props.img} />
                 <CardBody>
                     <CardTitle ><h4 className="workspace_card_title">{props.title}</h4></CardTitle>
                     {/* <CardSubtitle>Author:</CardSubtitle> */}

@@ -14,7 +14,7 @@ class FeaturedWorkspaces extends Component {
                 <WorkspaceCard
                     key={workspace._id}
                     workspace_id={workspace._id}
-                    img={"workspaces_images/" + workspace.logo_image}
+                    img={workspace.logo_image}
                     title={workspace.workspace_name}
                     price={workspace.session_price}
                     rating={workspace.rating}

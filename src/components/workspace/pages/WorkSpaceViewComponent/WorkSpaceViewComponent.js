@@ -273,7 +273,7 @@ class WorkspaceView extends Component {
 
                                 <CardBody style={{ height: "400px" }}>
 
-                                    <MapContainer name={this.state.workspace_name} location={this.state.location} />
+                                    {<MapContainer name={this.state.workspace_name} location={this.state.location} />}
 
                                 </CardBody>
                             </Card>

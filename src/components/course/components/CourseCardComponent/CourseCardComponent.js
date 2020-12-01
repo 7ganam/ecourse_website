@@ -22,7 +22,7 @@ const CourseCard = (props) => {
         <div>
             <Card>
 
-                <CardImg top src={baseUrl + "uploads/images/" + props.img} alt={baseUrl + "uploads/images/" + props.img} />
+                <CardImg top src={baseUrl + "uploads/images/courses/" + props.img} alt={baseUrl + "uploads/images/courses" + props.img} />
                 <CardBody>
                     <CardTitle ><h4 className="card_title">{props.title}</h4></CardTitle>
                     {/* <CardSubtitle>Author:</CardSubtitle> */}

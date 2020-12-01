@@ -34,7 +34,7 @@ class FeaturedCourses extends Component {
                 </div>
             </Col>
         ))
-        console.log("props.courses", this.state.courses)
+        // console.log("props.courses", this.state.courses)
         return (
             <div id="all2">
                 <Container id="title_container">

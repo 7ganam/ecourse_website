@@ -14,7 +14,7 @@ import promo from './images/promo.svg'
 import vline from './images/vline.svg'
 
 import FeaturedCourses from '../../../course/components/FeateuredCourses_Component/FeateuredCourses_Component';
-import Workspaces from '../../../workspace/components/FeaturedWorkspacesComponent/FeaturedWorkspacesComponent';
+import FeaturedWorkspaces from '../../../workspace/components/FeaturedWorkspacesComponent/FeaturedWorkspacesComponent';
 
 
 import './Home.css'
@@ -27,7 +27,7 @@ class Home extends Component {
         this.state = {
             courses: this.props.courses,
             workspaces: this.props.workspaces,
-            isLoading: this.props.isLoading
+
         };
 
 
@@ -37,6 +37,7 @@ class Home extends Component {
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
     }
+
 
     container_styles = {
         // justifyContent: 'center'
@@ -54,8 +55,8 @@ class Home extends Component {
         backgroundColor: 'white'
     }
 
-    render_courses(isLoading) {
-        if (isLoading) {
+    render_courses(coursesAreLoading) {
+        if (coursesAreLoading) {
             return (
                 <h1>loading...</h1>
             );
@@ -72,6 +73,23 @@ class Home extends Component {
     }
 
 
+
+    render_workspaces(workspacesAreLoading) {
+        if (workspacesAreLoading) {
+            return (
+                <h1>loading...</h1>
+            );
+        }
+        else if (this.props.workspaces != null) { // don't know why did I need this .. read it later ::TODO:
+            return (
+                <FeaturedWorkspaces workspaces={this.props.workspaces} />
+            );
+        }
+        else {
+            return (null)
+        }
+
+    }
 
     render() {
         // render_courses
@@ -102,9 +120,9 @@ class Home extends Component {
                 </div>
                 <Illustration />
 
-                {this.render_courses(this.props.isLoading)}
+                {this.render_courses(this.props.coursesAreLoading)}
+                {this.render_workspaces(this.props.workspacesAreLoading)}
 
-                <Workspaces workspaces={this.state.workspaces} />
             </div>
         );
 

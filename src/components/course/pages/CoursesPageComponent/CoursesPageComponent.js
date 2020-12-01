@@ -40,7 +40,7 @@ class CoursesPage extends Component {
                 <Container >
 
                     <Row className='justify-content-center'>
-                        {!this.props.isLoading && this.render_courses()}
+                        {!this.props.coursesAreLoading && this.render_courses()}
 
                     </Row>
 

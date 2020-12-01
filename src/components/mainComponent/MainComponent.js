@@ -35,16 +35,22 @@ class Main extends Component {
             courses: "",
             courses_are_loading: true,
             workspaces: WORKSPACES_DATA.default,
-            workspaces_are_loadin: true,
+            workspaces_are_loading: true,
+
         };
 
         this.fetchCourses = this.fetchCourses.bind(this);
+        this.fetchWorkspaces = this.fetchWorkspaces.bind(this);
+
+
     }
 
 
 
     componentDidMount() {
         this.fetchCourses()
+        this.fetchWorkspaces()
+
     }
 
 
@@ -56,6 +62,17 @@ class Main extends Component {
                 // console.log("coursesd", coursesd)
                 this.setState({ courses: recieved_courses })
                 this.setState({ courses_are_loading: false })
+            });
+        //TODO:: error handling 
+    }
+
+    fetchWorkspaces = () => {
+        return fetch(baseUrl + 'workspaces')
+            .then(response => response.json())
+            .then(recieved_workspaces => {
+                // console.log("coursesd", coursesd)
+                this.setState({ workspaces: recieved_workspaces })
+                this.setState({ workspaces_are_loading: false })
             });
         //TODO:: error handling 
     }
@@ -76,7 +93,7 @@ class Main extends Component {
         const workspace_with_id = ({ match }) => {
             return (
                 <WorkSpaceView workspace={this.state.workspaces.filter((workspace) => workspace._id === match.params.workspace_id)[0]}
-                // isLoading={this.props.dishes.isLoading}
+                    isLoading={this.state.worksapces_are_loading}
                 // errMess={this.props.dishes.errMess}
                 // comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.course_id, 10))}
                 // commentsErrMess={this.props.comments.errMess}
@@ -91,15 +108,19 @@ class Main extends Component {
                 <Router>
                     <Header />
                     <Route exact path="/">
-                        <Home courses={this.state.courses} isLoading={this.state.courses_are_loading} workspaces={this.state.workspaces} />
+                        <Home courses={this.state.courses}
+                            coursesAreLoading={this.state.courses_are_loading}
+                            workspaces={this.state.workspaces}
+                            workspacesAreLoading={this.state.workspaces_are_loading}
+                        />
                     </Route>
 
                     <Route exact path="/workspaces">
-                        <WorkspacesPage workspaces={this.state.workspaces} />
+                        <WorkspacesPage workspaces={this.state.workspaces} workspacesAreLoading={this.state.workspaces_are_loading} />
                     </Route>
 
                     <Route exact path="/courses">
-                        <Coursespage courses={this.state.courses} isLoading={this.state.courses_are_loading} />
+                        <Coursespage courses={this.state.courses} coursesAreLoading={this.state.courses_are_loading} />
                     </Route>
 
                     <Route path="/newcourse">
