@@ -9,7 +9,11 @@ import WorkSpaceView from '../workspace/pages/WorkSpaceViewComponent/WorkSpaceVi
 import Footer from '../shared/components/FooterComponent'
 import Coursespage from '../course/pages/CoursesPageComponent/CoursesPageComponent';
 import WorkspacesPage from '../workspace/pages/WorkspacesPageComponent/WorkspacesPageComponent';
-import Auth from "../shared/pages/AuthPageComponent/AuthPageComponent"
+import AuthPage from "../shared/pages/AuthPageComponent/AuthPageComponent"
+import Auth from "../shared/components/AuthModalComponent/AuthModalComponent"
+import LoginModal from "../shared/components/loginModalComponent/loginModalComponent"
+import SignUpModal from "../shared/components/signUpModalComponent/signUpModalComponent"
+
 
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -38,19 +42,29 @@ class Main extends Component {
             workspaces: WORKSPACES_DATA.default,
             workspaces_are_loading: true,
             isLoggedIn: false,
-
+            show_auth_modal: false,
+            show_login_modal: false,
+            show_signup_modal: false,
         };
 
         this.fetchCourses = this.fetchCourses.bind(this);
         this.fetchWorkspaces = this.fetchWorkspaces.bind(this);
-        this.login = this.login.bind(this);
+
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
 
+        this.set_show_auth_modal = this.set_show_auth_modal.bind(this);
+        this.unset_show_auth_modal = this.unset_show_auth_modal.bind(this);
 
+        this.set_show_login_modal = this.set_show_login_modal.bind(this);
+        this.unset_show_login_modal = this.unset_show_login_modal.bind(this);
+
+        this.set_show_signup_modal = this.set_show_signup_modal.bind(this);
+        this.unset_show_signup_modal = this.unset_show_signup_modal.bind(this);
 
 
     }
+
 
     login() {
         this.setState({ isLoggedIn: true });
@@ -59,18 +73,33 @@ class Main extends Component {
         this.setState({ isLoggedIn: false });
     };
 
+    set_show_auth_modal() {
+        this.setState({ show_auth_modal: true });
+    }
+    unset_show_auth_modal() {
+        this.setState({ show_auth_modal: false });
+    }
 
+    set_show_login_modal() {
+        this.setState({ show_login_modal: true });
+    }
+    unset_show_login_modal() {
+        this.setState({ show_login_modal: false });
+    }
 
+    set_show_signup_modal() {
+        this.setState({ show_signup_modal: true });
+    }
+    unset_show_signup_modal() {
+        this.setState({ show_signup_modal: false });
+    }
 
 
 
     componentDidMount() {
         this.fetchCourses()
         this.fetchWorkspaces()
-
     }
-
-
 
     fetchCourses = () => {
         return fetch(baseUrl + 'courses')
@@ -82,7 +111,6 @@ class Main extends Component {
             });
         //TODO:: error handling 
     }
-
     fetchWorkspaces = () => {
         return fetch(baseUrl + 'workspaces')
             .then(response => response.json())
@@ -102,18 +130,16 @@ class Main extends Component {
                 <CourseView
                     course={this.state.courses.filter((course) => course._id === match.params.course_id)[0]}
                     isLoading={this.state.courses_are_loading}  // every component that depends on data fetched should be notified if the data arrived or not so id dosen't render undefined data
-
                 // errMess={this.props.dishes.errMess}
                 />
             );
         };
+
         const workspace_with_id = ({ match }) => {
             return (
                 <WorkSpaceView workspace={this.state.workspaces.filter((workspace) => workspace._id === match.params.workspace_id)[0]}
                     isLoading={this.state.workspaces_are_loading}
-
                 // errMess={this.props.dishes.errMess}
-
                 />
             );
         };
@@ -121,8 +147,29 @@ class Main extends Component {
         return (
             <div>
                 <AuthContext.Provider
-                    value={{ isLoggedIn: this.state.isLoggedIn, login: this.login, logout: this.logout }}
+                    value={{
+
+                        isLoggedIn: this.state.isLoggedIn,
+                        login: this.login,
+                        logout: this.logout,
+
+                        show_auth_modal: this.state.show_auth_modal,
+                        set_show_auth_modal: this.set_show_auth_modal,
+                        unset_show_auth_modal: this.unset_show_auth_modal,
+
+                        show_login_modal: this.show_login_modal,
+                        set_show_login_modal: this.set_show_login_modal,
+                        unset_show_login_modal: this.unset_show_login_modal,
+
+                        show_signup_modal: this.show_signup_modal,
+                        set_show_signup_modal: this.set_show_signup_modal,
+                        unset_show_signup_modal: this.unset_show_signup_modal,
+
+                    }}
                 >
+                    <LoginModal showModal={this.state.show_login_modal} />
+                    <SignUpModal showModal={this.state.show_signup_modal} />
+
                     <Router>
                         <Header />
                         <Route exact path="/">
@@ -160,7 +207,7 @@ class Main extends Component {
 
                         <Route path="/workspaces/:workspace_id" component={workspace_with_id} />
 
-                        <Route path="/auth" component={Auth} />
+                        <Route path="/auth" component={AuthPage} />
                         {/* <MapContainer /> */}
                         <Footer />
 

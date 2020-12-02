@@ -26,9 +26,21 @@ class Header extends Component {
             nav_class_name: ""
         };
         this.login = this.login.bind(this);
+        this.show_login_modal = this.show_login_modal.bind(this);
+        this.show_singup_modal = this.show_singup_modal.bind(this);
 
     }
+
     static contextType = AuthContext;
+    show_login_modal() {
+        this.context.set_show_login_modal();
+        console.log(this.context)
+    }
+    show_singup_modal() {
+        this.context.set_show_signup_modal();
+        console.log(this.context)
+    }
+
 
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
@@ -81,7 +93,7 @@ class Header extends Component {
 
                         <Nav className="ml-xl-3">
                             <NavItem className=''>
-                                <form className="form-inline ">
+                                <form className="form-inline " style={{ flexFlow: "row" }}>
                                     <div className="md-form my-0">
                                         <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                                     </div>
@@ -91,9 +103,9 @@ class Header extends Component {
                         </Nav>
 
 
-                        <Nav className="ml-4 ml-xl-auto" navbar>
+                        <Nav style={{}} className="ml-4 ml-xl-auto" navbar>
 
-                            <NavItem className=''>
+                            <NavItem >
 
                                 <Link to="/">
                                     <div className="nav-link" to='/home'><span className="fa fa-home fa-lg"></span> Home</div>
@@ -123,20 +135,24 @@ class Header extends Component {
                                 </Link>
                             </NavItem>
                             {!this.context.isLoggedIn &&
-                                <div>
-                                    <Button onClick={this.login} id="" className="my-1 mr-md-2 " outline ><span className="fa fa-sign-in fa-lg "></span> Login</Button>
-                                    <Button color="success" id="" className=" my-1 mr-md-2 "  ><span className="fa fa-sign-in fa-lg"></span> Sign Up</Button>
-                                </div>
+                                <Button onClick={this.show_login_modal} id="" className="my-1 mr-md-2 " outline ><span className="fa fa-sign-in fa-lg "></span> Login</Button>
                             }
+                            {!this.context.isLoggedIn &&
+                                <Button onClick={this.show_singup_modal} color="success" id="" className=" my-1 mr-md-2 "  ><span className="fa fa-sign-in fa-lg"></span> Sign Up</Button>
+                            }
+
                             {this.context.isLoggedIn &&
-                                <img src={baseUrl + "uploads/images/users/" + 'm2.jpeg'} alt="Avatar" class="avatar"></img>
+                                <NavItem className=''>
+                                    <img src={baseUrl + "uploads/images/users/" + 'm2.jpeg'} alt="Avatar" class="avatar" ></img>
+                                </NavItem>
                             }
+
                         </Nav>
 
                     </Collapse>
 
                 </Navbar>
-            </div>
+            </div >
         );
     }
 }

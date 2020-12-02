@@ -19,29 +19,28 @@ import { baseUrl } from "../../../../shared/baseURL"
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 
-import Auth from "../AuthModalComponent/AuthModalComponent"
+import Auth from "../../components/AuthModalComponent/AuthModalComponent"
+import { AuthContext } from '../../context/auth-context';
+
 class Authpage extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            modal_isopen: false,
-        };
-        this.toggle_modal = this.toggle_modal.bind(this)
+        this.show_modal = this.show_modal.bind(this);
 
     }
 
-
-    toggle_modal() {
-        this.setState({ modal_isopen: !this.state.modal_isopen })
+    static contextType = AuthContext;
+    show_modal() {
+        this.context.set_show_auth_modal();
+        console.log(this.context)
     }
 
 
     render() {
         return (
-            <div >
-                <button style={{ marginTop: "330px" }} type="button" onClick={this.toggle_modal}>modal</button>
-                <Auth showModal={this.state.modal_isopen} toggle_modal={this.toggle_modal} />
+            <div style={{ marginTop: "222px" }} >
+                <Button onClick={this.show_modal} id="" className="my-1 mr-md-2 " outline ><span className="fa fa-sign-in fa-lg "></span> show</Button>
+                {/* <Auth showModal={this.context.show_auth_modal} /> */}
             </div>
 
         )
