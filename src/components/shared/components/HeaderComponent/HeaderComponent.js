@@ -34,18 +34,18 @@ class Header extends Component {
     static contextType = AuthContext;
     show_login_modal() {
         this.context.set_show_login_modal();
-        console.log(this.context)
+        // console.log(this.context)
     }
     show_singup_modal() {
         this.context.set_show_signup_modal();
-        console.log(this.context)
+        // console.log(this.context)
     }
 
 
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
         const logs = this.context
-        console.log(logs)
+        // console.log(logs)
     }
 
     toggleNav() {
@@ -143,7 +143,8 @@ class Header extends Component {
 
                             {this.context.isLoggedIn &&
                                 <NavItem className=''>
-                                    <img src={baseUrl + "uploads/images/users/" + 'm2.jpeg'} alt="Avatar" class="avatar" ></img>
+                                    <img src={`${baseUrl}/uploads/images/users/${this.context.user.image}`} alt="Avatar" class="avatar" ></img>
+
                                 </NavItem>
                             }
 

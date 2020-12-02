@@ -27,6 +27,7 @@ import * as WORKSPACES_DATA from '../../shared/workspaces_data.json';
 import { baseUrl } from "../../shared/baseURL"
 
 import { AuthContext } from '../shared/context/auth-context';
+import { faTextHeight } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -35,7 +36,6 @@ import { AuthContext } from '../shared/context/auth-context';
 class Main extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             courses: [],
             courses_are_loading: true,
@@ -45,6 +45,7 @@ class Main extends Component {
             show_auth_modal: false,
             show_login_modal: false,
             show_signup_modal: false,
+            user: {},
         };
 
         this.fetchCourses = this.fetchCourses.bind(this);
@@ -61,6 +62,8 @@ class Main extends Component {
 
         this.set_show_signup_modal = this.set_show_signup_modal.bind(this);
         this.unset_show_signup_modal = this.unset_show_signup_modal.bind(this);
+
+        this.set_user = this.set_user.bind(this);
 
 
     }
@@ -92,6 +95,10 @@ class Main extends Component {
     }
     unset_show_signup_modal() {
         this.setState({ show_signup_modal: false });
+    }
+
+    set_user(input_user) {
+        this.setState({ user: input_user })
     }
 
 
@@ -165,6 +172,8 @@ class Main extends Component {
                         set_show_signup_modal: this.set_show_signup_modal,
                         unset_show_signup_modal: this.unset_show_signup_modal,
 
+                        user: this.state.user,
+                        set_user: this.set_user,
                     }}
                 >
                     <LoginModal showModal={this.state.show_login_modal} />

@@ -114,15 +114,15 @@ body {
 }
 
 
-#myModal{
-	margin-top: 200px;
+#singup_Modal{
+	margin-top: 100px;
 
 }
 .modal-login .btn, .modal-login .btn:active {
 	color: #fff;
 	border-radius: 4px;
 	/* background: #60c7c1 !important; */
-	background: rgb(31, 170, 26)!important;
+	/* background: rgb(31, 170, 26); */
 	text-decoration: none;
 	transition: all 0.4s;
 	line-height: normal;
@@ -130,7 +130,7 @@ body {
 }
 .modal-login .btn:hover, .modal-login .btn:focus {
 	/* background: #45aba6 !important; */
-	background: rgb(25,102,22)!important;;
+	/* background: rgb(25,102,22); */
 	/* background: linear-gradient(90deg, rgba(25,102,22,1) 1%, rgba(0,179,60,1) 53%, rgba(1,255,0,1) 100%)!important;; */
 	outline: none;
 }

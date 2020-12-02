@@ -18,22 +18,48 @@ class LoginModal extends Component {
         super(props);
         this.state = {
             modal: false,
+
+            email: "",
+            password: "",
+
+            recieved_user: {},
+
+            sending_datasending_data: false,
+            loggedin_successfuly: false,
         };
         this.render_modal = this.render_modal.bind(this);
         this.login = this.login.bind(this);
         this.hide_modal = this.hide_modal.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
 
     }
 
+
+    handleInputChange(event) {
+        // console.log(event.target)
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+
     static contextType = AuthContext;
-    login(e) {
-        e.preventDefault()
+    login(user) {
+
+        this.context.set_user(user)
         this.context.login();
+        console.log({ user })
         this.hide_modal()
     }
     hide_modal() { // set the show_login_modal to false .. the modal is drawn in the main component above the router
         this.context.unset_show_login_modal();
-        console.log(this.context.show_login_modal)
+        console.log(this.context.user)
     }
     render_modal(showModal) {
         let should_open = showModal
@@ -52,13 +78,19 @@ class LoginModal extends Component {
                             <ModalBody>
                                 <form >
                                     <div class="form-group">
-                                        <input type="text" class="form-control" name="username" placeholder="Username" required="required" />
+                                        <input type="text" class="form-control" name="email" placeholder="Email" required="required"
+                                            value={this.state.email}
+                                            onChange={this.handleInputChange}
+                                        />
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control" name="password" placeholder="Password" required="required" />
+                                        <input type="password" class="form-control" name="password" placeholder="Password" required="required"
+                                            value={this.state.password}
+                                            onChange={this.handleInputChange}
+                                        />
                                     </div>
                                     <div class="form-group">
-                                        <button type="submit" onClick={e => this.login(e)} class="btn btn-primary btn-lg btn-block login-btn">Log in</button>
+                                        <button type="submit" onClick={e => this.submit_handler(e)} class="btn btn-primary btn-lg btn-block login-btn">Log in</button>
                                     </div>
                                 </form>
                             </ModalBody>
@@ -73,6 +105,50 @@ class LoginModal extends Component {
 
         );
     }
+
+    submit_handler = async event => {
+        event.preventDefault();
+        try {
+            this.setState({ sending_data: true })
+            const response = await fetch(
+                `http://localhost:5000/users/login`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify({
+                    email: this.state.email,
+                    password: this.state.password,
+                })
+            })
+
+
+            const response_json_content = await response.json()
+            // console.log(image_Data);
+            if (!response.ok) {
+                this.setState({ fetch_error: true })
+                throw new Error(response_json_content.message || "can't fetch data ... could be a connection error or unhandled back end error"); // if it's an error the back end should attach a message attribute
+            }
+
+            this.setState({ sending_course_data: false })
+            if (response_json_content.message == "Logged in!") {
+                this.setState({ loggedin_successfuly: true })
+                this.setState({ recieved_user: response_json_content.user })
+                // console.log(response_json_content.user)
+                this.login(response_json_content.user)
+            }
+
+        } catch (err) {
+            this.setState({ sending_data: false })
+            this.setState({ error_message: err.message })
+            console.log(err);
+        }
+
+    };
+
+
+
 
     render() {
         return (

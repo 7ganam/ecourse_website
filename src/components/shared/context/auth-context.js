@@ -12,6 +12,7 @@ export const AuthContext = createContext({
   unset_show_login_modal: () => { },
   show_signup_modal: false,
   set_show_signup_modal: () => { },
-  unset_show_signup_modal: () => { }
-
+  unset_show_signup_modal: () => { },
+  users: {},
+  set_user: () => { },
 });

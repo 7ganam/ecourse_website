@@ -41,8 +41,8 @@ class Home extends Component {
 
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
-        const logs = this.context
-        console.log(logs)
+        // const logs = this.context
+        // console.log(logs)
     }
 
 
@@ -101,7 +101,7 @@ class Home extends Component {
 
     login() {
         this.context.login();
-        console.log(this.context)
+        // console.log(this.context)
 
     }
     render() {

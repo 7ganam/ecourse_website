@@ -270,7 +270,7 @@ class CourseView extends Component {
                                 Coures description
                                         </h2>
                             <p className="px-3">
-                                {this.props.course.course_description}
+                                {this.props.course.description}
                             </p>
                         </Col>
                     </Row>
