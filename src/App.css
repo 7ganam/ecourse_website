@@ -2,8 +2,16 @@
 .footer {
     /* background-color: #6add47;
      */
-    background: rgb(106,221,71);
-    background: linear-gradient(90deg, rgba(106,221,71,1) 5%, rgba(175,177,198,0.6965161064425771) 79%);
+     background: rgb(25,102,22);
+     background: linear-gradient(90deg, rgba(25,102,22,1) 1%, rgba(0,179,60,1) 53%, rgba(1,255,0,1) 100%);
     margin: 0px auto;
-    padding: 100px 0px 20px 0px;
+    padding: 50px 0px 20px 0px;
+  }
+
+  .avatar {
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: 5px;
   }

@@ -42,7 +42,7 @@ const CourseCard = (props) => {
                         </div>
                     </CardText>
                     <Link to={`/courses/${props.course_id}`} >
-                        <Button color="success" >Register: <span className="card_text_main"> {props.price}$</span></Button>
+                        <Button color="success" >Find more <span className="card_text_main"></span></Button>
                     </Link >
                 </CardBody>
             </Card>

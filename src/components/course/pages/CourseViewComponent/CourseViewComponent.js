@@ -56,35 +56,42 @@ function What_will_you_learn_view(props) {
 }
 
 
-
-
-
-
-
-
 class CourseView extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-
-            Sessions: this.props.course.Sessions // i need to keep the sessions in state because the closed opened of the cards is stored in it ... this is a bad design TODO: fix this issue later
-
+            Sessions: [],// this.props.course.Sessions, // i need to keep the sessions in state because the closed opened of the cards is stored in it ... this is a bad design TODO: fix this issue later
+            isLoading: this.props.isLoading,
+            course: [],
         };
-
-
-
+        this.course_view = this.course_view.bind(this);
 
     }
 
-    rating_stars_confs = {
-        size: 30,
-        value: this.props.course.rating,
-        edit: false,
-        activeColor: "#63C019",
-        isHalf: true,
 
-    };
+    static getDerivedStateFromProps(props, state) { //this is used to set the state to the new props value .. it should used with care as it might cause infinit rendering loop
+        if (!!props.course && (props.course.length !== state.course.length)) { // this condition needs to be revisted ... it just worked so i will let it as is now
+            return {
+                isLoading: props.isLoading,
+                course: props.course,
+                Sessions: props.course.Sessions,
+            };
+        }
+        return null;
+    }
+
+
+    rating_stars_confs() {
+        let x = {
+            size: 30,
+            value: this.state.course.rating,
+            edit: false,
+            activeColor: "#63C019",
+            isHalf: true,
+        }
+        return (x)
+    }
 
     handle_session_card_toggle_factory(in_session_index) {
         const session__index = in_session_index; // closure variable different for every instance of the returned functions
@@ -109,7 +116,9 @@ class CourseView extends Component {
 
     }
 
-    render() {
+    loading_component = () => { return (<div style={{ marginTop: "200px" }}>loading .... </div>) }
+
+    course_view = () => {
 
         let Sessions_views = this.state.Sessions.map((session, index) => (
             <Card >
@@ -152,10 +161,6 @@ class CourseView extends Component {
                 </Collapse>
             </Card>
         ))
-
-
-        console.log("course_veiw", this.props)
-
         return (
             <div id="CourseViewComponent_all">
                 <Jumbotron id="course_jumb" className="jumb">
@@ -172,7 +177,7 @@ class CourseView extends Component {
                                 <div id="rating_container">
                                     <span id="rating_number">{this.props.course.rating}</span>
                                     <span>
-                                        <ReactStars {...this.rating_stars_confs} />
+                                        <ReactStars {...this.rating_stars_confs()} />
                                     </span>
                                 </div>
                             </Col>
@@ -206,7 +211,7 @@ class CourseView extends Component {
 
                                 <Card>
 
-                                    <CardImg top src={`${baseUrl}/uploads/images/${this.props.course.img}`} alt="Card image cap" style={{ height: '15rem', objectFit: 'cover' }} />
+                                    <CardImg top src={`${baseUrl}/uploads/images/courses/${this.props.course.img}`} alt="Card image cap" style={{ height: '15rem', objectFit: 'cover' }} />
                                     <CardBody>
                                         <CardTitle>
 
@@ -282,8 +287,13 @@ class CourseView extends Component {
                     </Row>
                 </Container>
 
-            </div>
+            </div>)
+    }
 
+    render() {
+
+        return (
+            this.state.isLoading ? this.loading_component() : this.course_view()
         );
     }
 }

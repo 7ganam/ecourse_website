@@ -58,59 +58,84 @@ class WorkspaceView extends Component {
         super(props);
 
         this.state = {
-            session_price: this.props.workspace.session_price,
-            workspace_name: this.props.workspace.workspace_name,
-            location: this.props.workspace.location,
-            number_of_seats: this.props.workspace.number_of_seats,
-            rating: this.props.workspace.rating,
-            address: this.props.workspace.address,
-            number_of_seats: this.props.workspace.number_of_seats,
-            phone: this.props.workspace.phone,
-            logo_image: this.props.workspace.logo_image,
-            images: this.props.workspace.images,
-            utilities: this.props.workspace.utilities,
+            isLoading: this.props.isLoading,
+            session_price: "",             //this.props.workspace.session_price,
+            workspace_name: "",             //this.props.workspace.workspace_name,
+            location: "",             // this.props.workspace.location,
+            number_of_seats: "",             //this.props.workspace.number_of_seats,
+            rating: "",             // this.props.workspace.rating,
+            address: "",             //this.props.workspace.address,
+            number_of_seats: "",             // this.props.workspace.number_of_seats,
+            phone: "",             // this.props.workspace.phone,
+            logo_image: "",             // this.props.workspace.logo_image,
+            images: "",             // this.props.workspace.images,
+            utilities: "",             //this.props.workspace.utilities,
 
         };
 
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
+        // session_price: this.props.workspace.session_price,
+        // workspace_name: this.props.workspace.workspace_name,
+        // location: this.props.workspace.location,
+        // number_of_seats: this.props.workspace.number_of_seats,
+        // rating: this.props.workspace.rating,
+        // address: this.props.workspace.address,
+        // number_of_seats: this.props.workspace.number_of_seats,
+        // phone: this.props.workspace.phone,
+        // logo_image: this.props.workspace.logo_image,
+        // images: this.props.workspace.images,
+        // utilities: this.props.workspace.utilities,
 
     }
 
-    handleInputChange(event) {
-        const target = event.target;
-        const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
 
-        this.setState({
-            [name]: value
-        });
+    static getDerivedStateFromProps(props, state) { //this is used to set the state to the new props value .. it should used with care as it might cause infinit rendering loop
+        console.log(state.isLoading, props.isLoading)
+        if (!props.isLoading) {
+            return {
+                isLoading: props.isLoading,
+                session_price: props.workspace.session_price,
+                workspace_name: props.workspace.workspace_name,
+                location: props.workspace.location,
+                number_of_seats: props.workspace.number_of_seats,
+                rating: props.workspace.rating,
+                address: props.workspace.address,
+                number_of_seats: props.workspace.number_of_seats,
+                phone: props.workspace.phone,
+                logo_image: props.workspace.logo_image,
+                images: props.workspace.images,
+                utilities: props.workspace.utilities,
+            };
+        }
+        return null;
     }
 
-    handleSubmit(event) {
-        console.log('Current State is: ' + JSON.stringify(this.state));
-        alert('Current State is: ' + JSON.stringify(this.state));
-        event.preventDefault();
-        console.log(this.state.startDate)
-        console.log(this.state.endDate)
+
+    // rating_confs_object = {
+    //     size: 30,
+    //     value: this.props.workspace.rating,
+    //     edit: false,
+    //     activeColor: "#63C019",
+    //     isHalf: true,
+
+    // };
+
+    rating_confs_object() {
+        let x = {
+            size: 30,
+            value: this.state.rating,
+            edit: false,
+            activeColor: "#63C019",
+            isHalf: true,
+        }
+        return (x)
     }
 
 
-    rating_confs_object = {
-        size: 30,
-        value: this.props.workspace.rating,
-        edit: false,
-        activeColor: "#63C019",
-        isHalf: true,
-
-    };
-
-
-
-    render() {
+    loading_component = () => { return (<div style={{ marginTop: "200px" }}>loading .... </div>) }
+    workspace_view = () => {
 
         return (
+
             <div id="CourseViewComponent_all">
 
                 <Jumbotron className="jumb p-2 " style={{ marginTop: "20px" }}>
@@ -121,7 +146,7 @@ class WorkspaceView extends Component {
                                     className="ws_image m-0"
                                     // src={require('./ws1.webp')}
 
-                                    src={baseUrl + "/workspaces_images/" + this.state.images[0]}
+                                    src={baseUrl + "/uploads/images/workspaces/" + this.state.images[0]}
                                 />
                             </Col>
 
@@ -130,7 +155,7 @@ class WorkspaceView extends Component {
                                     <Col className="p-0 secenodary_image " sm={12} lg={6} >
                                         <img
                                             className="ws_image m-0"
-                                            src={baseUrl + "/workspaces_images/" + this.state.images[0]}
+                                            src={baseUrl + "/uploads/images/workspaces/" + this.state.images[0]}
                                         />
 
                                     </Col>
@@ -138,7 +163,7 @@ class WorkspaceView extends Component {
                                     <Col className="p-0 secenodary_image " sm={12} lg={6} >
                                         <img
                                             className="ws_image m-0"
-                                            src={baseUrl + "/workspaces_images/" + this.state.images[1]}
+                                            src={baseUrl + "/uploads/images/workspaces/" + this.state.images[1]}
                                         />
                                     </Col>
 
@@ -146,7 +171,7 @@ class WorkspaceView extends Component {
                                         <img
                                             className="ws_image m-0"
                                             // src={`http://localhost:3000/workspaces_images/ws3.webp`}
-                                            src={baseUrl + "/workspaces_images/" + this.state.images[2]}
+                                            src={baseUrl + "/uploads/images/workspaces/" + this.state.images[2]}
                                         />
                                     </Col>
 
@@ -154,7 +179,7 @@ class WorkspaceView extends Component {
                                         <img
                                             className="ws_image m-0"
                                             // src={`http://localhost:3000/workspaces_images/ws4.webp`}
-                                            src={baseUrl + "/workspaces_images/" + this.state.images[3]}
+                                            src={baseUrl + "/uploads/images/workspaces/" + this.state.images[3]}
                                         />
 
                                     </Col>
@@ -176,7 +201,7 @@ class WorkspaceView extends Component {
                                 <Card>
 
                                     <CardImg top
-                                        src={baseUrl + "/workspaces_images/" + this.state.logo_image} alt="Card image cap" style={{ height: '15rem', objectFit: 'cover' }} />
+                                        src={baseUrl + "/uploads/images/workspaces/" + this.state.logo_image} alt="Card image cap" style={{ height: '15rem', objectFit: 'cover' }} />
                                     <CardBody className="p-0">
                                         <ListGroup>
                                             <ListGroupItem>
@@ -239,9 +264,9 @@ class WorkspaceView extends Component {
 
 
                         <div id="rating_container">
-                            <span id="rating_number">{this.rating_confs_object.value}</span>
+                            <span id="rating_number">{this.rating_confs_object().value}</span>
                             <span>
-                                <ReactStars {...this.rating_confs_object} />
+                                <ReactStars {...this.rating_confs_object()} />
                             </span>
                         </div>
 
@@ -252,12 +277,12 @@ class WorkspaceView extends Component {
                         <div id="snippit_info">
                             <div >
                                 <i className="fas fa-phone mr-1"></i>
-                                  phone: <span className="mr-4">{this.state.phone}</span>
+                          phone: <span className="mr-4">{this.state.phone}</span>
                             </div >
 
                             <div >
                                 <i className="fas fa-address-card mr-1"></i>
-                                 Address: <span> {this.state.address}</span>
+                         Address: <span> {this.state.address}</span>
                             </div>
 
                             <div>
@@ -287,7 +312,7 @@ class WorkspaceView extends Component {
                         <Col md={{ size: 8, order: 1, offset: 0 }}>
                             <h1>
                                 Our Utilities
-                            </h1>
+                    </h1>
                             <Card>
 
                                 <CardBody>
@@ -313,6 +338,14 @@ class WorkspaceView extends Component {
                 </Container>
 
             </div>
+
+        )
+    }
+
+    render() {
+
+        return (
+            this.state.isLoading ? this.loading_component() : this.workspace_view()
 
         );
     }

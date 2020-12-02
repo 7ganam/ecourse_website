@@ -38,8 +38,8 @@ class FeaturedCourses extends Component {
         return (
             <div id="all2">
                 <Container id="title_container">
-                    <h1 id="title2">
-                        Explore boot camps.. Find your best oportuinty to learn
+                    <h1 id="course_title2">
+                        Explore Courses.. Find your best opportunity to learn
                     </h1>
                 </Container>
 

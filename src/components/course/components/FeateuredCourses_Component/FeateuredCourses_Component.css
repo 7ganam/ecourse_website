@@ -16,9 +16,9 @@
         min-width: 200px;
         margin: auto;
     }
-    #title2{
-        font-family: 'Archivo Black', sans-serif;
-        font-size: 22px;
+    #course_title2{
+        font-family:'Nova Round', cursive;
+        font-size: 30px;
         margin-top: 100px;
         margin-bottom: 100px;
         margin:auto;
@@ -28,8 +28,8 @@
 
   /* small */
 @media only screen and (min-width: 576px){
-    #title2{
-        font-family: 'Archivo Black', sans-serif;
+    #course_title2{
+        font-family: 'Nova Round', cursive;
         font-size: 30px;
         margin-top: 100px;
         margin-bottom: 100px;

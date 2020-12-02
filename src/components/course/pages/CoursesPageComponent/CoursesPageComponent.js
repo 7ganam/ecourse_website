@@ -27,7 +27,6 @@ class CoursesPage extends Component {
     }
 
     render() {
-        console.log("props.courses", this.props.courses)
         return (
             <div id="CoursesPage_all2">
                 <Container id="CoursesPage_title_container">

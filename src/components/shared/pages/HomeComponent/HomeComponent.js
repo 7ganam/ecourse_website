@@ -15,6 +15,7 @@ import vline from './images/vline.svg'
 
 import FeaturedCourses from '../../../course/components/FeateuredCourses_Component/FeateuredCourses_Component';
 import FeaturedWorkspaces from '../../../workspace/components/FeaturedWorkspacesComponent/FeaturedWorkspacesComponent';
+import { AuthContext } from '../../context/auth-context';
 
 
 import './Home.css'
@@ -32,10 +33,16 @@ class Home extends Component {
 
 
         this.render_courses = this.render_courses.bind(this);
+        this.login = this.login.bind(this);
 
     }
+
+    static contextType = AuthContext;
+
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
+        const logs = this.context
+        console.log(logs)
     }
 
 
@@ -91,30 +98,33 @@ class Home extends Component {
 
     }
 
+
+    login() {
+        this.context.login();
+        console.log(this.context)
+
+    }
     render() {
         // render_courses
-
-
-
-
-
         return (
             <div>
                 <div id="all4453">
                     <div id="hero_div111">
-                        <img src={hero_image} id="hero_image111" alt="cairo" />
+                        <img src={hero_image} id="hero_image111" alt="hero_image111" />
                     </div>
-                    <img src={top_righ} id="top_right111" alt="Kiwi standing on oval" />
-                    <img src={big_logo} id="logo" alt="Kiwi standing on oval" />
-                    <img src={title} id="address_and_pupples" alt="Kiwi standing on oval" />
-                    <img src={promo} id="promo" alt="Kiwi standing on oval" />
-                    <img src={vline} id="vline" alt="Kiwi standing on oval" />
+                    <img src={top_righ} id="top_right111" alt="oval" />
+                    <img src={big_logo} id="logo" alt="oval" />
+                    <img src={title} id="address_and_pupples" alt=" oval" />
+                    <img src={promo} id="promo" alt="val" />
+                    <img src={vline} id="vline" alt=" l" />
                     <div className=" button_container ">
                         <Container >
-                            <Row style={this.row_styles} id="buttons_row">
-                                <Button id="log_in_button" className="my-1 my-md-0 mr-sm-2 " outline ><span className="fa fa-sign-in fa-lg "></span> Login</Button>
-                                <Button color="success" id="sign_up_button" className=" my-1 my-md-0 "  ><span className="fa fa-sign-in fa-lg"></span> Sign Up</Button>
-                            </Row>
+                            {!this.context.isLoggedIn &&
+                                <Row style={this.row_styles} id="buttons_row">
+                                    <Button onClick={this.login} id="log_in_button" className="my-1 my-md-0 mr-sm-2 " outline ><span className="fa fa-sign-in fa-lg "></span> Login</Button>
+                                    <Button color="success" id="sign_up_button" className=" my-1 my-md-0 "  ><span className="fa fa-sign-in fa-lg"></span> Sign Up</Button>
+                                </Row>
+                            }
                         </Container>
                     </div>
                 </div>
