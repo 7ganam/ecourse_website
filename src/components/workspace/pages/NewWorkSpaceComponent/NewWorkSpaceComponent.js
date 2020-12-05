@@ -13,6 +13,9 @@ import $ from 'jquery';
 
 import LocationPicker from '../../../shared/components/LocPickerComponent/LocPicker';
 
+
+import { AuthContext } from '../../../shared/context/auth-context';
+
 class Newworkspace extends Component {
     constructor(props) {
         super(props);
@@ -45,6 +48,7 @@ class Newworkspace extends Component {
 
     }
 
+    static contextType = AuthContext;
 
 
     handleInputChange(event) {
@@ -204,6 +208,9 @@ class Newworkspace extends Component {
 
             const response = await fetch(`http://localhost:5000/workspaces`, {
                 method: 'post',
+                headers: {
+                    Authorization: this.context.token ? ('Bearer ' + this.context.token) : ""
+                },
                 body: formData,
             })
 

@@ -39,7 +39,7 @@ class AuthModal extends Component {
         let should_open = showModal
         return (
             <div>
-                <Modal isOpen={showModal} id="myModal" style={{ maxWidth: "350px" }} class="modal fade modal-dialog modal-login">
+                <Modal isOpen={showModal} id="loginModal" style={{ maxWidth: "350px" }} class="modal fade modal-dialog modal-login">
                     <div class="modal-dialog modal-login">
                         <div class="modal-content">
                             <ModalHeader class="modal-header">

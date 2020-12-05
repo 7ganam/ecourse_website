@@ -65,7 +65,8 @@ margin-top: 40px;
 #floatin_container2{
     position: fixed;
     left: 50%;
-    top:270px
+    top:100px;
+    /* opacity:0; */
     
 }
 #floatin_row2{

@@ -73,8 +73,6 @@ class SingUpModal extends Component {
         });
     }
 
-
-
     submit_handler = async event => {
         event.preventDefault();
         try {
@@ -87,7 +85,7 @@ class SingUpModal extends Component {
             formData.append('password', this.state.password);
             formData.append('image', this.state.image);
 
-            const response = await fetch(`http://localhost:5000/users`, {
+            const response = await fetch(`http://localhost:5000/users/signup`, {
                 method: 'post',
                 body: formData,
             })

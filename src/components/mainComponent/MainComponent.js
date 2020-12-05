@@ -46,6 +46,7 @@ class Main extends Component {
             show_login_modal: false,
             show_signup_modal: false,
             user: {},
+            token: "",
         };
 
         this.fetchCourses = this.fetchCourses.bind(this);
@@ -54,8 +55,6 @@ class Main extends Component {
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
 
-        this.set_show_auth_modal = this.set_show_auth_modal.bind(this);
-        this.unset_show_auth_modal = this.unset_show_auth_modal.bind(this);
 
         this.set_show_login_modal = this.set_show_login_modal.bind(this);
         this.unset_show_login_modal = this.unset_show_login_modal.bind(this);
@@ -69,19 +68,30 @@ class Main extends Component {
     }
 
 
-    login() {
+    login(token, input_user, expirateion_date_string) {
         this.setState({ isLoggedIn: true });
+        this.setState({ token: token });
+        this.setState({ user: input_user })
+        this.setState({ expirateion_date_string: expirateion_date_string })
+
+        console.log({ expirateion_date_string })
+        localStorage.setItem(
+            'userData',
+            JSON.stringify({
+                userId: input_user.id,
+                user: input_user,
+                token: token,
+                expirateion_date_string: expirateion_date_string,
+                //   expiration: tokenExpirationDate.toISOString()
+            })
+        );
     };
     logout() {
         this.setState({ isLoggedIn: false });
+        this.setState({ token: null });
+        this.setState({ user: false })
+        localStorage.removeItem('userData');
     };
-
-    set_show_auth_modal() {
-        this.setState({ show_auth_modal: true });
-    }
-    unset_show_auth_modal() {
-        this.setState({ show_auth_modal: false });
-    }
 
     set_show_login_modal() {
         this.setState({ show_login_modal: true });
@@ -89,7 +99,6 @@ class Main extends Component {
     unset_show_login_modal() {
         this.setState({ show_login_modal: false });
     }
-
     set_show_signup_modal() {
         this.setState({ show_signup_modal: true });
     }
@@ -101,13 +110,14 @@ class Main extends Component {
         this.setState({ user: input_user })
     }
 
-
-
     componentDidMount() {
         this.fetchCourses()
         this.fetchWorkspaces()
+        const storedData = JSON.parse(localStorage.getItem('userData'));
+        if (storedData && storedData.token) {
+            this.login(storedData.token, storedData.user);
+        }
     }
-
     fetchCourses = () => {
         return fetch(baseUrl + 'courses')
             .then(response => response.json())
@@ -156,9 +166,11 @@ class Main extends Component {
                 <AuthContext.Provider
                     value={{
 
-                        isLoggedIn: this.state.isLoggedIn,
+                        isLoggedIn: this.state.token ? true : false,  // if we have a token we are logged in  
                         login: this.login,
                         logout: this.logout,
+                        token: this.state.token,
+
 
                         show_auth_modal: this.state.show_auth_modal,
                         set_show_auth_modal: this.set_show_auth_modal,

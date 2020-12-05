@@ -45,7 +45,7 @@ class Header extends Component {
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
         const logs = this.context
-        // console.log(logs)
+        console.log({ logs })
     }
 
     toggleNav() {
@@ -97,7 +97,9 @@ class Header extends Component {
                                     <div className="md-form my-0">
                                         <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                                     </div>
-                                    <Button color="success" href="#!" className="btn btn-outline-white btn-md my-0 ml-sm-2" type="submit">Search</Button>
+                                    <Button
+                                        onClick={(e) => { console.log(this.context) }}
+                                        color="success" href="#!" className="btn btn-outline-white btn-md my-0 ml-sm-2" type="submit">Search</Button>
                                 </form>
                             </NavItem>
                         </Nav>
@@ -143,6 +145,7 @@ class Header extends Component {
 
                             {this.context.isLoggedIn &&
                                 <NavItem className=''>
+                                    <Button onClick={this.context.logout} color="success" id="" className=" my-1 mr-md-2 "  ><span className="fa fa-sign-in fa-lg"></span> Sign out</Button>
                                     <img src={`${baseUrl}/uploads/images/users/${this.context.user.image}`} alt="Avatar" class="avatar" ></img>
 
                                 </NavItem>

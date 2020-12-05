@@ -111,11 +111,14 @@ body {
 
 .modal-login .avatar img {
 	width: 100%;
+
 }
 
 
-#myModal{
+#loginModal{
 	margin-top: 200px;
+	margin-inline: auto;
+
 
 }
 .modal-login .btn, .modal-login .btn:active {

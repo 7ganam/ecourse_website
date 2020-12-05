@@ -25,6 +25,10 @@ import {
     Card, CardHeader, CardFooter, CardBody,
     CardTitle, CardText
 } from 'reactstrap';
+
+
+import { AuthContext } from '../../../shared/context/auth-context';
+
 class NewCourse extends Component {
     constructor(props) {
         super(props);
@@ -68,6 +72,7 @@ class NewCourse extends Component {
 
     }
 
+    static contextType = AuthContext;
 
 
     handleInputChange(event) { // this one handles nonsession form inputs -- whenever a field change it sets corresponding state field -- note the input name field must match the state field name
@@ -313,7 +318,9 @@ class NewCourse extends Component {
             const response = await fetch('http://localhost:5000/courses', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: this.context.token ? ('Bearer ' + this.context.token) : ""
+
                 },
                 body: JSON.stringify({
 

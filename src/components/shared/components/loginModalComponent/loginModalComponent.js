@@ -21,6 +21,8 @@ class LoginModal extends Component {
 
             email: "",
             password: "",
+            token: "",
+            expirateion_date_string: "",
 
             recieved_user: {},
 
@@ -50,22 +52,21 @@ class LoginModal extends Component {
 
 
     static contextType = AuthContext;
-    login(user) {
-
-        this.context.set_user(user)
-        this.context.login();
-        console.log({ user })
+    login(user, token, expirateion_date_string) {
+        // this.context.set_user(user)
+        this.context.login(token, user, expirateion_date_string);
+        // console.log({ user })
         this.hide_modal()
     }
     hide_modal() { // set the show_login_modal to false .. the modal is drawn in the main component above the router
         this.context.unset_show_login_modal();
-        console.log(this.context.user)
     }
+
     render_modal(showModal) {
         let should_open = showModal
         return (
             <div>
-                <Modal isOpen={showModal} id="myModal" style={{ maxWidth: "350px" }} class="modal fade modal-dialog modal-login">
+                <Modal isOpen={showModal} id="loginModal" style={{ maxWidth: "350px" }} class="modal fade modal-dialog modal-login">
                     <div class="modal-dialog modal-login">
                         <div class="modal-content">
                             <ModalHeader class="modal-header">
@@ -135,8 +136,11 @@ class LoginModal extends Component {
             if (response_json_content.message == "Logged in!") {
                 this.setState({ loggedin_successfuly: true })
                 this.setState({ recieved_user: response_json_content.user })
-                // console.log(response_json_content.user)
-                this.login(response_json_content.user)
+                this.setState({ token: response_json_content.token })
+                this.setState({ expirateion_date_string: response_json_content.expirateion_date_string })
+
+                console.log("expiration from login", response_json_content.expirateion_date_string)
+                this.login(response_json_content.user, response_json_content.token, response_json_content.expirateion_date_string)
             }
 
         } catch (err) {

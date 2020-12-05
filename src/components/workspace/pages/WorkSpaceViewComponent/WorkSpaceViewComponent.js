@@ -11,7 +11,7 @@ import { baseUrl } from "../../../../shared/baseURL"
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
+import $ from "jquery";
 import './WorkSpaceViewComponent.css'
 
 
@@ -109,6 +109,27 @@ class WorkspaceView extends Component {
         return null;
     }
 
+    componentDidMount() {
+        $(document).ready(function () {
+            /* Every time the window is scrolled ... */
+            $(window).scroll(function () {
+                /* Check the location of each desired element */
+                $('#floatin_container2').each(function (i) {
+                    var bottom_of_object = $(this).offset().top + $(this).outerHeight(); //didn't use those but they are usefull for future refactoring
+                    var bottom_of_window = $(window).scrollTop() + $(window).height();
+                    /* If the object is completely visible in the window, fade it it */
+                    if ($(window).scrollTop() > $(window).height() / 4) {
+                        $('#floatin_container2').show();
+                    }
+                    if ($(window).scrollTop() < $(window).height() / 4) {
+                        $('#floatin_container2').hide();
+                    }
+                });
+
+            });
+
+        });
+    }
 
     // rating_confs_object = {
     //     size: 30,
