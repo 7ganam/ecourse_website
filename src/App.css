@@ -41,4 +41,29 @@
 
 
 
+  .shadow2{
+ 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+  }
   
+
+
+  .btn-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 30px!important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    color: #28a745!important;
+  }
+  
+
+  .hyphens {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}

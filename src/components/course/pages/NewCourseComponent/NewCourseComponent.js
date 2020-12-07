@@ -21,6 +21,8 @@ import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
 import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +42,7 @@ class NewCourse extends Component {
             new_course_endDate: new Date(),
             new_course_workspace_name: 'No Selection',
             new_course_workspace_id: "",
-            new_course_price: "",
+            new_course_price: 0,
             new_course_description: '',
             new_course_slogan: '',
             number_of_sessions: 1,
@@ -52,7 +54,7 @@ class NewCourse extends Component {
             }], // this sessions object follows the sessions model used in the backend
             Sessions_images: { session_1_img: "" }, // images files of the sessions  stored in object--> will be stored in filesystem in backend ---> image file names will be stored in session objects then
 
-            what_will_learn: ["demo1", "demo2 ", 'demo3', "demo4", "demo5", " demo6", "demo7", "demo8"],
+            what_will_learn: ["", "", "", ""],
             new_course_img_file: "",
 
 
@@ -71,6 +73,10 @@ class NewCourse extends Component {
         this.handle_session_InputChange_factory = this.handle_session_InputChange_factory.bind(this);
         this.handle_number_of_sessions_Change = this.handle_number_of_sessions_Change.bind(this);
         this.handle_image_change = this.handle_image_change.bind(this);
+        this.handle_increase_concepts_button = this.handle_increase_concepts_button.bind(this);
+
+
+
 
     }
 
@@ -319,6 +325,46 @@ class NewCourse extends Component {
         }
     }
 
+
+    handle_increase_concepts_button() {
+
+
+        if (this.state.what_will_learn.length < 20) {
+            let concets = [...this.state.what_will_learn];
+            let New_concets = concets.concat("");
+            this.setState({
+                what_will_learn: New_concets
+            });
+        }
+        else {
+            alert("you can have 20 concepts max")
+        }
+
+    }
+
+    handle_concepts_change_factory(in_concept_index) {
+
+        const concept__index = in_concept_index; // closure variable different for every instance of the returned functions
+        return (
+            (event) => {
+
+                const target = event.target;
+                const value = target.value;
+
+                // 1. Make a shallow copy of the Sessions
+                let concepts_copy = [...this.state.what_will_learn];
+                concepts_copy[concept__index] = value;
+
+                this.setState({ what_will_learn: concepts_copy });
+
+            }
+        )
+
+
+    }
+
+
+
     new_course_submit_handler = async event => {
 
         event.preventDefault();
@@ -350,7 +396,7 @@ class NewCourse extends Component {
                     description: this.state.new_course_description,
                     slogan: this.state.new_course_slogan,
                     Sessions: this.state.Sessions,
-                    what_will_learn: this.state.what_will_learn,
+                    what_will_learn: this.state.what_will_learn.filter(concept => !!concept), // filter out any empty entry in the array  
 
                 })
             });
@@ -400,9 +446,6 @@ class NewCourse extends Component {
         }
 
     };
-
-
-
 
 
     render() {
@@ -496,6 +539,47 @@ class NewCourse extends Component {
 
         ))
 
+        let what_will_learn_view =
+            () => {
+
+                let concepts = this.state.what_will_learn.map(
+                    (concept, index) => {
+                        return (
+                            <FormGroup  >
+                                <div className="d-flex  flex-wrap flex-md-nowrap">
+                                    <Label style={{ width: "140px", marginBottom: "0", marginTop: "10px" }} for={'concept_' + index} s
+                                    >
+                                        <span
+                                            style={{ fontSize: "17px" }}
+
+                                            className="new_course_label">
+                                            {`concept ${index + 1}`} :
+                                         </span>
+                                    </Label>
+
+
+
+                                    <Input style={{ minWidth: "200px" }} className="flex-grow-1 mt-1" type="text" name={'concept_' + index} id={'concept_' + index} placeholder="enter concept here"
+                                        value={this.state.what_will_learn[index]}
+                                        onChange={this.handle_concepts_change_factory(index)}
+                                    />
+                                </div>
+
+                            </FormGroup >)
+                    }
+
+                )
+                return (
+                    <div >
+                        { concepts}
+                        < div style={{ display: "flex", justifyContent: "center", fontSize: "40px", }}>
+                            <button onClick={this.handle_increase_concepts_button} type="button" class="btn btn-default btn-circle ">
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
+                        </div >
+                    </div >
+                )
+            }
 
         let form_view = () => {
             return (
@@ -507,6 +591,9 @@ class NewCourse extends Component {
                                 value={this.state.new_course_title}
                                 onChange={this.handleInputChange} />
                         </Col>
+
+
+
                     </FormGroup>
 
                     <FormGroup row>
@@ -605,6 +692,26 @@ class NewCourse extends Component {
                         </Col>
                     </FormGroup>
 
+
+
+                    <FormGroup row>
+                        <Label for="new_course_what_will_learn" sm={3}> <span className="new_course_label">What concepts will students learn:</span></Label>
+                        <Col sm={9}>
+                            <Card className="mt-1">
+
+
+                                <CardBody>
+
+                                    {what_will_learn_view()}
+
+
+
+                                </CardBody>
+                            </Card>
+                        </Col>
+
+                    </FormGroup>
+
                     <FormGroup row>
                         <Col className="px-sm-5" sm={{ size: 9, offset: 3 }}>
                             <Button type="submit" color="success" style={{ width: "100%", height: " 100px", fontSize: "30px", marginTop: "50px", fontFamily: 'Nova Round' }}>
@@ -625,10 +732,6 @@ class NewCourse extends Component {
                                 </Alert>
                             </Col>
                         }
-
-
-
-
 
                     </FormGroup>
 

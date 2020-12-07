@@ -134,13 +134,15 @@ class CourseView extends Component {
             <Card className="mt-2 mx-2">
                 <CardHeader style={{ fontSize: "15px" }} className="session_card_head">
                     <div className=" d-flex    flex-row  align-content-center align-items-center" id="header_content_alijfe">
-                        <div className="d-inline-block ">
-                            <span>Session {index + 1} </span>
+                        <div className="d-inline-block " style={{ minWidth: "70px" }}>
+                            <span >Session {index + 1} :</span>
                         </div>
                         <div className="d-inline-block flex-grow-1 ml-4 flex-fill ">
-                            <div style={{ fontSize: "30px" }}>
+
+                            <div id="session_card_title" >
                                 {this.state.Sessions[index].Session_title}
                             </div>
+
                         </div>
                         <div className="d-inline-block ">
 

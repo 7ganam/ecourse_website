@@ -8,8 +8,13 @@ import MapContainer from "../../components/WsViewMapContainer/WsViewMapContainer
 import { ListGroup, ListGroupItem } from 'reactstrap';
 import { baseUrl } from "../../../../shared/baseURL"
 
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAddressBook, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
+
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+
 
 import $ from "jquery";
 import './WorkSpaceViewComponent.css'
@@ -110,6 +115,9 @@ class WorkspaceView extends Component {
     }
 
     componentDidMount() {
+
+
+
         $(document).ready(function () {
             /* Every time the window is scrolled ... */
             $(window).scroll(function () {
@@ -157,7 +165,7 @@ class WorkspaceView extends Component {
 
         return (
 
-            <div id="CourseViewComponent_all">
+            <div id="CourseViewComponent_all" className="mx-1">
 
                 <Jumbotron className="jumb p-2 " style={{ marginTop: "20px" }}>
                     <Container fluid className="jumb_container" >
@@ -267,7 +275,6 @@ class WorkspaceView extends Component {
                                 </Card>
 
 
-
                             </div>
 
                         </Col>
@@ -276,34 +283,42 @@ class WorkspaceView extends Component {
                 </Container>
 
                 <Container id="main_content_container" >
+
                     <Row className="mb-0">
-                        <h1>
-                            {this.state.workspace_name}
-                        </h1>
+                        <Col className=" pl-0 d-flex justify-content-center justify-content-md-start text-center" md={{ size: 8, order: 1, offset: 0 }}>
+                            <h1 style={{ fontSize: "70px" }}>
+                                {this.state.workspace_name}
+                            </h1>
+                        </Col>
+
                     </Row>
-                    <Row>
+                    <Row className="d-flex justify-content-center justify-content-md-start">
 
 
-                        <div id="rating_container">
-                            <span id="rating_number">{this.rating_confs_object().value}</span>
-                            <span>
+                        <div id="rating_container" className="d-flex justify-content-center justify-content-md-start">
+                            <span id="rating_number" className="d-flex justify-content-center justify-content-md-start">
+                                {this.rating_confs_object().value}
+                            </span>
+                            <span className="d-flex justify-content-center justify-content-md-start">
                                 <ReactStars {...this.rating_confs_object()} />
                             </span>
                         </div>
 
 
                     </Row>
-                    <Row>
+                    <Row className="d-flex justify-content-center justify-content-md-start">
 
-                        <div id="snippit_info">
-                            <div >
-                                <i className="fas fa-phone mr-1"></i>
-                          phone: <span className="mr-4">{this.state.phone}</span>
+                        <div id="snippit_info " className="">
+                            <div style={{ maxWidth: "200px" }} >
+                                <FontAwesomeIcon icon={faPhone} style={{ color: "grey", marginRight: '3px' }} />
+                                <span style={{ fontFamily: "Nova Round", color: "grey" }} className="mr-1">Phone:</span>
+                                <span className="mr-4">{this.state.phone}</span>
                             </div >
 
-                            <div >
-                                <i className="fas fa-address-card mr-1"></i>
-                         Address: <span> {this.state.address}</span>
+                            <div style={{ maxWidth: "90vw", marginTop: "10px" }}>
+                                <FontAwesomeIcon icon={faAddressBook} style={{ color: "grey", marginRight: '2px' }} />
+                                <span style={{ fontFamily: "Nova Round", color: "grey" }}>  Address:</span>
+                                <span className="hyphens "> {this.state.address}</span>
                             </div>
 
                             <div>

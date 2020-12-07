@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
-
-
 import new_workspace_image from './new_workspace_image.png'
 import { FormText } from 'reactstrap';
 import './NewWorkSpaceComponent.css'
 import upload_image_filler from './upload_image_filler2.png'
 import $ from 'jquery';
-
-
-
-
 import LocationPicker from '../../../shared/components/LocPickerComponent/LocPicker';
-
-
 import { AuthContext } from '../../../shared/context/auth-context';
-
-
 import ReactLoading from 'react-loading';
 import { Alert } from 'reactstrap';
+
+
+
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
+
+
 class Newworkspace extends Component {
     constructor(props) {
         super(props);
@@ -28,6 +30,12 @@ class Newworkspace extends Component {
             workspaceDescription: '',
             lng: '',
             lat: '',
+
+            session_price: "",
+            number_of_seats: "",
+            phone: "",
+            address: "",
+            utilities: ["", "", "", ""],
 
             logo_image: "",
             featured_images_files: [],
@@ -40,6 +48,8 @@ class Newworkspace extends Component {
 
 
 
+
+
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -47,11 +57,19 @@ class Newworkspace extends Component {
         this.handle_location_submit = this.handle_location_submit.bind(this);
         this.handle_image_change = this.handle_image_change.bind(this);
 
-
+        this.handle_increase_utilities_button = this.handle_increase_utilities_button.bind(this);
 
     }
 
     static contextType = AuthContext;
+
+    componentDidMount() {
+        // sometimes the compoenet loads without google ... refresh if this happens ... find the reasonf for this 
+        if (!(!!window.google)) {
+            console.log("missing google")
+            window.location.reload(false)
+        }
+    }
 
 
     handleInputChange(event) {
@@ -187,6 +205,47 @@ class Newworkspace extends Component {
         )
     }
 
+
+    handle_increase_utilities_button() {
+
+        console.log("in_concept_index")
+
+        if (this.state.utilities.length < 20) {
+            let utilities = [...this.state.utilities];
+            let New_cutilities = utilities.concat("");
+            this.setState({
+                utilities: New_cutilities
+            });
+        }
+        else {
+            alert("you can have 20 utilities max")
+        }
+
+    }
+
+    handle_utilities_change_factory(in_concept_index) {
+        const concept__index = in_concept_index; // closure variable different for every instance of the returned functions
+        return (
+            (event) => {
+
+                const target = event.target;
+                const value = target.value;
+
+                // 1. Make a shallow copy of the Sessions
+                let utilities_copy = [...this.state.utilities];
+                utilities_copy[concept__index] = value;
+
+                this.setState({ utilities: utilities_copy });
+
+            }
+        )
+
+
+    }
+
+
+
+
     submit_handler = async event => {
         event.preventDefault();
         try {
@@ -207,6 +266,13 @@ class Newworkspace extends Component {
             formData.append('workspaceDescription', this.state.workspaceDescription);
             formData.append('lng', this.state.lng);
             formData.append('lat', this.state.lat);
+
+            formData.append('session_price', this.state.session_price);
+            formData.append('number_of_seats', this.state.number_of_seats);
+            formData.append('phone', this.state.phone);
+            formData.append('address', this.state.address);
+            formData.append('utilities', this.state.utilities.filter((util) => !!util)
+            ); // filter out empty strings entries ""
 
             const response = await fetch(`http://localhost:5000/workspaces`, {
                 method: 'post',
@@ -241,24 +307,105 @@ class Newworkspace extends Component {
     };
 
 
+
+
+
+
     render() {
+
+        let utilities_view =
+            () => {
+
+                let utilities = this.state.utilities.map(
+                    (utility, index) => {
+                        return (
+                            <FormGroup  >
+                                <div className="d-flex  flex-wrap flex-md-nowrap">
+                                    <Label style={{ width: "40px", marginBottom: "0", marginTop: "10px" }} for={'utility_' + index}
+                                    >
+                                        <span
+                                            style={{ fontSize: "17px", color: "grey" }}
+
+                                            className="new_course_label">
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </span>
+                                    </Label>
+
+                                    <Input style={{ minWidth: "200px" }} className="flex-grow-1 mt-1" type="text" name={'utility_' + index} id={'utility_' + index} placeholder="enter utility here"
+                                        value={this.state.utilities[index]}
+                                        onChange={this.handle_utilities_change_factory(index)}
+                                    />
+                                </div>
+
+                            </FormGroup >)
+                    }
+
+                )
+                return (
+                    <div >
+                        { utilities}
+                        < div style={{ display: "flex", justifyContent: "center", fontSize: "40px", }}>
+                            <button onClick={this.handle_increase_utilities_button} type="button" class="btn btn-default btn-circle ">
+                                <FontAwesomeIcon icon={faPlus} />
+                            </button>
+                        </div >
+                    </div >
+                )
+            }
+
+
 
         let form_view = () => {
             return (<Form onSubmit={this.submit_handler}>
                 <FormGroup row>
-                    <Label for="workspaceName" sm={3}><span className="new_workspace_label">workspace Name:</span></Label>
+                    <Label for="workspaceName" sm={3}><span className="new_workspace_label">Workspace Name:</span></Label>
                     <Col sm={9} className="ml-auto">
-                        <Input type="text" name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
+                        <Input className="input_slot" type="text" name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
                             value={this.state.workspaceName}
                             onChange={this.handleInputChange} />
                     </Col>
                 </FormGroup>
 
+                <FormGroup row>
+                    <Label for="session_price" sm={3}><span className="new_workspace_label">Price per session:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <Input className="input_slot" type="text" name="session_price" id="session_price" placeholder="enter the price in egp here"
+                            value={this.state.session_price}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
 
                 <FormGroup row>
-                    <Label for="exampleText" sm={3}> <span className="new_workspace_label">workspace Description:</span></Label>
+                    <Label for="number_of_seats" sm={3}><span className="new_workspace_label">Number of seats:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <Input className="input_slot" type="text" name="number_of_seats" id="number_of_seats" placeholder="enter maximum number of students here"
+                            value={this.state.number_of_seats}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                    <Label for="phone" sm={3}><span className="new_workspace_label">Phone:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <Input className="input_slot" type="text" name="phone" id="phone" placeholder="input a phone number here"
+                            value={this.state.phone}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                    <Label for="address" sm={3}><span className="new_workspace_label">Address:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <Input className="input_slot" type="text" name="address" id="new_workspace_name" placeholder="input your address here"
+                            value={this.state.address}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
+
+                <FormGroup row>
+                    <Label for="exampleText" sm={3}> <span className="new_workspace_label">Workspace Description:</span></Label>
                     <Col sm={9}>
-                        <Input id="new_workspace_text_area" type="textarea" name="workspaceDescription" placeholder="enter your workspace description  here" value={this.state.workspaceDescription}
+                        <Input className="input_slot" id="new_workspace_text_area" type="textarea" name="workspaceDescription" placeholder="enter your workspace description  here" value={this.state.workspaceDescription}
                             onChange={this.handleInputChange} />
                     </Col>
                 </FormGroup>
@@ -279,7 +426,7 @@ class Newworkspace extends Component {
                     <Col sm={9} className="ml-auto">
                         <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '300px', }}>
 
-                            <Input type="file" name="logo_image" id="logo_image"
+                            <Input className="input_slot" type="file" name="logo_image" id="logo_image"
                                 // value={this.state.new_course_title}
                                 onChange={this.handle_image_change}
                             />
@@ -306,7 +453,7 @@ class Newworkspace extends Component {
                             <Col id="f_image_1" md={6} lg={5} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
-                                    <Input type="file" name="featured_1" id="featured_1"
+                                    <Input className="input_slot" type="file" name="featured_1" id="featured_1"
                                         // value={this.state.new_course_title}
                                         onChange={this.handle_featured_image_change_factory(1)}
                                     />
@@ -324,7 +471,7 @@ class Newworkspace extends Component {
                             <Col id="f_image_2" md={6} lg={5} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
-                                    <Input type="file" name="featured_2" id="featured_2"
+                                    <Input className="input_slot" type="file" name="featured_2" id="featured_2"
                                         // value={this.state.new_course_title}
                                         onChange={this.handle_featured_image_change_factory(2)}
                                     />
@@ -342,7 +489,7 @@ class Newworkspace extends Component {
                             <Col id="f_image_3" md={6} lg={5} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
-                                    <Input type="file" name="featured_3" id="featured_3"
+                                    <Input className="input_slot" type="file" name="featured_3" id="featured_3"
                                         // value={this.state.new_course_title}
                                         onChange={this.handle_featured_image_change_factory(3)}
                                     />
@@ -360,7 +507,7 @@ class Newworkspace extends Component {
                             <Col id="f_image_4" md={6} lg={5} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
-                                    <Input type="file" name="featured_4" id="featured_4"
+                                    <Input className="input_slot" type="file" name="featured_4" id="featured_4"
                                         // value={this.state.new_course_title}
                                         onChange={this.handle_featured_image_change_factory(4)}
                                     />
@@ -385,6 +532,26 @@ class Newworkspace extends Component {
 
 
                     </Col>
+                </FormGroup>
+
+
+
+                <FormGroup row>
+                    <Label for="utilities" sm={3}> <span className="new_course_label">Utilities in you workspace:</span></Label>
+                    <Col sm={9}>
+                        <Card className="mt-1">
+
+
+                            <CardBody>
+
+                                {utilities_view()}
+
+
+
+                            </CardBody>
+                        </Card>
+                    </Col>
+
                 </FormGroup>
 
 
@@ -432,7 +599,7 @@ class Newworkspace extends Component {
         return (
 
 
-            <div id="new_workspace_all">
+            <div id="new_workspace_all" >
                 <Container fluid  >
                     <Row className=''>
 

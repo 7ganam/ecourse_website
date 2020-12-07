@@ -46,7 +46,6 @@ class Header extends Component {
             } else {
                 // do something if the event target is outside the navigation
                 // code for collapsing menu here...
-                console.log(this)
                 closure_closeNav()
             }
         });
@@ -66,7 +65,6 @@ class Header extends Component {
     componentDidUpdate(nextProps) {
         // console.log("next", nextProps)
         const logs = this.context
-        console.log({ logs })
     }
 
     toggleNav() {
@@ -101,7 +99,6 @@ class Header extends Component {
 
     login() {
         this.context.login();
-        console.log(this.context)
 
     }
 
@@ -132,7 +129,6 @@ class Header extends Component {
                                         <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                                     </div>
                                     <Button
-                                        onClick={(e) => { console.log(this.context) }}
                                         color="success" href="#!" className="btn btn-outline-white btn-md my-0 ml-sm-2" type="submit">Search</Button>
                                 </form>
                             </NavItem>

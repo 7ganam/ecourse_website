@@ -19,7 +19,7 @@ class FeaturedCourses extends Component {
 
     render() {
         let courses_view = this.state.courses.map((course) => (
-            <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3" key={course._id}>
+            <Col className="mx-1 my-1" xs="10" md="5" lg="3" xl="3" key={course._id}>
                 <div className="card2">
                     <CourseCard
                         course_id={course._id}

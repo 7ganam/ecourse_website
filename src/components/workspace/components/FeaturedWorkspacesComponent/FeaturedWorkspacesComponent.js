@@ -9,7 +9,7 @@ class FeaturedWorkspaces extends Component {
 
 
     workspaces = this.props.workspaces.map((workspace) => (
-        <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3" key={workspace._id}>
+        <Col className="mx-1 my-1" xs="10" sm="8" md="5" lg="3" xl="3" key={workspace._id}>
             <div className="card2" key={workspace._id}>
                 <WorkspaceCard
                     key={workspace._id}

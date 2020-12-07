@@ -16,8 +16,9 @@
     align-items: center;
     flex-wrap: wrap;
 }
-.session_card_head{
-    
+
+.input_slot{
+    height: 100%!important;
 }
 
 #new_workspace_all{

@@ -8,7 +8,7 @@ class CoursesPage extends Component {
     render_courses() {
 
         let courses = this.props.courses.map((course) => (
-            <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3">
+            <Col className="mx-1 my-1" xs="10" sm="8" md="5" lg="3" xl="3">
                 <div className="CoursesPage_card2">
                     <CourseCard
                         course_id={course._id}

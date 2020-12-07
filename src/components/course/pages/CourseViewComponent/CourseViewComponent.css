@@ -6,6 +6,7 @@
 }
 
 
+
 #hero_div {
     margin: 0;
     position: absolute;
@@ -30,6 +31,19 @@
     /* background-color: #82C80B!important; */
     /* background: rgb(169,237,109);
     background: linear-gradient(0deg, rgba(169,237,109,0) 5%, rgba(104,169,24,1) 79%); */
+}
+
+
+#session_card_title{
+    font-family: 'Nova Round', cursive;
+    font-size: 20px;
+    /* display: -webkit-box!important;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    margin-bottom: 0px; */
 }
 
 .jumb_container{
