@@ -17,6 +17,7 @@ import {
 
 import { AuthContext } from '../../context/auth-context';
 
+import $ from 'jquery';
 class Header extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +32,24 @@ class Header extends Component {
         this.show_login_modal = this.show_login_modal.bind(this);
         this.show_singup_modal = this.show_singup_modal.bind(this);
 
+
+
+
+    }
+
+    componentDidMount() {
+        let closure_closeNav = this.closeNav; // since this is't defined inside jqury i will pass it as closure
+        $('body').click(function (event) {
+            // check if the clicked element is a descendent of navigation 
+            if ($(event.target).closest('.navbar').length) {
+                return; //do nothing if event target is within the navigation
+            } else {
+                // do something if the event target is outside the navigation
+                // code for collapsing menu here...
+                console.log(this)
+                closure_closeNav()
+            }
+        });
     }
 
     static contextType = AuthContext;
