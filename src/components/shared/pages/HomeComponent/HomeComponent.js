@@ -6,7 +6,7 @@ import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reac
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
 import Illustration from '../../components/IllustrationComponent/IllustrationComponent';
 
-import hero_image from './images/hero_image.png'
+import hero_image from './images/hero_image3.png'
 import top_righ from './images/top_right.png'
 import big_logo from './images/logo1_70.png'
 import title from './images/Ecourse.svg'

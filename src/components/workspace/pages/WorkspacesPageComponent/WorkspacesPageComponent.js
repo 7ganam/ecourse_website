@@ -9,7 +9,7 @@ class WorkspacesPage extends Component {
 
     render_workspaces() {
         let workspaces = this.props.workspaces.map((workspace) => (
-            <Col className="mx-1 my-1" xs="8" sm="7" md="5" lg="3" xl="3">
+            <Col className="mx-1 my-1" xs="10" sm="7" md="5" lg="3" xl="3">
                 <div className="WorkspacesPage_card2">
                     <WorkspaceCard
                         workspace_id={workspace._id}

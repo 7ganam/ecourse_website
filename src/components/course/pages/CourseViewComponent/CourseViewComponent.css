@@ -1,6 +1,6 @@
 #course_jumb{    
     background:#c9dad2;
-    height: 500px;
+    min-height: 65vh;
     padding-top: 100px;
 
 }
@@ -37,17 +37,24 @@
 #session_card_title{
     font-family: 'Nova Round', cursive;
     font-size: 20px;
-    /* display: -webkit-box!important;
+    max-height: 60px;
+
+    display: -webkit-box!important;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
-    margin-bottom: 0px; */
+    margin-bottom: 0px;
 }
 
-.jumb_container{
-margin-top: 40px;
+.session_title_start{
+    
+}
+
+
+.course_jumb_container{
+margin-top: 100px;
 }
 
 #rating_number{
@@ -63,7 +70,7 @@ margin-top: 40px;
     display: flex;
 }
 
-#snippit_info{
+#course_snippit_info{
     display: flex;
 }
 

@@ -450,7 +450,7 @@ class Newworkspace extends Component {
                         <Row>
 
 
-                            <Col id="f_image_1" md={6} lg={5} className="mt-2">
+                            <Col id="f_image_1" md={6} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
                                     <Input className="input_slot" type="file" name="featured_1" id="featured_1"
@@ -461,14 +461,17 @@ class Newworkspace extends Component {
                                 <FormText color="muted">
                                     choose image 1.
                        </FormText>
-                                <div>
-                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                <div
+                                    style={{ width: "100%", height: "150px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+
+
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "150px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         <img className="img-fluid" id="featured_image_1" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
                                     </div>
                                 </div>
                             </Col >
 
-                            <Col id="f_image_2" md={6} lg={5} className="mt-2">
+                            <Col id="f_image_2" md={6} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
                                     <Input className="input_slot" type="file" name="featured_2" id="featured_2"
@@ -479,14 +482,17 @@ class Newworkspace extends Component {
                                 <FormText color="muted">
                                     choose image 2.
                        </FormText>
-                                <div>
-                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                <div
+                                    style={{ width: "100%", height: "150px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+
+
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "150px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         <img className="img-fluid" id="featured_image_2" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
                                     </div>
                                 </div>
                             </Col >
 
-                            <Col id="f_image_3" md={6} lg={5} className="mt-2">
+                            <Col id="f_image_3" md={6} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
                                     <Input className="input_slot" type="file" name="featured_3" id="featured_3"
@@ -497,14 +503,17 @@ class Newworkspace extends Component {
                                 <FormText color="muted">
                                     choose image 3.
                        </FormText>
-                                <div>
-                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                <div
+                                    style={{ width: "100%", height: "150px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+
+
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "150px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         <img className="img-fluid" id="featured_image_3" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
                                     </div>
                                 </div>
                             </Col >
 
-                            <Col id="f_image_4" md={6} lg={5} className="mt-2">
+                            <Col id="f_image_4" md={6} className="mt-2">
                                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
 
                                     <Input className="input_slot" type="file" name="featured_4" id="featured_4"
@@ -515,8 +524,11 @@ class Newworkspace extends Component {
                                 <FormText color="muted">
                                     choose image 4.
                        </FormText>
-                                <div>
-                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                <div
+                                    style={{ width: "100%", height: "150px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+
+
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "150px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                         <img className="img-fluid" id="featured_image_4" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
                                     </div>
                                 </div>

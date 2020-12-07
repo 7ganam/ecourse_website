@@ -17,6 +17,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { baseUrl } from "../../../../shared/baseURL"
 import './CourseViewComponent.css'
 
+
+import connected_dots from './bg.jpg'
 function What_will_you_learn_view(props) {
     let concepts_array = props.what_will_learn;
     let first_half_concepts = concepts_array.slice(0, Math.ceil(concepts_array.length / 2));
@@ -134,12 +136,12 @@ class CourseView extends Component {
             <Card className="mt-2 mx-2">
                 <CardHeader style={{ fontSize: "15px" }} className="session_card_head">
                     <div className=" d-flex    flex-row  align-content-center align-items-center" id="header_content_alijfe">
-                        <div className="d-inline-block " style={{ minWidth: "70px" }}>
-                            <span >Session {index + 1} :</span>
+                        <div className="d-inline-block " style={{ minWidth: "80px" }}>
+                            <span className="session_title_start" >Session {index + 1} :</span>
                         </div>
                         <div className="d-inline-block flex-grow-1 ml-4 flex-fill ">
 
-                            <div id="session_card_title" >
+                            <div title={this.state.Sessions[index].Session_title} id="session_card_title" >
                                 {this.state.Sessions[index].Session_title}
                             </div>
 
@@ -206,13 +208,16 @@ class CourseView extends Component {
             </Card>
         ))
         return (
-            <div id="CourseViewComponent_all">
-                <Jumbotron id="course_jumb" className="jumb">
-                    <Container className="jumb_container">
+            <div id="CourseViewComponent_all" className="mx-1">
+                <Jumbotron id="course_jumb" className="jumb"
+                    //  styles={{ backgroundImage: `url(${connected_dots})` }}
+                    style={{ backgroundImage: `url(${connected_dots})`, backgroundSize: 'cover' }}
+                >
+                    <Container className="course_jumb_container">
                         <Row id="row_1">
                             {/* <Col sm="12" md={{ size: 6, offset: 6 }} className="mr-auto">.col-sm-12 .col-md-6 .offset-md-3</Col> */}
                             <Col sm={{ size: 6, order: 1, offset: 0 }}>
-                                <h1>
+                                <h1 className="hyphens" style={{ color: "white", fontSize: "45px", fontWeight: "bolder" }} >
                                     {this.props.course.title}
                                 </h1>
                                 <h4>
@@ -228,16 +233,20 @@ class CourseView extends Component {
 
                         </Row>
                         <Row>
-                            <div id="snippit_info" className="mt-3">
-                                <div >
-                                    <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" style={{ color: "grey" }} />
-                                    instructor: <span className="mr-4"> {this.props.course.author}</span>
+                            <div id="course_snippit_info" className="mt-3">
+                                <div className="mr-4" >
+                                    <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" style={{ color: "white" }} />
+                                    <span style={{ color: "white" }} className="mr-1"> instructor:</span>
+                                    <span style={{ color: "white" }} className="mr-1"> {this.props.course.author}</span>
                                 </div >
 
-                                <div >
-                                    <FontAwesomeIcon icon={faClock} className="mr-1" style={{ color: "grey" }} />
-                                        Start date: <span> {this.props.course.start_date}</span>
-                                </div>
+                                {/* <div >
+                                    <FontAwesomeIcon icon={faClock} className="mr-1" style={{ color: "white" }} />
+
+                                    <span style={{ color: "white" }}> Start date:</span>
+
+                                    <span style={{ color: "white" }}> {this.props.course.start_date}</span>
+                                </div> */}
 
                                 <div>
 
@@ -326,7 +335,7 @@ class CourseView extends Component {
                     </Row>
                 </Container>
 
-            </div>)
+            </div >)
     }
 
     render() {
