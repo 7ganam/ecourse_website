@@ -24,7 +24,7 @@ class LocPicker extends Component {
             lng: '',
         };
 
-        const google = window.google; // google apis should be included in the index.html file in public folder
+        const google = !!window.google ? window.google : null; // google apis should be included in the index.html file in public folder
 
         this.handle_submit = this.handle_submit.bind(this);
 
@@ -60,28 +60,29 @@ class LocPicker extends Component {
     render() {
         return (
             <div>
-                <Container>
-                    <Row>
-                        <Col xs="12" sm="12" md="12" lg="12" xl="12" className="mb-2 px-0">
-                            <div id="map"></div>
-                        </Col>
-                        <Col xs="12" sm="6" md="6" lg="6" xl="6" className=" pl-0">
-                            <div className="">
-                                <Button id="confirmPosition" color="success" className=" my-1 my-md-0 " onClick={this.handle_submit}>
-                                    <span>Confirm Position
+                {
+                    <Container>
+                        <Row>
+                            <Col xs="12" sm="12" md="12" lg="12" xl="12" className="mb-2 px-0">
+                                <div id="map"></div>
+                            </Col>
+                            <Col xs="12" sm="6" md="6" lg="6" xl="6" className=" pl-0">
+                                <div className="">
+                                    <Button id="confirmPosition" color="success" className=" my-1 my-md-0 " onClick={this.handle_submit}>
+                                        <span>Confirm Position
                                         {/* <i class="fas fa-map-marked-alt"></i> */}
-                                        <FontAwesomeIcon icon={faMapMarkedAlt} className=" ml-2" style={{ fontSize: 20, fontWeight: 'bolder' }} />
-                                    </span>
-                                </Button>
-                            </div>
-                        </Col>
-                        <Col xs="12" sm="6" md="6" lg="6" xl="6" className="">
-                            <Input type="text" disabled name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
-                                value={`${this.state.lat} , ${this.state.lng} `} />
-                        </Col>
-                    </Row>
-                </Container>
-
+                                            <FontAwesomeIcon icon={faMapMarkedAlt} className=" ml-2" style={{ fontSize: 20, fontWeight: 'bolder' }} />
+                                        </span>
+                                    </Button>
+                                </div>
+                            </Col>
+                            <Col xs="12" sm="6" md="6" lg="6" xl="6" className="">
+                                <Input type="text" disabled name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
+                                    value={`${this.state.lat} , ${this.state.lng} `} />
+                            </Col>
+                        </Row>
+                    </Container>
+                }
 
 
 

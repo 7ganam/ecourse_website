@@ -162,7 +162,7 @@ class Main extends Component {
         };
 
         return (
-            <div>
+            <div id="main_component">
                 <AuthContext.Provider
                     value={{
 
@@ -190,50 +190,53 @@ class Main extends Component {
                 >
                     <LoginModal showModal={this.state.show_login_modal} />
                     <SignUpModal showModal={this.state.show_signup_modal} />
+                    <div id="content-wrap">
+                        <Router >
+                            <Header />
+                            <Route exact path="/">
+                                <Home courses={this.state.courses}
+                                    coursesAreLoading={this.state.courses_are_loading}
+                                    workspaces={this.state.workspaces}
+                                    workspacesAreLoading={this.state.workspaces_are_loading}
+                                />
+                            </Route>
 
-                    <Router>
-                        <Header />
-                        <Route exact path="/">
-                            <Home courses={this.state.courses}
-                                coursesAreLoading={this.state.courses_are_loading}
-                                workspaces={this.state.workspaces}
-                                workspacesAreLoading={this.state.workspaces_are_loading}
-                            />
-                        </Route>
+                            <Route exact path="/workspaces">
+                                <WorkspacesPage workspaces={this.state.workspaces} workspacesAreLoading={this.state.workspaces_are_loading} />
+                            </Route>
 
-                        <Route exact path="/workspaces">
-                            <WorkspacesPage workspaces={this.state.workspaces} workspacesAreLoading={this.state.workspaces_are_loading} />
-                        </Route>
+                            <Route exact path="/courses">
+                                <Coursespage courses={this.state.courses} coursesAreLoading={this.state.courses_are_loading} />
+                            </Route>
 
-                        <Route exact path="/courses">
-                            <Coursespage courses={this.state.courses} coursesAreLoading={this.state.courses_are_loading} />
-                        </Route>
+                            <Route path="/newcourse">
+                                <NewCourse workspaces={this.state.workspaces} />
+                            </Route>
 
-                        <Route path="/newcourse">
-                            <NewCourse workspaces={this.state.workspaces} />
-                        </Route>
+                            <Route path="/newworkspace">
+                                <NewWorkSpace />
+                            </Route>
 
-                        <Route path="/newworkspace">
-                            <NewWorkSpace />
-                        </Route>
+                            <Route path="/courseview">
+                                <CourseView />
+                            </Route>
+                            <Route path="/workspaceview">
+                                <WorkSpaceView workspace={this.state.workspaces[0]} />
+                            </Route>
 
-                        <Route path="/courseview">
-                            <CourseView />
-                        </Route>
-                        <Route path="/workspaceview">
-                            <WorkSpaceView workspace={this.state.workspaces[0]} />
-                        </Route>
+                            <Route path="/courses/:course_id" component={course_with_id} />
 
-                        <Route path="/courses/:course_id" component={course_with_id} />
+                            <Route path="/workspaces/:workspace_id" component={workspace_with_id} />
 
-                        <Route path="/workspaces/:workspace_id" component={workspace_with_id} />
+                            <Route path="/auth" component={AuthPage} />
+                            {/* <MapContainer /> */}
 
-                        <Route path="/auth" component={AuthPage} />
-                        {/* <MapContainer /> */}
-                        <Footer />
+                        </Router>
+                    </div>
 
-                    </Router>
+
                 </AuthContext.Provider>
+                <Footer />
 
             </div >
         );

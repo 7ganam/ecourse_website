@@ -2,41 +2,40 @@ import React, { Component } from 'react';
 import { Container, Col, Form, Row, FormGroup, Label, Input, Button } from 'reactstrap';
 import { Collapse, Navbar, Nav, NavItem, NavLink, NavbarToggler, NavbarBrand } from 'reactstrap';
 import { FormText } from 'reactstrap';
-import $ from 'jquery';
 import new_course_image from './new_course_image.png'
 import upload_image_filler from './upload_image_filler2.png'
-
-
-import { InputGroup, InputGroupAddon, InputGroupText } from 'reactstrap';
-import './NewCourseComponent.css'
-
 import DatePicker from "react-datepicker";
+import { Card, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
+import { AuthContext } from '../../../shared/context/auth-context';
+import ReactLoading from 'react-loading';
+import { Alert } from 'reactstrap';
 
+import $ from 'jquery';
+
+import './NewCourseComponent.css'
 import "react-datepicker/dist/react-datepicker.css";
 
 
 
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { faChevronCircleDown } from "@fortawesome/free-solid-svg-icons";
-
+import { faChalkboardTeacher } from "@fortawesome/free-solid-svg-icons";
+import { faPaperPlane } from "@fortawesome/free-solid-svg-icons";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { faLeaf } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-import {
-    Card, CardHeader, CardFooter, CardBody,
-    CardTitle, CardText
-} from 'reactstrap';
 
-
-import { AuthContext } from '../../../shared/context/auth-context';
 
 class NewCourse extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
+            // controlled form states
             new_course_img: "python1.jpg",
             new_course_title: '',
-            new_course_author: "abod eldackar",
+            new_course_author: "", // this is set in the backend as the same as the user accoount name
             new_course_startDate: new Date(),
             new_course_endDate: new Date(),
             new_course_workspace_name: 'No Selection',
@@ -45,19 +44,22 @@ class NewCourse extends Component {
             new_course_description: '',
             new_course_slogan: '',
             number_of_sessions: 1,
-            // Session_1_startDate: new Date(),
             Sessions: [{
                 Session_title: '',
                 Session_Description: '',
                 Session_startDate: '',
                 isOpen: false,
-            }],
-            what_will_learn: [],
+            }], // this sessions object follows the sessions model used in the backend
+            Sessions_images: { session_1_img: "" }, // images files of the sessions  stored in object--> will be stored in filesystem in backend ---> image file names will be stored in session objects then
+
+            what_will_learn: ["demo1", "demo2 ", 'demo3', "demo4", "demo5", " demo6", "demo7", "demo8"],
             new_course_img_file: "",
 
+
+            //fetch api states
             sending_course_data: false,
             form_json_error: false, // if the first fetch which sends forms json data fails this sets to true
-            image_error: false,
+            image_error: false,     // if the second fetch which sends image file fails this sets to true
             error_message: "",
             course_submitted_successfuly: false,
 
@@ -212,11 +214,17 @@ class NewCourse extends Component {
     handle_session_image_change_factory(in_session_index) {
         const session__index = in_session_index; // closure variable different for every instance of the returned functions
         return (
-
             (event) => {
-
                 const input = event.target;
                 if (input.files && input.files[0]) {
+                    // TODO: validate images 
+
+                    //copy image files state object 
+                    let Sessions_images_copy = { ...this.state.Sessions_images }
+                    // add (or change the image file in the copyed object)
+                    Sessions_images_copy[`session_${session__index + 1}_img`] = input.files[0];
+                    // reset the state.
+                    this.setState({ Sessions_images: Sessions_images_copy })
                     // console.log(input.files[0])
                     var reader = new FileReader();
                     reader.onload = function (e) {
@@ -312,9 +320,15 @@ class NewCourse extends Component {
     }
 
     new_course_submit_handler = async event => {
+
         event.preventDefault();
+
         try {
             this.setState({ sending_course_data: true })
+
+
+            // ----- first sending the json data (this is sent separatly because the json data is nestd )-----
+
             const response = await fetch('http://localhost:5000/courses', {
                 method: 'POST',
                 headers: {
@@ -343,17 +357,23 @@ class NewCourse extends Component {
 
 
             const responseData = await response.json();
+            console.log(response.body);
+
             if (!response.ok) {
                 this.setState({ form_json_error: true })
                 throw new Error(responseData.message);
 
             }
 
-
+            // ---------- second send the images ---------------------------
 
             //post image to the back end
             const formData = new FormData();
             formData.append('image', this.state.new_course_img_file);
+            for (const [key, value] of Object.entries(this.state.Sessions_images)) {
+                console.log(`${key}: ${value}`);
+                formData.append(key, value);
+            }
 
             const image_response = await fetch(`http://localhost:5000/courses/image/${responseData}`, {
                 method: 'post',
@@ -364,7 +384,7 @@ class NewCourse extends Component {
             // console.log(image_Data);
             if (!image_response.ok) {
                 this.setState({ image_error: true })
-
+                console.log("response_message");
                 throw new Error(response_message.message);
             }
 
@@ -374,14 +394,9 @@ class NewCourse extends Component {
                 this.setState({ course_submitted_successfuly: true })
             }
 
-
-
         } catch (err) {
             this.setState({ sending_course_data: false })
             this.setState({ error_message: err.message })
-
-
-            console.log(err);
         }
 
     };
@@ -403,13 +418,13 @@ class NewCourse extends Component {
                                 <div>Session {index + 1} </div>
 
                             </Col>
-                            <Col xs="11" sm="11" md="7" lg="7" xl="7" className="pl-0 pr-2  ">
+                            <Col xs="10" sm="10" md="7" lg="7" xl="7" className="pl-0 pr-2  ">
                                 <Input type="text" name={"Session_title"} id={"Session_" + index + "_title"} placeholder="enter session title here"
                                     value={this.state.Sessions[index].Session_title}
                                     onChange={this.handle_session_InputChange_factory(index)} />
                             </Col>
                             <Col xs="1" sm="1" md="1" lg="1" xl="1" className="ml-lg-3 px-0  ">
-                                <Button color="success" onClick={this.handle_session_card_toggle_factory(index)} >
+                                <Button className="ml-2  " color="success" onClick={this.handle_session_card_toggle_factory(index)} >
                                     <FontAwesomeIcon icon={faChevronCircleDown} />
                                 </Button>
                             </Col>
@@ -577,11 +592,44 @@ class NewCourse extends Component {
                     </FormGroup>
 
                     <FormGroup row>
-                        <Col sm={{ size: 9, offset: 3 }}>
-                            <Button type="submit" color="success">
-                                Submit
-             </Button>
+                        <Label for="new_course_price" sm={3}> <span className="new_course_label">Course price :</span></Label>
+                        <Col sm={5}>
+                            <Input id="new_course_price" type="number" min="0" name="new_course_price" value={this.state.new_course_price}
+                                onChange={this.handleInputChange} />
                         </Col>
+                        <Col sm={3} style={{ fontSize: 35, color: '#82C80B', fontWeight: 'bolder', margin: "auto" }} >
+                            <FontAwesomeIcon icon={faLeaf} className="mr-1" />
+                            <span style={{ fontSize: 30, color: 'grey', fontWeight: 'bold' }}>
+                                {' EGP'}
+                            </span>
+                        </Col>
+                    </FormGroup>
+
+                    <FormGroup row>
+                        <Col className="px-sm-5" sm={{ size: 9, offset: 3 }}>
+                            <Button type="submit" color="success" style={{ width: "100%", height: " 100px", fontSize: "30px", marginTop: "50px", fontFamily: 'Nova Round' }}>
+                                Submit Course <FontAwesomeIcon icon={faPaperPlane} />
+                            </Button>
+                        </Col>
+                        {
+                            this.state.sending_course_data &&
+                            <Col className="mt-3" sm={{ size: 9, offset: 3 }}>
+                                <ReactLoading style={{ margin: "auto", width: '40px', height: '40px' }} type={"spinningBubbles"} color={"black"} height={'40px'} width={'40px'} />
+                            </Col>
+                        }
+                        {!!this.state.error_message && !this.state.sending_course_data &&
+                            <Col className="mt-3" sm={{ size: 9, offset: 3 }}>
+
+                                <Alert color="danger">
+                                    {this.state.error_message}
+                                </Alert>
+                            </Col>
+                        }
+
+
+
+
+
                     </FormGroup>
 
                 </Form>)
@@ -589,9 +637,16 @@ class NewCourse extends Component {
 
         let success_message = () => {
             return (
-                <div>
-                    course submitted ... course will be reviewed and we will contact you withing 32 hours
+
+                <div id="">
+                    <div id="success_header">
+                        course submitted Successfully
+                    </div>
+                    <div id="success_sub_header">
+                        it will be reviewed and we will contact you withing 32 hours
+                     </div>
                 </div>
+
             )
 
         }
@@ -600,22 +655,24 @@ class NewCourse extends Component {
             <div id="new_course_all" >
                 <Container fluid  >
                     <Row className=''>
-                        <Col className="t3 mx-1 my-1   push-xl-1       image_image_image ml-lg-5" xs="12" sm="12" md={{ size: 4, order: 12 }} lg="4" xl="4">
+                        <Col className="t3 mx-1 my-1   push-xl-1       image_image_image ml-lg-5" sm="12" md="12" lg={{ size: 12 }} xl={{ size: 4, order: 12 }}>
                             <div id="course_image_wrapper">
                                 <h1 id="image_header">
-                                    Creat A Course
+                                    Create A Course
                                 </h1>
                                 <div id="course_image">
                                     <img src={new_course_image} id="new_course_image" alt="new_course_image" />
                                 </div>
                             </div>
                         </Col>
-                        <Col className="t2 pt-lg-5 form_box justify-content-center my-1" xs="12" sm="12" md="7" lg="7" xl="7" >
+                        <Col className="t2 pt-lg-5          form_box justify-content-center my-1" sm="12" md="12" lg="10" xl="7" >
                             <div id="new_course_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
 
                                         {this.state.course_submitted_successfuly ? success_message() : form_view()}
+                                        {/* {form_view()} */}
+
 
                                     </div>
                                 </div>

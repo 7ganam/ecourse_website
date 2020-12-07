@@ -20,7 +20,7 @@ const CourseCard = (props) => {
     };
     return (
         <div>
-            <Card>
+            <Card title={props.title}>
 
                 <CardImg top src={baseUrl + "uploads/images/courses/" + props.img} alt={baseUrl + "uploads/images/courses" + props.img} />
                 <CardBody>

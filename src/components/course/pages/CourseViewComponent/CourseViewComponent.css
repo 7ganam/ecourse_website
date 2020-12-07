@@ -1,8 +1,10 @@
 #course_jumb{    
-    background:#00FF87;
-
+    background:#c9dad2;
+    height: 500px;
+    padding-top: 100px;
 
 }
+
 
 #hero_div {
     margin: 0;
@@ -10,7 +12,7 @@
     left: 0px;
     top: 0px;
     width: 100%;
-    height: 30vh;
+    height: 50vh;
     z-index: -1;
     overflow: hidden;
 
@@ -62,30 +64,192 @@ margin-top: 40px;
     display: flex;
 }
 
+#session_conten_container{
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 15px;
+    width:90%;
+    height: 200px;
+    overflow: auto;
+}
+
 
 
 /* extra small */
 @media only screen and (max-width: 576px){
+
+    
+
+    /* -------------- sessions dropdwon view ------------------------------- */
+    #session_card_body{
+        overflow: auto;
+        height: 400px
+    }
+    #session_img_continer{
+        width:100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    #session_img_continer #session_view_img {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto auto;
+        max-height: 94%;
+        max-width: 100%;
+    
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    
+        -webkit-mask-image: linear-gradient(to left, transparent 1%, black 70%);
+        mask-image: linear-gradient(to left, transparent 1%, black 70%);
+    
+        margin-left: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    
+    }
+    /* -------------- sessions dropdwon view ------------------------------- */
+
 
 
 }
 /* small */
 @media only screen and (min-width: 576px){
 
+
+    /* -------------- sessions dropdwon view ------------------------------- */
+
+    #session_card_body{
+        height: 400px
+    }
+    #session_img_continer{
+        width:100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    #session_img_continer #session_view_img {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto auto;
+        max-height: 94%;
+        max-width: 100%;
+    
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    
+        -webkit-mask-image: linear-gradient(to left, transparent 1%, black 70%);
+        mask-image: linear-gradient(to left, transparent 1%, black 70%);
+    
+        margin-left: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    
+    }
+    /* -------------- sessions dropdwon view ------------------------------- */
+
+
+
 }
 /* medium */
 @media only screen and (min-width: 768px){
+
+
+    /* -------------- sessions dropdwon view ------------------------------- */
+    #session_card_body{
+        height: 200px
+    }
+    #session_img_continer{
+        width:100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    #session_img_continer #session_view_img {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto auto;
+        max-height: 94%;
+        max-width: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-mask-image: linear-gradient(to left, transparent 1%, black 70%);
+        mask-image: linear-gradient(to left, transparent 1%, black 70%);
+        margin-left: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    }
+    /* -------------- sessions dropdwon view ------------------------------- */
+
+
+
 
 }
 
 /* large */
 @media only screen and (min-width:  992px){
+
+    /* -------------- sessions dropdwon view ------------------------------- */
+    #session_card_body{
+        height: 200px
+    }
+    #session_img_continer{
+        width:100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+    #session_conten_container{
+        width:90%;
+        height: 200px;
+        overflow: auto;
+
+    }
+    #session_img_continer #session_view_img {
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto auto;
+        max-height: 94%;
+        max-width: 100%;
+    
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    
+        -webkit-mask-image: linear-gradient(to left, transparent 1%, black 70%);
+        mask-image: linear-gradient(to left, transparent 1%, black 70%);
+    
+        margin-left: 0px;
+        margin-top: 4px;
+        margin-bottom: 4px;
+    
+    }
+    /* -------------- sessions dropdwon view ------------------------------- */
+
+
+
 /* ----------------------------make the floating container fixed in large  */
 #floatin_container{
     position: fixed;
     left: 50%;
     top:150px
-    
 }
 #floatin_row{
     position: relative;

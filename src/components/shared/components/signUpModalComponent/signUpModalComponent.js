@@ -15,7 +15,8 @@ import { FormText } from 'reactstrap';
 import upload_image_filler from './upload_image_filler2.png'
 import $ from 'jquery';
 
-
+import ReactLoading from 'react-loading';
+import { Alert } from 'reactstrap';
 
 class SingUpModal extends Component {
     constructor(props) {
@@ -39,10 +40,24 @@ class SingUpModal extends Component {
         this.hide_modal = this.hide_modal.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handle_image_change = this.handle_image_change.bind(this);
+        this.login = this.login.bind(this);
+        this.hide_modal = this.hide_modal.bind(this);
 
 
 
     }
+
+    login(user, token, expirateion_date_string) {
+        // this.context.set_user(user)
+        this.context.login(token, user, expirateion_date_string);
+        // console.log({ user })
+        this.hide_modal()
+    }
+
+    hide_modal() { // set the show_login_modal to false .. the modal is drawn in the main component above the router
+        this.context.unset_show_login_modal();
+    }
+
     componentDidMount() {
         $("#replacer").on("click", function (e) {
             e.preventDefault()
@@ -52,11 +67,7 @@ class SingUpModal extends Component {
     }
 
     static contextType = AuthContext;
-    login(e) {
-        e.preventDefault()
-        this.context.login();
-        this.hide_modal()
-    }
+
     hide_modal() { // set the show_login_modal to false .. the modal is drawn in the main component above the router
         this.context.unset_show_signup_modal();
         console.log(this.context.show_signup_modal)
@@ -91,15 +102,18 @@ class SingUpModal extends Component {
             })
 
             const response_json_content = await response.json()
-            // console.log(image_Data);
             if (!response.ok) {
                 this.setState({ fetch_error: true })
-                throw new Error(response_json_content.message || "can't fetch data ... could be a connection error or unhandled back end error"); // if it's an error the back end should attach a message attribute
+                throw new Error(response_json_content.message || "can't fetch data ... could be a connection error or unhandled back end error");
             }
 
-            this.setState({ sending_course_data: false })
-            if (response_json_content == "success") {
-                this.setState({ user_submitted_successfuly: true })
+            this.setState({ sending_data: false })
+            console.log({ response_json_content })
+
+            if (response_json_content.message == "Logged in!") {
+
+                console.log("expiration from login", response_json_content.expirateion_date_string)
+                this.login(response_json_content.user, response_json_content.token, response_json_content.expirateion_date_string)
             }
 
         } catch (err) {
@@ -203,7 +217,6 @@ class SingUpModal extends Component {
                                             <Button color="secondary" onClick={e => this.upload_image(e)} style={{ flexGrow: "2", width: "95%" }} > Upload image</Button>
                                             <Input id="replaced" type="file" name="logo_image"
                                                 style={{ display: "none" }}
-                                                // value={this.state.new_course_title}
                                                 onChange={this.handle_image_change}
 
                                             />
@@ -220,18 +233,28 @@ class SingUpModal extends Component {
                                     <div class="form-group">
                                         <Button color="success" type="submit" onClick={this.submit_handler} class="btn btn-primary btn-lg btn-block login-btn" style={{ width: "100%" }}>Sign Up</Button>
                                     </div>
+                                    {this.state.sending_data &&
+                                        <Col sm={{ size: 1 }}>
+                                            <ReactLoading type={"spinningBubbles"} color={"black"} height={'40px'} width={'40px'} />
+                                        </Col>
+                                    }
+                                    {!!this.state.error_message &&
+                                        <Col className="mt-3" sm={{ size: 12, }}>
 
+                                            <Alert color="danger">
+                                                {this.state.error_message}
+                                            </Alert>
+                                        </Col>
+                                    }
                                 </form>
                             </ModalBody>
                             <div class="modal-footer">
                                 <a href="#">Forgot Password?</a>
-
                             </div>
                         </div>
                     </div>
                 </Modal>
             </div>
-
         );
     }
 

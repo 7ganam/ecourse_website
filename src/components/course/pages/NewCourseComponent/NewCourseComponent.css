@@ -12,6 +12,19 @@
     font-size: 60px;
     text-align: center;
 }
+#success_header{
+    font-family: 'Nova Round', cursive;
+    color: black;
+    font-size: 50px;
+    text-align: center;
+}
+#success_sub_header{
+    font-family: 'Nova Round', cursive;
+    color: grey;
+    font-size: 25px;
+    text-align: center;
+}
+
 
 #new_course_image{
     width: 100%;
@@ -35,6 +48,13 @@
     width: 100px;
     height: 75px;
 }
+#new_course_price{
+    font-size: 44px;
+    width: 100%;
+    height: 75px;
+}
+
+
 .react-datepicker__header{
     background-color: #1ba94c!important;
     

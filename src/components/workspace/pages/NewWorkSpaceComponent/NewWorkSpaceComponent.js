@@ -16,6 +16,9 @@ import LocationPicker from '../../../shared/components/LocPickerComponent/LocPic
 
 import { AuthContext } from '../../../shared/context/auth-context';
 
+
+import ReactLoading from 'react-loading';
+import { Alert } from 'reactstrap';
 class Newworkspace extends Component {
     constructor(props) {
         super(props);
@@ -69,7 +72,6 @@ class Newworkspace extends Component {
         console.log(this.state.startDate)
         console.log(this.state.endDate)
     }
-
 
 
     handle_location_submit(lat, lng) {
@@ -222,10 +224,11 @@ class Newworkspace extends Component {
             }
 
 
-            this.setState({ sending_course_data: false })
-            if (response_json_content == "success") {
-                this.setState({ workspace_submitted_successfuly: true })
-            }
+            this.setState({ sending_data: false })
+            console.log(response_json_content)
+            // if (response_json_content == "success") {
+            this.setState({ workspace_submitted_successfuly: true })
+            // }
 
 
 
@@ -238,13 +241,197 @@ class Newworkspace extends Component {
     };
 
 
-
-
     render() {
 
+        let form_view = () => {
+            return (<Form onSubmit={this.submit_handler}>
+                <FormGroup row>
+                    <Label for="workspaceName" sm={3}><span className="new_workspace_label">workspace Name:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <Input type="text" name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
+                            value={this.state.workspaceName}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
 
+
+                <FormGroup row>
+                    <Label for="exampleText" sm={3}> <span className="new_workspace_label">workspace Description:</span></Label>
+                    <Col sm={9}>
+                        <Input id="new_workspace_text_area" type="textarea" name="workspaceDescription" placeholder="enter your workspace description  here" value={this.state.workspaceDescription}
+                            onChange={this.handleInputChange} />
+                    </Col>
+                </FormGroup>
+
+
+                <FormGroup row>
+                    <Label for="exampleText" sm={3}> <span className="new_workspace_label">Locatoin:</span></Label>
+                    <Col sm={9}>
+                        {!!window.google && // to check if the window has a google component .. this is a bad design change it later  TODO:
+                            <LocationPicker handle_submit={this.handle_location_submit} />
+                        }
+                    </Col>
+                </FormGroup>
+
+
+                <FormGroup row>
+                    <Label for="logo_image" sm={3}><span className="new_course_label">Upload your logo image:</span></Label>
+                    <Col sm={9} className="ml-auto">
+                        <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '300px', }}>
+
+                            <Input type="file" name="logo_image" id="logo_image"
+                                // value={this.state.new_course_title}
+                                onChange={this.handle_image_change}
+                            />
+                        </div>
+                        <FormText color="muted">
+                            choose image with suitable aspect ratio.
+                    </FormText>
+                        <div>
+                            <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                <img id="logo_image_display" src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
+                            </div>
+                        </div>
+                    </Col>
+                </FormGroup>
+
+
+                <FormGroup row>
+                    <Label for="featured_1" sm={3}><span className="new_course_label">Upload images:</span></Label>
+                    <Col sm={9} className="ml-auto">
+
+                        <Row>
+
+
+                            <Col id="f_image_1" md={6} lg={5} className="mt-2">
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
+
+                                    <Input type="file" name="featured_1" id="featured_1"
+                                        // value={this.state.new_course_title}
+                                        onChange={this.handle_featured_image_change_factory(1)}
+                                    />
+                                </div>
+                                <FormText color="muted">
+                                    choose image 1.
+                       </FormText>
+                                <div>
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                        <img className="img-fluid" id="featured_image_1" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
+                                    </div>
+                                </div>
+                            </Col >
+
+                            <Col id="f_image_2" md={6} lg={5} className="mt-2">
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
+
+                                    <Input type="file" name="featured_2" id="featured_2"
+                                        // value={this.state.new_course_title}
+                                        onChange={this.handle_featured_image_change_factory(2)}
+                                    />
+                                </div>
+                                <FormText color="muted">
+                                    choose image 2.
+                       </FormText>
+                                <div>
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                        <img className="img-fluid" id="featured_image_2" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
+                                    </div>
+                                </div>
+                            </Col >
+
+                            <Col id="f_image_3" md={6} lg={5} className="mt-2">
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
+
+                                    <Input type="file" name="featured_3" id="featured_3"
+                                        // value={this.state.new_course_title}
+                                        onChange={this.handle_featured_image_change_factory(3)}
+                                    />
+                                </div>
+                                <FormText color="muted">
+                                    choose image 3.
+                       </FormText>
+                                <div>
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                        <img className="img-fluid" id="featured_image_3" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
+                                    </div>
+                                </div>
+                            </Col >
+
+                            <Col id="f_image_4" md={6} lg={5} className="mt-2">
+                                <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
+
+                                    <Input type="file" name="featured_4" id="featured_4"
+                                        // value={this.state.new_course_title}
+                                        onChange={this.handle_featured_image_change_factory(4)}
+                                    />
+                                </div>
+                                <FormText color="muted">
+                                    choose image 4.
+                       </FormText>
+                                <div>
+                                    <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
+                                        <img className="img-fluid" id="featured_image_4" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
+                                    </div>
+                                </div>
+                            </Col >
+
+
+
+
+
+                        </Row>
+
+
+
+
+                    </Col>
+                </FormGroup>
+
+
+                <FormGroup row>
+                    <Col sm={{ size: 9, offset: 3 }}>
+                        <Button type="submit" color="success">
+                            Submit
+                     </Button>
+                    </Col>
+                    {this.state.sending_data &&
+                        <Col sm={{ size: 1 }}>
+                            <ReactLoading type={"spinningBubbles"} color={"black"} height={'40px'} width={'40px'} />
+                        </Col>
+                    }
+                    {!!this.state.error_message &&
+                        <Col className="mt-3" sm={{ size: 9, offset: 3 }}>
+
+                            <Alert color="danger">
+                                {this.state.error_message}
+                            </Alert>
+                        </Col>
+                    }
+
+
+
+                </FormGroup>
+
+
+            </Form>)
+        }
+        let success_message = () => {
+            return (
+
+                <div id="">
+                    <div id="success_header">
+                        Workspace submitted Successfully
+                    </div>
+
+                </div>
+
+            )
+
+        }
 
         return (
+
+
             <div id="new_workspace_all">
                 <Container fluid  >
                     <Row className=''>
@@ -252,7 +439,7 @@ class Newworkspace extends Component {
                         <Col className="t3 mx-1 my-1          image_image_image ml-lg-5" xs="12" sm="12" md="4" lg="4" xl="4">
                             <div id="workspace_image_wrapper">
                                 <h1 id="image_header">
-                                    Creat A workspace
+                                    Create A workspace
                                 </h1>
                                 <div id="workspace_image">
                                     <img src={new_workspace_image} id="new_workspace_image" alt="new_workspace_image" />
@@ -264,158 +451,11 @@ class Newworkspace extends Component {
                             <div id="new_workspace_form">
                                 <div className="justify-content-center row row-content">
                                     <div className="col-12 col-lg-11 ml-auto ">
-                                        <Form onSubmit={this.submit_handler}>
-                                            <FormGroup row>
-                                                <Label for="workspaceName" sm={3}><span className="new_workspace_label">workspace Name:</span></Label>
-                                                <Col sm={9} className="ml-auto">
-                                                    <Input type="text" name="workspaceName" id="new_workspace_name" placeholder="enter your workspace title here"
-                                                        value={this.state.workspaceName}
-                                                        onChange={this.handleInputChange} />
-                                                </Col>
-                                            </FormGroup>
 
-
-                                            <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_workspace_label">workspace Description:</span></Label>
-                                                <Col sm={9}>
-                                                    <Input id="new_workspace_text_area" type="textarea" name="workspaceDescription" placeholder="enter your workspace description  here" value={this.state.workspaceDescription}
-                                                        onChange={this.handleInputChange} />
-                                                </Col>
-                                            </FormGroup>
-
-
-                                            <FormGroup row>
-                                                <Label for="exampleText" sm={3}> <span className="new_workspace_label">Locatoin:</span></Label>
-                                                <Col sm={9}>
-                                                    <LocationPicker handle_submit={this.handle_location_submit} />
-                                                </Col>
-                                            </FormGroup>
-
-
-                                            <FormGroup row>
-                                                <Label for="logo_image" sm={3}><span className="new_course_label">Upload your logo image:</span></Label>
-                                                <Col sm={9} className="ml-auto">
-                                                    <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '300px', }}>
-
-                                                        <Input type="file" name="logo_image" id="logo_image"
-                                                            // value={this.state.new_course_title}
-                                                            onChange={this.handle_image_change}
-                                                        />
-                                                    </div>
-                                                    <FormText color="muted">
-                                                        choose image with suitable aspect ratio.
-                                                    </FormText>
-                                                    <div>
-                                                        <div style={{ overflow: 'hidden', width: "250px", height: "250px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                            <img id="logo_image_display" src={upload_image_filler} alt="your image" style={{ height: "100%", width: "auto" }} />
-                                                        </div>
-                                                    </div>
-                                                </Col>
-                                            </FormGroup>
-
-
-                                            <FormGroup row>
-                                                <Label for="featured_1" sm={3}><span className="new_course_label">Upload images:</span></Label>
-                                                <Col sm={9} className="ml-auto">
-
-                                                    <Row>
-
-
-                                                        <Col id="f_image_1" md={6} lg={5} className="mt-2">
-                                                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
-
-                                                                <Input type="file" name="featured_1" id="featured_1"
-                                                                    // value={this.state.new_course_title}
-                                                                    onChange={this.handle_featured_image_change_factory(1)}
-                                                                />
-                                                            </div>
-                                                            <FormText color="muted">
-                                                                choose image 1.
-                                                       </FormText>
-                                                            <div>
-                                                                <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                                    <img className="img-fluid" id="featured_image_1" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
-                                                                </div>
-                                                            </div>
-                                                        </Col >
-
-                                                        <Col id="f_image_2" md={6} lg={5} className="mt-2">
-                                                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
-
-                                                                <Input type="file" name="featured_2" id="featured_2"
-                                                                    // value={this.state.new_course_title}
-                                                                    onChange={this.handle_featured_image_change_factory(2)}
-                                                                />
-                                                            </div>
-                                                            <FormText color="muted">
-                                                                choose image 2.
-                                                       </FormText>
-                                                            <div>
-                                                                <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                                    <img className="img-fluid" id="featured_image_2" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
-                                                                </div>
-                                                            </div>
-                                                        </Col >
-
-                                                        <Col id="f_image_3" md={6} lg={5} className="mt-2">
-                                                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
-
-                                                                <Input type="file" name="featured_3" id="featured_3"
-                                                                    // value={this.state.new_course_title}
-                                                                    onChange={this.handle_featured_image_change_factory(3)}
-                                                                />
-                                                            </div>
-                                                            <FormText color="muted">
-                                                                choose image 3.
-                                                       </FormText>
-                                                            <div>
-                                                                <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                                    <img className="img-fluid" id="featured_image_3" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
-                                                                </div>
-                                                            </div>
-                                                        </Col >
-
-                                                        <Col id="f_image_4" md={6} lg={5} className="mt-2">
-                                                            <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100px', }}>
-
-                                                                <Input type="file" name="featured_4" id="featured_4"
-                                                                    // value={this.state.new_course_title}
-                                                                    onChange={this.handle_featured_image_change_factory(4)}
-                                                                />
-                                                            </div>
-                                                            <FormText color="muted">
-                                                                choose image 4.
-                                                       </FormText>
-                                                            <div>
-                                                                <div style={{ overflow: 'hidden', width: "150px", height: "100px", display: "flex", alignItems: "center", justifyContent: "center", borderStyle: 'dashed', borderColor: '#cac7c7', borderWidth: 'thin' }}>
-                                                                    <img className="img-fluid" id="featured_image_4" src={upload_image_filler} alt="your image" style={{ height: "110%", width: "auto" }} />
-                                                                </div>
-                                                            </div>
-                                                        </Col >
+                                        {this.state.workspace_submitted_successfuly ? success_message() : form_view()}
 
 
 
-
-
-                                                    </Row>
-
-
-
-
-                                                </Col>
-                                            </FormGroup>
-
-
-                                            <FormGroup row>
-                                                <Col sm={{ size: 9, offset: 3 }}>
-                                                    <Button type="submit" color="success">
-                                                        Submit
-                                                     </Button>
-                                                </Col>
-                                            </FormGroup>
-
-
-                                        </Form>
                                     </div>
                                 </div>
 
@@ -428,7 +468,6 @@ class Newworkspace extends Component {
                 </Container>
 
             </div >
-
 
 
         );

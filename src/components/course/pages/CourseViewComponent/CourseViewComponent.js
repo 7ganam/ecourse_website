@@ -120,22 +120,27 @@ class CourseView extends Component {
 
     course_view = () => {
 
+        let parse_date = (Session_startDate) => {
+            let ymd = Session_startDate.split("T")[0]
+            let ymdarr = ymd.split("-")
+            let year = ymdarr[0]
+            let month = ymdarr[1]
+            let day = ymdarr[2]
+            console.log(year)
+            return (year + '/' + month + '/' + day)
+        }
+
         let Sessions_views = this.state.Sessions.map((session, index) => (
-            <Card >
-                <CardHeader style={this.card_head_style} className="session_card_head">
+            <Card className="mt-2 mx-2">
+                <CardHeader style={{ fontSize: "15px" }} className="session_card_head">
                     <div className=" d-flex    flex-row  align-content-center align-items-center" id="header_content_alijfe">
                         <div className="d-inline-block ">
-
                             <span>Session {index + 1} </span>
-
                         </div>
-                        <div className="d-inline-block flex-grow-1 ml-4 flex-fill font-weight-bolder">
-
-                            <div>
+                        <div className="d-inline-block flex-grow-1 ml-4 flex-fill ">
+                            <div style={{ fontSize: "30px" }}>
                                 {this.state.Sessions[index].Session_title}
-                                        test
-                                    </div>
-
+                            </div>
                         </div>
                         <div className="d-inline-block ">
 
@@ -150,13 +155,50 @@ class CourseView extends Component {
                 </CardHeader>
 
                 <Collapse isOpen={this.state.Sessions[index].isOpen}>
-                    <CardBody>
-                        <div>
-                            {this.state.Sessions[index].Session_startDate}
-                        </div>
-                        <div>
-                            {this.state.Sessions[index].Session_Description}
-                        </div>
+                    <CardBody id="session_card_body" className="pt-0"  >
+                        <Row>
+                            <Col md={5}>
+                                <div id="session_img_continer">
+                                    <img id="session_view_img" top
+
+                                        src={
+                                            !!this.state.Sessions[index].Session_image ?
+                                                `${baseUrl}/uploads/images/courses/${this.state.Sessions[index].Session_image}` :
+                                                baseUrl + "grey.jpeg"
+
+                                        }
+
+                                        alt=" image cap" />
+                                </div>
+                            </Col>
+                            <Col md={7}>
+                                <div id="session_conten_container">
+                                    <span style={{ fontSize: "25px", fontFamily: "Nova Round", color: "#00b33c" }}>{"Date: "}</span>
+                                    <span>
+                                        {!!this.state.Sessions[index].Session_startDate &&
+                                            parse_date(this.state.Sessions[index].
+                                                Session_startDate)
+                                        }
+                                    </span>
+                                    <div>
+                                        <span style={{ fontSize: "25px", fontFamily: "Nova Round", color: "#00b33c" }}>{"Description: "}</span>
+
+                                        <span>
+                                            {this.state.Sessions[index].Session_Description}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+                            </Col>
+
+
+                        </Row>
+
+
+
+
+
                     </CardBody>
                 </Collapse>
             </Card>
@@ -187,7 +229,6 @@ class CourseView extends Component {
                             <div id="snippit_info" className="mt-3">
                                 <div >
                                     <FontAwesomeIcon icon={faChalkboardTeacher} className="mr-2" style={{ color: "grey" }} />
-
                                     instructor: <span className="mr-4"> {this.props.course.author}</span>
                                 </div >
 
@@ -206,11 +247,10 @@ class CourseView extends Component {
                 </Jumbotron>
                 <Container id='floatin_container' className="">
                     <Row id="floatin_row" className=" ">
-                        <Col md={{ size: 4, order: 1, offset: 0 }} className=" ml-auto p-0">
+                        <Col lg={{ size: 4, order: 1, offset: 0 }} className=" ml-auto p-0">
                             <div >
 
                                 <Card>
-
                                     <CardImg top src={`${baseUrl}/uploads/images/courses/${this.props.course.img}`} alt="Card image cap" style={{ height: '15rem', objectFit: 'cover' }} />
                                     <CardBody>
                                         <CardTitle>
@@ -230,8 +270,6 @@ class CourseView extends Component {
                                     <CardFooter>Footer</CardFooter>
                                 </Card>
 
-
-
                             </div>
 
                         </Col>
@@ -242,7 +280,7 @@ class CourseView extends Component {
                 <Container id="main_content_container" >
                     <Row id="row_1">
                         {/* <Col sm="12" md={{ size: 6, offset: 6 }} className="mr-auto">.col-sm-12 .col-md-6 .offset-md-3</Col> */}
-                        <Col md={{ size: 8, order: 1, offset: 0 }}>
+                        <Col lg={{ size: 8, order: 1, offset: 0 }}>
                             <Card>
 
                                 <CardBody>
@@ -261,13 +299,12 @@ class CourseView extends Component {
 
 
                         </Col>
-
                     </Row>
 
-                    <Row id="row_2" className="mt-5">
-                        <Col className="" md={{ size: 8, order: 1, offset: 0 }}>
-                            <h2 className="px-3">
-                                Coures description
+                    <Row id="row_2" className="mt-5 ">
+                        <Col className="" lg={{ size: 8, order: 1, offset: 0 }}>
+                            <h2 className="px-3 text-center  ">
+                                Course description
                                         </h2>
                             <p className="px-3">
                                 {this.props.course.description}
@@ -281,7 +318,7 @@ class CourseView extends Component {
 
                 <Container >
                     <Row>
-                        <Col className="" md={{ size: 8, order: 1, offset: 0 }}>
+                        <Col className="" lg={{ size: 8, order: 1, offset: 0 }}>
                             {Sessions_views}
                         </Col>
                     </Row>
